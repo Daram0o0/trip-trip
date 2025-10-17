@@ -2,11 +2,12 @@
 .modal {
   display: flex;
   flex-direction: column;
-  background: var(--color-gray-w);
+  background-color: var(--color-gray-w);
   border-radius: 24px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   width: 480px;
   overflow: hidden;
+  transition: all 0.2s ease;
 }
 
 /* Modal Content */
@@ -30,21 +31,23 @@
 
 .title {
   font-family: var(--font-family-korean-primary);
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 24px;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-xl);
   color: var(--color-gray-900);
   margin: 0;
+  transition: color 0.2s ease;
 }
 
 .description {
   font-family: var(--font-family-korean-primary);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-md);
   color: var(--color-gray-600);
   margin: 0;
   word-break: keep-all;
+  transition: color 0.2s ease;
 }
 
 /* Actions */
@@ -94,11 +97,11 @@
 
 /* Theme Styles */
 .modal.light {
-  background: var(--color-gray-w);
+  background-color: var(--color-gray-w);
 }
 
 .modal.dark {
-  background: var(--color-gray-800);
+  background-color: var(--color-gray-800);
 }
 
 .modal.dark .title {
@@ -110,7 +113,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .modal {
     width: 320px;
     margin: 0 16px;
@@ -121,13 +124,13 @@
   }
   
   .title {
-    font-size: 16px;
-    line-height: 20px;
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-lg);
   }
   
   .description {
-    font-size: 13px;
-    line-height: 18px;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
   }
   
   .actions {
@@ -144,7 +147,7 @@
 
 /* Animation */
 .modal {
-  animation: modalSlideIn 0.2s ease-out;
+  animation: modalSlideIn 0.2s ease;
 }
 
 @keyframes modalSlideIn {
