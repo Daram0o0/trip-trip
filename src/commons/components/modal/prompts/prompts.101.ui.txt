@@ -11,9 +11,10 @@
 ==============================================
 
 조건-피그마) 활용할MCP: CursorTalkToFigmaMCP(채널명: rocwevna)
-조건-피그마) 참고한 공통컴포넌트 모음 노드ID: ergreg
-조건-피그마) 참고할 공통컴포넌트 노드ID(variant: 'info', actions: 'single'): fwfew
-조건-피그마) 참고할 공통컴포넌트 노드ID(variant: 'info', actions: 'dual'): wefwefw
+조건-피그마) 참고한 공통컴포넌트 모음 노드ID: 11008:37207
+조건-피그마) 참고할 공통컴포넌트 노드ID(variant: 'info', actions: 'single', icon: O): 11008:37226
+조건-피그마) 참고할 공통컴포넌트 노드ID(variant: 'info', actions: 'single', icon: x): 11008:37001
+조건-피그마) 참고할 공통컴포넌트 노드ID(variant: 'info', actions: 'dual'): 11008:37242
 
 조건-파일경로) 구현될 TSX 파일경로: src/commons/components/modal/index.tsx
 조건-파일경로) 구현될 CSS 파일경로: src/commons/components/modal/styles.module.css

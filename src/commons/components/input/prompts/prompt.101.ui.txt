@@ -10,8 +10,12 @@
 
 ==============================================
 
-조건-피그마) 활용할MCP: CursorTalkToFigmaMCP(채널명: rocwevna)
-조건-피그마) 참고할 공통컴포넌트 노드ID: 11008:37002
+조건-피그마) 활용할MCP: CursorTalkToFigmaMCP(채널명: mmxvgict)
+조건-피그마) 참고할 공통컴포넌트 모음 노드ID: 11008:37002
+조건-피그마) 참고할 공통컴포넌트(input, 라벨있음) 노드ID: 1008:37003
+조건-피그마) 참고할 공통컴포넌트(input, 라벨없음) 노드ID: 1008:37015
+조건-피그마) 참고할 공통컴포넌트(textarea, 라벨있음) 노드ID: 1008:37005
+조건-피그마) 참고할 공통컴포넌트(textarea, 라벨없음) 노드ID: 1008:37020
 
 조건-파일경로) 구현될 TSX 파일경로: src/commons/components/input/index.tsx
 조건-파일경로) 구현될 CSS 파일경로: src/commons/components/input/styles.module.css
@@ -26,3 +30,5 @@
             - theme: 'light' | 'dark'
 
 핵심요구사항) 이미 정의해둔 constants(color.ts, typography.ts, global.css)를 참고하여 css를 작성할 것.
+
+핵심요구사항) 이미 설치된 라이브러리만을 사용하여 구현할 것. 라이브러리를 직접 설치하지 말 것.
