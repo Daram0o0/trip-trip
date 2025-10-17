@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* PretendardVariable 폰트 정의 */
+@font-face {
+  font-family: 'Pretendard Variable';
+  src: url('./fonts/PretendardVariable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* 기존 변수들 */
   --background: #ffffff;
@@ -24,6 +33,85 @@
   /* Root 색상 팔레트 */
   --color-root-main: #2974e5;
   --color-root-red: #f66a6a;
+
+  /* Typography Tokens - Font Families */
+  --font-family-korean-primary: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-family-korean-variable: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-family-english-primary: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", sans-serif;
+  --font-family-english-variable: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", sans-serif;
+
+  /* Typography Tokens - Font Weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Typography Tokens - Font Sizes (Desktop) */
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 13px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 28px;
+
+  /* Typography Tokens - Line Heights (Desktop) */
+  --line-height-xs: 20px;
+  --line-height-sm: 20px;
+  --line-height-base: 20px;
+  --line-height-md: 20px;
+  --line-height-lg: 24px;
+  --line-height-xl: 24px;
+  --line-height-2xl: 24px;
+  --line-height-3xl: 28px;
+  --line-height-4xl: 32px;
+
+  /* Typography Tokens - Letter Spacing */
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0em;
+  --letter-spacing-wide: 0.025em;
+
+  /* Typography Tokens - Paragraph Spacing */
+  --paragraph-spacing-none: 0px;
+  --paragraph-spacing-sm: 8px;
+  --paragraph-spacing-md: 16px;
+  --paragraph-spacing-lg: 24px;
+
+  /* Typography Tokens - Paragraph Indent */
+  --paragraph-indent-none: 0px;
+  --paragraph-indent-sm: 16px;
+  --paragraph-indent-md: 24px;
+  --paragraph-indent-lg: 32px;
+}
+
+/* Mobile Typography Tokens */
+@media (max-width: 768px) {
+  :root {
+    /* Typography Tokens - Font Sizes (Mobile) */
+    --font-size-xs: 11px;
+    --font-size-sm: 12px;
+    --font-size-base: 13px;
+    --font-size-md: 14px;
+    --font-size-lg: 16px;
+    --font-size-xl: 18px;
+    --font-size-2xl: 20px;
+    --font-size-3xl: 24px;
+    --font-size-4xl: 28px;
+
+    /* Typography Tokens - Line Heights (Mobile) */
+    --line-height-xs: 20px;
+    --line-height-sm: 20px;
+    --line-height-base: 20px;
+    --line-height-md: 20px;
+    --line-height-lg: 24px;
+    --line-height-xl: 24px;
+    --line-height-2xl: 24px;
+    --line-height-3xl: 28px;
+    --line-height-4xl: 32px;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -36,11 +124,145 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-family-korean-primary);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  font-weight: var(--font-weight-regular);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Typography Utility Classes */
+  .font-korean-primary {
+    font-family: var(--font-family-korean-primary);
+  }
+
+  .font-korean-variable {
+    font-family: var(--font-family-korean-variable);
+  }
+
+  .font-english-primary {
+    font-family: var(--font-family-english-primary);
+  }
+
+  .font-english-variable {
+    font-family: var(--font-family-english-variable);
+  }
+
+  /* Font Weight Utilities */
+  .font-light {
+    font-weight: var(--font-weight-light);
+  }
+
+  .font-regular {
+    font-weight: var(--font-weight-regular);
+  }
+
+  .font-medium {
+    font-weight: var(--font-weight-medium);
+  }
+
+  .font-semibold {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .font-bold {
+    font-weight: var(--font-weight-bold);
+  }
+
+  /* Font Size Utilities */
+  .text-xs {
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-xs);
+  }
+
+  .text-sm {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+
+  .text-base {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-base);
+  }
+
+  .text-md {
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-md);
+  }
+
+  .text-lg {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-lg);
+  }
+
+  .text-xl {
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-xl);
+  }
+
+  .text-2xl {
+    font-size: var(--font-size-2xl);
+    line-height: var(--line-height-2xl);
+  }
+
+  .text-3xl {
+    font-size: var(--font-size-3xl);
+    line-height: var(--line-height-3xl);
+  }
+
+  .text-4xl {
+    font-size: var(--font-size-4xl);
+    line-height: var(--line-height-4xl);
+  }
+
+  /* Letter Spacing Utilities */
+  .tracking-tight {
+    letter-spacing: var(--letter-spacing-tight);
+  }
+
+  .tracking-normal {
+    letter-spacing: var(--letter-spacing-normal);
+  }
+
+  .tracking-wide {
+    letter-spacing: var(--letter-spacing-wide);
+  }
+
+  /* Paragraph Spacing Utilities */
+  .paragraph-spacing-none {
+    margin-bottom: var(--paragraph-spacing-none);
+  }
+
+  .paragraph-spacing-sm {
+    margin-bottom: var(--paragraph-spacing-sm);
+  }
+
+  .paragraph-spacing-md {
+    margin-bottom: var(--paragraph-spacing-md);
+  }
+
+  .paragraph-spacing-lg {
+    margin-bottom: var(--paragraph-spacing-lg);
+  }
+
+  /* Paragraph Indent Utilities */
+  .paragraph-indent-none {
+    text-indent: var(--paragraph-indent-none);
+  }
+
+  .paragraph-indent-sm {
+    text-indent: var(--paragraph-indent-sm);
+  }
+
+  .paragraph-indent-md {
+    text-indent: var(--paragraph-indent-md);
+  }
+
+  .paragraph-indent-lg {
+    text-indent: var(--paragraph-indent-lg);
   }
 }
