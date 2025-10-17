@@ -22,8 +22,11 @@
 
 기존히스토리-참고만) css도 typography 토큰 변수를 사용 가능하도록 globals.css에 셋팅할 것.
 
+
+기존히스토리-참고만) src/fonts/PretendardVariable.woff2 폰트 파일을 참고해서 폰트도 적용될 수 있도록 만들 것.
+
+기존히스토리-참고만) 모든 폰트에 PretendardVariable.woff2 폰트가 적용되도록 할 것.
+
 ==============================================
 
-핵심요구사항) src/fonts/PretendardVariable.woff2 폰트 파일을 참고해서 폰트도 적용될 수 있도록 만들 것.
-
-핵심요구사항) 모든 폰트에 PretendardVariable.woff2 폰트가 적용되도록 할 것.
+핵심요구사항) src/layout.tsx에 Pretendard를 next/font로 등록하고 body에 className 변수 연결
