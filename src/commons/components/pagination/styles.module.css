@@ -1,0 +1,364 @@
+/* Pagination Container */
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-family: var(--font-family-korean-primary);
+}
+
+.paginationContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Page Numbers Container */
+.pageNumbers {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Base Button Styles */
+.pageButton,
+.navButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-family: inherit;
+  user-select: none;
+  position: relative;
+  outline: none;
+}
+
+.pageButton:focus-visible,
+.navButton:focus-visible {
+  outline: 2px solid var(--color-root-main);
+  outline-offset: 2px;
+}
+
+/* Page Button Specific Styles */
+.pageButton {
+  font-weight: var(--font-weight-regular);
+  color: var(--color-gray-600);
+  background: transparent;
+}
+
+.pageButton:hover:not(.active) {
+  background: var(--color-gray-50);
+  color: var(--color-gray-800);
+}
+
+.pageButton.active {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-B);
+  background: var(--color-gray-50);
+}
+
+/* Navigation Button Specific Styles */
+.navButton {
+  color: var(--color-gray-600);
+  background: transparent;
+  padding: 4px;
+}
+
+.navButton:hover:not(.disabled) {
+  background: var(--color-gray-50);
+  color: var(--color-gray-800);
+}
+
+.navButton.disabled {
+  color: var(--color-gray-300);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.navButton.disabled:hover {
+  background: transparent;
+  color: var(--color-gray-300);
+}
+
+/* Icon Styles */
+.icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* ===== SIZE VARIANTS ===== */
+
+/* Small Size */
+.small .pageButton {
+  width: 28px;
+  height: 28px;
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+}
+
+.small .navButton {
+  width: 28px;
+  height: 28px;
+}
+
+.small .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.small .paginationContent {
+  gap: 6px;
+}
+
+.small .pageNumbers {
+  gap: 6px;
+}
+
+/* Medium Size (Default) */
+.medium .pageButton {
+  width: 32px;
+  height: 32px;
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-lg);
+}
+
+.medium .navButton {
+  width: 32px;
+  height: 32px;
+}
+
+.medium .icon {
+  width: 24px;
+  height: 24px;
+}
+
+.medium .paginationContent {
+  gap: 8px;
+}
+
+.medium .pageNumbers {
+  gap: 8px;
+}
+
+/* Large Size */
+.large .pageButton {
+  width: 40px;
+  height: 40px;
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-xl);
+}
+
+.large .navButton {
+  width: 40px;
+  height: 40px;
+}
+
+.large .icon {
+  width: 28px;
+  height: 28px;
+}
+
+.large .paginationContent {
+  gap: 12px;
+}
+
+.large .pageNumbers {
+  gap: 12px;
+}
+
+/* ===== VARIANT STYLES ===== */
+
+/* Primary Variant */
+.primary .pageButton.active {
+  background: var(--color-gray-50);
+  color: var(--color-gray-B);
+}
+
+.primary .pageButton:hover:not(.active) {
+  background: var(--color-gray-100);
+  color: var(--color-gray-800);
+}
+
+.primary .navButton:hover:not(.disabled) {
+  background: var(--color-gray-100);
+}
+
+/* Secondary Variant */
+.secondary .pageButton.active {
+  background: var(--color-root-main);
+  color: var(--color-gray-w);
+}
+
+.secondary .pageButton:hover:not(.active) {
+  background: var(--color-gray-100);
+  color: var(--color-gray-800);
+}
+
+.secondary .navButton:hover:not(.disabled) {
+  background: var(--color-gray-100);
+}
+
+/* Tertiary Variant */
+.tertiary .pageButton.active {
+  background: transparent;
+  color: var(--color-root-main);
+  border: 1px solid var(--color-root-main);
+}
+
+.tertiary .pageButton:hover:not(.active) {
+  background: var(--color-gray-50);
+  color: var(--color-gray-800);
+}
+
+.tertiary .navButton:hover:not(.disabled) {
+  background: var(--color-gray-50);
+}
+
+/* ===== THEME STYLES ===== */
+
+/* Light Theme (Default) */
+.light .pageButton {
+  color: var(--color-gray-600);
+}
+
+.light .pageButton.active {
+  color: var(--color-gray-B);
+}
+
+.light .navButton {
+  color: var(--color-gray-600);
+}
+
+.light .navButton.disabled {
+  color: var(--color-gray-300);
+}
+
+/* Dark Theme */
+.dark .pageButton {
+  color: var(--color-gray-400);
+}
+
+.dark .pageButton:hover:not(.active) {
+  background: var(--color-gray-800);
+  color: var(--color-gray-200);
+}
+
+.dark .pageButton.active {
+  background: var(--color-gray-700);
+  color: var(--color-gray-w);
+}
+
+.dark .navButton {
+  color: var(--color-gray-400);
+}
+
+.dark .navButton:hover:not(.disabled) {
+  background: var(--color-gray-800);
+  color: var(--color-gray-200);
+}
+
+.dark .navButton.disabled {
+  color: var(--color-gray-600);
+}
+
+.dark .navButton.disabled:hover {
+  background: transparent;
+  color: var(--color-gray-600);
+}
+
+/* Dark Theme - Secondary Variant */
+.dark.secondary .pageButton.active {
+  background: var(--color-root-main);
+  color: var(--color-gray-w);
+}
+
+/* Dark Theme - Tertiary Variant */
+.dark.tertiary .pageButton.active {
+  background: transparent;
+  color: var(--color-root-main);
+  border: 1px solid var(--color-root-main);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+  
+  .paginationContent {
+    gap: 6px;
+  }
+  
+  .pageNumbers {
+    gap: 6px;
+  }
+  
+  /* Mobile에서 작은 크기로 조정 */
+  .medium .pageButton {
+    width: 28px;
+    height: 28px;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+  
+  .medium .navButton {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .medium .icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .large .pageButton {
+    width: 32px;
+    height: 32px;
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-lg);
+  }
+  
+  .large .navButton {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .large .icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .pageButton,
+  .navButton {
+    transition: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .pageButton.active {
+    border: 2px solid var(--color-gray-B);
+  }
+  
+  .navButton:focus-visible {
+    outline: 3px solid var(--color-gray-B);
+  }
+}
+
+/* ===== PRINT STYLES ===== */
+
+@media print {
+  .container {
+    display: none;
+  }
+}
