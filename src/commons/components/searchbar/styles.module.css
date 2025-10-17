@@ -1,0 +1,373 @@
+/* Searchbar Component Styles */
+/* Figma 디자인을 기반으로 한 Searchbar 컴포넌트 스타일 */
+
+/* Base Searchbar Styles */
+.searchbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+  font-family: var(--font-family-korean-primary);
+}
+
+/* Variant Styles */
+.primary {
+  background-color: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+}
+
+.secondary {
+  background-color: var(--color-gray-w);
+  border: 1px solid var(--color-gray-300);
+}
+
+.tertiary {
+  background-color: transparent;
+  border: 1px solid var(--color-gray-400);
+}
+
+/* Size Styles */
+.small {
+  height: 40px;
+  padding: 0 12px;
+}
+
+.medium {
+  height: 48px;
+  padding: 0 16px;
+}
+
+.large {
+  height: 48px;
+  padding: 0 20px;
+}
+
+/* Theme Styles */
+.light {
+  /* Light theme styles are default */
+}
+
+.dark {
+  /* Dark theme adjustments */
+}
+
+.dark.primary {
+  background-color: var(--color-gray-800);
+  border-color: var(--color-gray-700);
+}
+
+.dark.secondary {
+  background-color: var(--color-gray-900);
+  border-color: var(--color-gray-600);
+}
+
+.dark.tertiary {
+  background-color: transparent;
+  border-color: var(--color-gray-600);
+}
+
+/* State Styles */
+.focused {
+  border-color: var(--color-root-main);
+  box-shadow: 0 0 0 2px rgba(41, 116, 229, 0.1);
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: var(--color-gray-100);
+}
+
+.readonly {
+  cursor: default;
+}
+
+/* Icon Container */
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+/* Icon Styles */
+.icon {
+  transition: color 0.2s ease-in-out;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-primary {
+  color: var(--color-gray-500);
+}
+
+.icon-secondary {
+  color: var(--color-gray-600);
+}
+
+.icon-tertiary {
+  color: var(--color-gray-700);
+}
+
+/* Icon Sizes */
+.icon-small {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-medium {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-large {
+  width: 28px;
+  height: 28px;
+}
+
+/* Icon Themes */
+.icon-light {
+  /* Light theme styles are handled by variants */
+}
+
+.icon-dark {
+  /* Dark theme styles */
+}
+
+.icon-dark.icon-primary {
+  color: var(--color-gray-400);
+}
+
+.icon-dark.icon-secondary {
+  color: var(--color-gray-300);
+}
+
+.icon-dark.icon-tertiary {
+  color: var(--color-gray-200);
+}
+
+/* Icon Hover States */
+.icon:hover:not([disabled]) {
+  color: var(--color-root-main);
+}
+
+.icon-dark:hover:not([disabled]) {
+  color: var(--color-gray-w);
+}
+
+/* Input Styles */
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-family-korean-primary);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: var(--letter-spacing-normal);
+  transition: color 0.2s ease-in-out;
+}
+
+/* Input Variants */
+.input-primary {
+  color: var(--color-gray-800);
+}
+
+.input-primary::placeholder {
+  color: var(--color-gray-500);
+}
+
+.input-secondary {
+  color: var(--color-gray-900);
+}
+
+.input-secondary::placeholder {
+  color: var(--color-gray-600);
+}
+
+.input-tertiary {
+  color: var(--color-gray-900);
+}
+
+.input-tertiary::placeholder {
+  color: var(--color-gray-700);
+}
+
+/* Input Sizes */
+.input-small {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+}
+
+.input-medium {
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-lg);
+}
+
+.input-large {
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-xl);
+}
+
+/* Input Themes */
+.input-light {
+  /* Light theme styles are handled by variants */
+}
+
+.input-dark {
+  /* Dark theme styles */
+}
+
+.input-dark.input-primary {
+  color: var(--color-gray-w);
+}
+
+.input-dark.input-primary::placeholder {
+  color: var(--color-gray-400);
+}
+
+.input-dark.input-secondary {
+  color: var(--color-gray-w);
+}
+
+.input-dark.input-secondary::placeholder {
+  color: var(--color-gray-300);
+}
+
+.input-dark.input-tertiary {
+  color: var(--color-gray-w);
+}
+
+.input-dark.input-tertiary::placeholder {
+  color: var(--color-gray-200);
+}
+
+/* Input States */
+.input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.input:read-only {
+  cursor: default;
+}
+
+/* Focus States */
+.focused .input {
+  color: var(--color-gray-900);
+}
+
+.dark.focused .input {
+  color: var(--color-gray-w);
+}
+
+/* Hover States */
+.searchbar:hover:not(.disabled):not(.readonly) {
+  border-color: var(--color-gray-300);
+}
+
+.dark:hover:not(.disabled):not(.readonly) {
+  border-color: var(--color-gray-500);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .small {
+    height: 36px;
+    padding: 0 10px;
+  }
+
+  .medium {
+    height: 44px;
+    padding: 0 14px;
+  }
+
+  .large {
+    height: 44px;
+    padding: 0 18px;
+  }
+
+  .icon-small {
+    width: 14px;
+    height: 14px;
+  }
+
+  .icon-medium {
+    width: 20px;
+    height: 20px;
+  }
+
+  .icon-large {
+    width: 24px;
+    height: 24px;
+  }
+
+  .input-small {
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-xs);
+  }
+
+  .input-medium {
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-md);
+  }
+
+  .input-large {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-lg);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .searchbar,
+  .icon,
+  .input {
+    transition: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .primary {
+    border-width: 2px;
+  }
+
+  .secondary {
+    border-width: 2px;
+  }
+
+  .tertiary {
+    border-width: 2px;
+  }
+
+  .focused {
+    border-width: 3px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .searchbar {
+    border: 1px solid #000;
+    background: #fff;
+    color: #000;
+  }
+
+  .icon {
+    display: none;
+  }
+
+  .input {
+    color: #000;
+  }
+
+  .input::placeholder {
+    color: #666;
+  }
+}
