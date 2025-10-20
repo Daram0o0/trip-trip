@@ -1,0 +1,7 @@
+# Storybook 관련 폴더/파일 완전히 무시
+.storybook
+stories
+*.stories.tsx
+*.stories.ts
+*.stories.jsx
+*.stories.js
