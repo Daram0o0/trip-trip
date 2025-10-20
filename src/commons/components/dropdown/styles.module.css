@@ -1,5 +1,5 @@
-/* Selectbox Base Styles */
-.selectbox {
+/* Dropdown Base Styles */
+.dropdown {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -194,7 +194,7 @@
   transition: all 0.2s ease-in-out;
 }
 
-.list--open {
+.list.open {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -374,7 +374,7 @@
 }
 
 /* Focus Management */
-.selectbox:focus-within .trigger {
+.dropdown:focus-within .trigger {
   border-color: var(--color-root-main);
   box-shadow: 0 0 0 2px rgba(41, 116, 229, 0.1);
 }

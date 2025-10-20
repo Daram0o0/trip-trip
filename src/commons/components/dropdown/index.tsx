@@ -4,15 +4,15 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import styles from './styles.module.css';
 
-export interface SelectboxOption {
+export interface DropdownOption {
   value: string;
   label: string;
   icon?: React.ReactNode;
   disabled?: boolean;
 }
 
-export interface SelectboxProps {
-  options: SelectboxOption[];
+export interface DropdownProps {
+  options: DropdownOption[];
   value?: string;
   defaultValue?: string;
   placeholder?: string;
@@ -26,7 +26,7 @@ export interface SelectboxProps {
   onClose?: () => void;
 }
 
-export const Selectbox: React.FC<SelectboxProps> = ({
+export const Dropdown: React.FC<DropdownProps> = ({
   options = [],
   value,
   defaultValue,
@@ -44,7 +44,7 @@ export const Selectbox: React.FC<SelectboxProps> = ({
   const [selectedValue, setSelectedValue] = useState(
     value || defaultValue || ''
   );
-  const selectboxRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
   const handleSelect = useCallback(
@@ -76,8 +76,8 @@ export const Selectbox: React.FC<SelectboxProps> = ({
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        selectboxRef.current &&
-        !selectboxRef.current.contains(event.target as Node)
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
         onClose?.();
@@ -135,8 +135,8 @@ export const Selectbox: React.FC<SelectboxProps> = ({
 
   const selectedOption = options.find(option => option.value === selectedValue);
 
-  const selectboxClasses = cn(
-    styles.selectbox,
+  const dropdownClasses = cn(
+    styles.dropdown,
     styles[variant],
     styles[size],
     styles[theme],
@@ -169,7 +169,7 @@ export const Selectbox: React.FC<SelectboxProps> = ({
   );
 
   return (
-    <div ref={selectboxRef} className={selectboxClasses}>
+    <div ref={dropdownRef} className={dropdownClasses}>
       <button
         type="button"
         className={triggerClasses}
@@ -238,4 +238,4 @@ export const Selectbox: React.FC<SelectboxProps> = ({
   );
 };
 
-export default Selectbox;
+export default Dropdown;

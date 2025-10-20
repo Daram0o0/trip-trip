@@ -71,8 +71,8 @@
 
 /* State Styles */
 .focused {
-  border-color: var(--color-root-main);
-  box-shadow: 0 0 0 2px rgba(41, 116, 229, 0.1);
+  border-color: var(--color-gray-B);
+  background-color: var(--color-gray-w);
 }
 
 .disabled {
@@ -154,7 +154,7 @@
 
 /* Icon Hover States */
 .icon:hover:not([disabled]) {
-  color: var(--color-root-main);
+  /* color: var(--color-gray-B); */
 }
 
 .icon-dark:hover:not([disabled]) {

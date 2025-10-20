@@ -8,9 +8,9 @@
 
 ==============================================
 
-조건-파일경로) 참고할 TSX     파일경로: src/commons/components/selectbox/index.tsx
-조건-파일경로) 참고할 CSS     파일경로: src/commons/components/selectbox/styles.module.css
-조건-파일경로) 구현될 STORIES 파일경로: src/commons/components/selectbox/index.stories.tsx
+조건-파일경로) 참고할 TSX     파일경로: src/commons/components/dropdown/index.tsx
+조건-파일경로) 참고할 CSS     파일경로: src/commons/components/dropdown/styles.module.css
+조건-파일경로) 구현될 STORIES 파일경로: src/commons/components/dropdown/index.stories.tsx
 
 ==============================================
 

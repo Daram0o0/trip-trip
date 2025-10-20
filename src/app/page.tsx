@@ -3,13 +3,13 @@ import Button from '@/commons/components/button';
 import Input from '@/commons/components/input';
 import Pagination from '@/commons/components/pagination';
 import Searchbar from '@/commons/components/searchbar';
-import Selectbox from '@/commons/components/selectbox';
+import Dropdown from '@/commons/components/dropdown';
 
 export default function Home() {
   return (
     <div className="flex">
       <Searchbar />
-      <Selectbox
+      <Dropdown
         options={[
           { value: '1', label: '1' },
           { value: '2', label: '2' },

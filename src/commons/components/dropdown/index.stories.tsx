@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { Selectbox, SelectboxOption } from './index';
+import { Dropdown, DropdownOption } from './index';
 
-const meta: Meta<typeof Selectbox> = {
-  title: 'Components/Selectbox',
-  component: Selectbox,
+const meta: Meta<typeof Dropdown> = {
+  title: 'Components/Dropdown',
+  component: Dropdown,
   parameters: {
     layout: 'centered',
     docs: {
@@ -16,21 +16,21 @@ const meta: Meta<typeof Selectbox> = {
     variant: {
       control: { type: 'select' },
       options: ['primary', 'secondary', 'tertiary'],
-      description: 'Selectbox의 스타일 변형',
+      description: 'Dropdown의 스타일 변형',
     },
     size: {
       control: { type: 'select' },
       options: ['small', 'medium', 'large'],
-      description: 'Selectbox의 크기',
+      description: 'Dropdown의 크기',
     },
     theme: {
       control: { type: 'select' },
       options: ['light', 'dark'],
-      description: 'Selectbox의 테마',
+      description: 'Dropdown의 테마',
     },
     disabled: {
       control: { type: 'boolean' },
-      description: 'Selectbox 비활성화 여부',
+      description: 'Dropdown 비활성화 여부',
     },
     placeholder: {
       control: { type: 'text' },
@@ -64,7 +64,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // 기본 옵션 데이터
-const basicOptions: SelectboxOption[] = [
+const basicOptions: DropdownOption[] = [
   { value: 'option1', label: '옵션 1' },
   { value: 'option2', label: '옵션 2' },
   { value: 'option3', label: '옵션 3' },
@@ -73,7 +73,7 @@ const basicOptions: SelectboxOption[] = [
 ];
 
 // 아이콘이 포함된 옵션 데이터
-const optionsWithIcons: SelectboxOption[] = [
+const optionsWithIcons: DropdownOption[] = [
   {
     value: 'home',
     label: '홈',
@@ -203,7 +203,7 @@ const optionsWithIcons: SelectboxOption[] = [
 ];
 
 // 비활성화된 옵션이 포함된 데이터
-const optionsWithDisabled: SelectboxOption[] = [
+const optionsWithDisabled: DropdownOption[] = [
   { value: 'option1', label: '활성 옵션 1' },
   { value: 'option2', label: '활성 옵션 2' },
   { value: 'option3', label: '비활성 옵션 3', disabled: true },
@@ -299,7 +299,7 @@ export const Disabled: Story = {
   args: {
     options: basicOptions,
     disabled: true,
-    placeholder: '비활성화된 Selectbox',
+    placeholder: '비활성화된 Dropdown',
   },
 };
 
@@ -379,10 +379,10 @@ export const Interactive: Story = {
       console.log('Selected value:', value);
     },
     onOpen: () => {
-      console.log('Selectbox opened');
+      console.log('Dropdown opened');
     },
     onClose: () => {
-      console.log('Selectbox closed');
+      console.log('Dropdown closed');
     },
   },
 };
