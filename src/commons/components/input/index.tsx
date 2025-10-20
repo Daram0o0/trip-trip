@@ -1,31 +1,94 @@
 'use client';
 
 import React, { forwardRef, useState } from 'react';
+import { cn } from '@/lib/utils';
 import styles from './styles.module.css';
-
-// Utility function for conditional class names
-const cn = (...classes: (string | undefined | null | false)[]): string => {
-  return classes.filter(Boolean).join(' ');
-};
 
 export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+  /**
+   * 입력 필드의 시각적 스타일 변형
+   */
   variant?: 'primary' | 'secondary' | 'tertiary';
+
+  /**
+   * 입력 필드의 크기
+   */
   size?: 'small' | 'medium' | 'large';
+
+  /**
+   * 테마 (light/dark)
+   */
   theme?: 'light' | 'dark';
+
+  /**
+   * 라벨 텍스트
+   */
   label?: string;
+
+  /**
+   * 필수 입력 여부
+   */
   required?: boolean;
+
+  /**
+   * 에러 메시지
+   */
   error?: string;
+
+  /**
+   * 도움말 텍스트
+   */
   helperText?: string;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
+
+  /**
+   * 우측 버튼
+   */
   rightButton?: React.ReactNode;
+
+  /**
+   * 텍스트에어리어 여부
+   */
   isTextarea?: boolean;
+
+  /**
+   * 최대 입력 길이
+   */
   maxLength?: number;
+
+  /**
+   * 글자 수 표시 여부
+   */
   showCount?: boolean;
+
+  /**
+   * 비활성화 상태
+   */
   disabled?: boolean;
 }
 
+/**
+ * Input 컴포넌트
+ *
+ * 다양한 variant, size, theme를 지원하는 재사용 가능한 입력 필드 컴포넌트입니다.
+ * 피그마 디자인 시스템을 기반으로 구현되었습니다.
+ *
+ * @example
+ * ```tsx
+ * <Input variant="primary" size="medium" label="이름" required />
+ * ```
+ *
+ * @example
+ * ```tsx
+ * <Input
+ *   variant="secondary"
+ *   isTextarea
+ *   label="내용"
+ *   maxLength={100}
+ *   showCount
+ * />
+ * ```
+ */
 const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
   (
     {
@@ -36,8 +99,6 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
       required = false,
       error,
       helperText,
-      leftIcon,
-      rightIcon,
       rightButton,
       isTextarea = false,
       maxLength,
@@ -74,11 +135,13 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
       styles[`input--${variant}`],
       styles[`input--${size}`],
       styles[`input--${theme}`],
-      error ? styles['input--error'] : '',
-      isFocused ? styles['input--focused'] : '',
-      disabled ? styles['input--disabled'] : '',
-      leftIcon ? styles['input--with-left-icon'] : '',
-      rightIcon || rightButton ? styles['input--with-right-icon'] : '',
+      {
+        [styles['input--error']]: !!error,
+        [styles['input--focused']]: isFocused,
+        [styles['input--disabled']]: disabled,
+        [styles['input--filled']]: !!inputValue,
+        [styles['input--with-right-icon']]: !!rightButton,
+      },
       className
     );
 
@@ -93,15 +156,19 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
       styles.label,
       styles[`label--${size}`],
       styles[`label--${theme}`],
-      required ? styles['label--required'] : '',
-      error ? styles['label--error'] : ''
+      {
+        [styles['label--required']]: required,
+        [styles['label--error']]: !!error,
+      }
     );
 
     const helperTextClasses = cn(
       styles.helperText,
       styles[`helperText--${size}`],
       styles[`helperText--${theme}`],
-      error ? styles['helperText--error'] : ''
+      {
+        [styles['helperText--error']]: !!error,
+      }
     );
 
     const countClasses = cn(
@@ -155,8 +222,6 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
         )}
 
         <div className={styles.inputContainer}>
-          {leftIcon && <div className={styles.leftIcon}>{leftIcon}</div>}
-
           <div className={styles.inputWrapper}>
             {renderInput()}
             {showCount && maxLength && (
@@ -166,16 +231,13 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
             )}
           </div>
 
-          {rightIcon && <div className={styles.rightIcon}>{rightIcon}</div>}
           {rightButton && (
             <div className={styles.rightButton}>{rightButton}</div>
           )}
         </div>
 
         {(error || helperText) && (
-          <div className={styles.helperTextContainer}>
-            <span className={helperTextClasses}>{error || helperText}</span>
-          </div>
+          <span className={helperTextClasses}>{error || helperText}</span>
         )}
       </div>
     );

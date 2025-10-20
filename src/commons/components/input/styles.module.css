@@ -1,5 +1,5 @@
 /* Input Component Styles */
-/* Figma 디자인을 기반으로 한 Input 컴포넌트 스타일 */
+/* 피그마 디자인 시스템을 기반으로 한 입력 필드 컴포넌트 스타일 */
 
 /* Base Container */
 .container {
@@ -76,24 +76,7 @@
   border-color: var(--color-gray-200);
 }
 
-/* Icon Styles */
-.leftIcon,
-.rightIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-gray-400);
-  pointer-events: none;
-}
-
-.leftIcon {
-  margin-right: 12px;
-}
-
-.rightIcon {
-  margin-left: 12px;
-}
-
+/* Right Button Styles */
 .rightButton {
   margin-left: 12px;
 }
@@ -111,15 +94,13 @@
 }
 
 /* Helper Text */
-.helperTextContainer {
-  margin-top: 4px;
-}
-
 .helperText {
   font-family: var(--font-family-korean-primary);
   font-weight: var(--font-weight-regular);
   color: var(--color-gray-500);
   line-height: 1.4;
+  margin-top: 4px;
+  display: block;
 }
 
 /* Size Variants */
@@ -346,20 +327,28 @@
   color: var(--color-gray-400);
 }
 
-/* Icon States */
-.input--with-left-icon {
-  padding-left: 44px;
-}
-
+/* Right Icon States */
 .input--with-right-icon {
   padding-right: 44px;
 }
 
 /* Textarea Specific Styles */
 .input[type='textarea'] {
-  resize: vertical;
+  resize: none;
   min-height: 120px;
   padding-bottom: 32px; /* Space for count */
+}
+
+/* Filled State - text가 채워졌을 때 */
+.input--filled {
+  color: var(--color-gray-B);
+  border-color: var(--color-gray-600);
+}
+
+/* ReadOnly State */
+.input[readonly] {
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-B);
 }
 
 /* Responsive Design */
@@ -394,4 +383,37 @@
 
 .helperText {
   transition: color 0.2s ease-in-out;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .input,
+  .label,
+  .helperText {
+    transition: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .input {
+    border-width: 2px;
+  }
+
+  .input--error {
+    border-width: 3px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .input {
+    background-color: transparent !important;
+    color: var(--color-gray-B) !important;
+    border: 1px solid var(--color-gray-B) !important;
+  }
+
+  .label {
+    color: var(--color-gray-B) !important;
+  }
 }
