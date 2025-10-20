@@ -10,19 +10,38 @@
 
 ==============================================
 
-조건-피그마) 활용할MCP: CursorTalkToFigmaMCP(채널명: rocwevna)
+조건-피그마) 활용할MCP: CursorTalkToFigmaMCP(채널명: 4fliob7x)
 조건-피그마) 참고할 공통컴포넌트 모음 노드ID: 11008:37021
+조건-피그마) 참고할 버튼 'primary' 컴포넌트 노드ID: 11008:37079
+조건-피그마) 참고할 버튼 'secondary' 컴포넌트 노드ID: 11008:37115
+조건-피그마) 참고할 버튼 'outline' 컴포넌트 노드ID: 11008:37105
+조건-피그마) 참고할 버튼 'disabled'상태 컴포넌트 노드ID: 11008:37133
+조건-피그마) 참고할 버튼 '왼쪽 아이콘을 가진 버튼' 컴포넌트 노드ID: 11008:37121
+조건-피그마) 참고할 버튼 '오른쪽 아이콘을 가진 버튼' 컴포넌트 노드ID: 11008:37098
 
 조건-파일경로) 구현될 TSX 파일경로: src/commons/components/button/index.tsx
 조건-파일경로) 구현될 CSS 파일경로: src/commons/components/button/styles.module.css
 
 ==============================================
  
-핵심요구사항) MCP를 연동하여 피그마의 디자인을 그대로 소스코드로 구현할 것.
+기존히스토리-참고만) MCP를 연동하여 피그마의 디자인을 그대로 소스코드로 구현할 것.
 
-핵심요구사항) 다음 조건을 모두 만족하는 완전한 variant 시스템을 구현할 것.
-            - variant: 'primary' | 'secondary' | 'tertiary'
+기존히스토리-참고만) 다음 조건을 모두 만족하는 완전한 variant 시스템을 구현할 것.
+            - variant: 'primary' | 'secondary' | 'outline'
             - size: 'small' | 'medium' | 'large'
             - theme: 'light' | 'dark'
 
-핵심요구사항) 이미 정의해둔 constants(color.ts, typography.ts, global.css)를 참고하여 css를 작성할 것.
+기존히스토리-참고만) 조건-피그마의 버튼들은 light모드를 기본으로 하고 있음을 기억할 것.
+
+기존히스토리-참고만) size 정의는 width는 className을 통해 정의되며, height로 size를 정의할 것.
+
+기존히스토리-참고만) 이미 정의해둔 constants(color.ts, typography.ts, global.css)를 참고하여 css를 작성할 것.
+
+기존히스토리-참고만) 버튼 중 '왼쪽 아이콘을 가진 버튼'과 '오른쪽 아이콘을 가진 버튼'이 다르게 생겼음을 인지할 것.
+
+기존히스토리-참고만) 버튼 중 왼쪽과 오른쪽 모든 아이콘을 가진 경우는 없을 것.
+
+==============================================
+
+핵심요구사항) 오른쪽에 아이콘을 가진 아이콘은 padding: 8px 12px이며, 버튼내 text와 아이콘의 gap은 8px임. border-radius는 왼쪽에 아이콘을 가진 버튼과 다름.
+

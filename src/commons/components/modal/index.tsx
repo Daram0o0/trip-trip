@@ -39,15 +39,12 @@ export default function Modal({
 
   // 피그마 디자인에는 아이콘이 없으므로 아이콘 관련 코드 제거
 
-  const getButtonVariant = (): 'primary' | 'secondary' | 'tertiary' => {
+  const getButtonVariant = (): 'primary' | 'secondary' | 'outline' => {
     if (variant === 'danger') return 'primary';
     return 'primary';
   };
 
-  const getSecondaryButtonVariant = ():
-    | 'primary'
-    | 'secondary'
-    | 'tertiary' => {
+  const getSecondaryButtonVariant = (): 'primary' | 'secondary' | 'outline' => {
     return 'secondary';
   };
 
