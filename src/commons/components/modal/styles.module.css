@@ -2,10 +2,14 @@
 .modal {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   background-color: var(--color-gray-w);
   border-radius: 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  width: 480px;
+  /* 요구사항: 그림자 제거 */
+  box-shadow: none;
+  /* 요구사항: width는 유동적, 기본 최소 480 */
+  width: 100%;
+  min-width: 480px;
   overflow: hidden;
   transition: all 0.2s ease;
 }
@@ -19,7 +23,22 @@
   padding: 24px;
 }
 
-/* Icon Styles - 피그마 디자인에는 아이콘이 없음 */
+/* Icon Styles */
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--color-gray-100);
+  margin-bottom: 12px;
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+}
 
 /* Text Content */
 .textContent {
@@ -33,7 +52,9 @@
   font-family: var(--font-family-korean-primary);
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-xl);
+  /* 요구사항: 타이틀 영역 높이 24px */
+  line-height: 24px;
+  min-height: 24px;
   color: var(--color-gray-900);
   margin: 0;
   transition: color 0.2s ease;
@@ -77,13 +98,31 @@
   height: 40px;
 }
 
-/* Variant Styles */
-.modal.info {
-  /* Info variant specific styles */
+/* Variant Styles - 구체 규칙 필요 시 개별 컴포넌트에서 확장 */
+
+/* Size system */
+.m {
+  --modal-size: m;
+}
+.s {
+  --modal-size: s;
 }
 
-.modal.danger {
-  /* Danger variant specific styles */
+/* 아이콘 유무 */
+.withIcon {
+  --modal-has-icon: 1;
+}
+.noIcon {
+  --modal-has-icon: 0;
+}
+
+/* 요구사항: m 사이즈 기본 높이 설정 */
+.modal.m.noIcon {
+  min-height: 168px; /* 480 x 168 */
+}
+
+.modal.m.withIcon {
+  min-height: 196px; /* 480 x 196 */
 }
 
 /* Actions Styles */
@@ -110,6 +149,23 @@
 
 .modal.dark .description {
   color: var(--color-gray-300);
+}
+
+/* Variant specific icon colors */
+.modal.info .iconWrapper {
+  background-color: var(--color-blue-50, #eff6ff);
+}
+
+.modal.danger .iconWrapper {
+  background-color: var(--color-red-50, #fef2f2);
+}
+
+.modal.dark.info .iconWrapper {
+  background-color: rgba(59, 130, 246, 0.15);
+}
+
+.modal.dark.danger .iconWrapper {
+  background-color: rgba(239, 68, 68, 0.15);
 }
 
 /* Responsive Design */

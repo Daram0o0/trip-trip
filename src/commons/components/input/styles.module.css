@@ -99,7 +99,6 @@
   font-weight: var(--font-weight-regular);
   color: var(--color-gray-500);
   line-height: 1.4;
-  margin-top: 4px;
   display: block;
 }
 
@@ -339,6 +338,9 @@
   padding-bottom: 32px; /* Space for count */
 }
 
+.inputWrapper :global(textarea) {
+  resize: none;
+}
 /* Filled State - text가 채워졌을 때 */
 .input--filled {
   color: var(--color-gray-B);

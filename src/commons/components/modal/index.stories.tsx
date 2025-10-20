@@ -89,12 +89,32 @@ const meta: Meta<typeof Modal> = {
         type: { summary: 'function' },
       },
     },
+    icon: {
+      control: { type: 'select' },
+      options: ['none', 'check', 'close'],
+      description: '아이콘 표시 옵션',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'none' },
+      },
+    },
+    size: {
+      control: { type: 'select' },
+      options: ['s', 'm'],
+      description: '모달 높이 사이즈 (width는 유동적)',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'm' },
+      },
+    },
   },
   args: {
     title: 'Modal 제목',
     description: 'Modal 설명 텍스트입니다.',
     onConfirm: fn(),
     onCancel: fn(),
+    icon: 'none',
+    size: 'm',
   },
 };
 
@@ -166,6 +186,7 @@ export const DualAction: Story = {
     actions: 'dual',
     confirmText: '확인',
     cancelText: '취소',
+    size: 'm',
   },
 };
 
@@ -328,6 +349,7 @@ export const AllCombinations: Story = {
             variant="info"
             actions="single"
             theme="light"
+            size="m"
             onConfirm={fn()}
           />
           <Modal
@@ -336,6 +358,7 @@ export const AllCombinations: Story = {
             variant="info"
             actions="dual"
             theme="light"
+            size="m"
             onConfirm={fn()}
             onCancel={fn()}
           />
@@ -353,6 +376,7 @@ export const AllCombinations: Story = {
             variant="info"
             actions="single"
             theme="dark"
+            size="m"
             onConfirm={fn()}
           />
           <Modal
@@ -361,6 +385,7 @@ export const AllCombinations: Story = {
             variant="info"
             actions="dual"
             theme="dark"
+            size="m"
             onConfirm={fn()}
             onCancel={fn()}
           />
@@ -376,6 +401,7 @@ export const AllCombinations: Story = {
             variant="danger"
             actions="single"
             theme="light"
+            size="m"
             onConfirm={fn()}
           />
           <Modal
@@ -384,6 +410,7 @@ export const AllCombinations: Story = {
             variant="danger"
             actions="dual"
             theme="light"
+            size="m"
             onConfirm={fn()}
             onCancel={fn()}
           />
@@ -401,6 +428,7 @@ export const AllCombinations: Story = {
             variant="danger"
             actions="single"
             theme="dark"
+            size="m"
             onConfirm={fn()}
           />
           <Modal
@@ -409,6 +437,7 @@ export const AllCombinations: Story = {
             variant="danger"
             actions="dual"
             theme="dark"
+            size="m"
             onConfirm={fn()}
             onCancel={fn()}
           />
@@ -452,6 +481,7 @@ export const RealWorldExamples: Story = {
           cancelText="취소"
           onConfirm={fn()}
           onCancel={fn()}
+          icon="close"
         />
       </div>
 
@@ -464,6 +494,7 @@ export const RealWorldExamples: Story = {
           actions="single"
           confirmText="확인"
           onConfirm={fn()}
+          icon="check"
         />
       </div>
 
