@@ -22,7 +22,9 @@
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
   animation: slideIn 0.3s ease-out;
   min-width: 300px;
 }
@@ -85,7 +87,7 @@
     max-width: calc(100vw - 32px);
     min-width: auto;
   }
-  
+
   .closeButton {
     top: 8px;
     right: 8px;
@@ -101,11 +103,11 @@
     background: #1f2937;
     color: #f9fafb;
   }
-  
+
   .closeButton {
     color: #9ca3af;
   }
-  
+
   .closeButton:hover {
     background-color: #374151;
     color: #d1d5db;

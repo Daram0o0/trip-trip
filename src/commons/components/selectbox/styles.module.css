@@ -351,7 +351,6 @@
   background: var(--color-gray-500);
 }
 
-
 /* Responsive Styles */
 @media (max-width: 768px) {
   .small {

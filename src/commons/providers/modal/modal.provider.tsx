@@ -1,6 +1,13 @@
 'use client';
 
-import React, { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+  ReactNode,
+} from 'react';
 import { createPortal } from 'react-dom';
 import styles from './styles.module.css';
 
@@ -62,24 +69,26 @@ export function ModalProvider({ children }: { children: ReactNode }) {
     <ModalContext.Provider value={value}>
       {children}
       {/* 모달 포털 */}
-      {isOpen && typeof window !== 'undefined' && createPortal(
-        <div className={styles.modalOverlay} onClick={closeModal}>
-          <div 
-            className={styles.modalContent} 
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button 
-              className={styles.closeButton}
-              onClick={closeModal}
-              aria-label="모달 닫기"
+      {isOpen &&
+        typeof window !== 'undefined' &&
+        createPortal(
+          <div className={styles.modalOverlay} onClick={closeModal}>
+            <div
+              className={styles.modalContent}
+              onClick={e => e.stopPropagation()}
             >
-              ×
-            </button>
-            {content}
-          </div>
-        </div>,
-        document.body
-      )}
+              <button
+                className={styles.closeButton}
+                onClick={closeModal}
+                aria-label="모달 닫기"
+              >
+                ×
+              </button>
+              {content}
+            </div>
+          </div>,
+          document.body
+        )}
     </ModalContext.Provider>
   );
 }

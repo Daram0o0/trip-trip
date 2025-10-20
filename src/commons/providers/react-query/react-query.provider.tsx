@@ -26,7 +26,8 @@ export function ReactQueryProvider({ children }: ReactQueryProviderProps) {
             // 재시도 횟수
             retry: 3,
             // 재시도 간격 (지수 백오프)
-            retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+            retryDelay: attemptIndex =>
+              Math.min(1000 * 2 ** attemptIndex, 30000),
           },
           mutations: {
             // 뮤테이션 재시도 횟수
@@ -37,8 +38,6 @@ export function ReactQueryProvider({ children }: ReactQueryProviderProps) {
   );
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 }

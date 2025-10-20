@@ -32,8 +32,10 @@ export default function Modal({
     styles[variant],
     styles[actions],
     styles[theme],
-    className
-  ].filter(Boolean).join(' ');
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   // 피그마 디자인에는 아이콘이 없으므로 아이콘 관련 코드 제거
 
@@ -42,7 +44,10 @@ export default function Modal({
     return 'primary';
   };
 
-  const getSecondaryButtonVariant = (): 'primary' | 'secondary' | 'tertiary' => {
+  const getSecondaryButtonVariant = ():
+    | 'primary'
+    | 'secondary'
+    | 'tertiary' => {
     return 'secondary';
   };
 
@@ -54,7 +59,7 @@ export default function Modal({
           <p className={styles.description}>{description}</p>
         </div>
       </div>
-      
+
       <div className={styles.actions}>
         {actions === 'dual' && (
           <Button

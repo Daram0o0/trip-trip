@@ -62,19 +62,19 @@ export const Pagination: React.FC<PaginationProps> = ({
   const generatePageNumbers = (): number[] => {
     const pages: number[] = [];
     const halfVisible = Math.floor(visiblePages / 2);
-    
+
     let startPage = Math.max(1, currentPage - halfVisible);
     const endPage = Math.min(totalPages, startPage + visiblePages - 1);
-    
+
     // 끝 페이지가 totalPages에 가까우면 시작 페이지 조정
     if (endPage - startPage + 1 < visiblePages) {
       startPage = Math.max(1, endPage - visiblePages + 1);
     }
-    
+
     for (let i = startPage; i <= endPage; i++) {
       pages.push(i);
     }
-    
+
     return pages;
   };
 
@@ -118,24 +118,32 @@ export const Pagination: React.FC<PaginationProps> = ({
     styles[variant],
     styles[size],
     styles[theme],
-    className
-  ].filter(Boolean).join(' ');
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
-  const buttonClass = (page: number) => [
-    styles.pageButton,
-    styles[variant],
-    styles[size],
-    styles[theme],
-    page === currentPage ? styles.active : ''
-  ].filter(Boolean).join(' ');
+  const buttonClass = (page: number) =>
+    [
+      styles.pageButton,
+      styles[variant],
+      styles[size],
+      styles[theme],
+      page === currentPage ? styles.active : '',
+    ]
+      .filter(Boolean)
+      .join(' ');
 
-  const navButtonClass = (disabled: boolean) => [
-    styles.navButton,
-    styles[variant],
-    styles[size],
-    styles[theme],
-    disabled ? styles.disabled : ''
-  ].filter(Boolean).join(' ');
+  const navButtonClass = (disabled: boolean) =>
+    [
+      styles.navButton,
+      styles[variant],
+      styles[size],
+      styles[theme],
+      disabled ? styles.disabled : '',
+    ]
+      .filter(Boolean)
+      .join(' ');
 
   if (totalPages <= 1) {
     return null;
@@ -195,7 +203,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 
         {/* 페이지 번호들 */}
         <div className={styles.pageNumbers}>
-          {pageNumbers.map((page) => (
+          {pageNumbers.map(page => (
             <button
               key={page}
               type="button"

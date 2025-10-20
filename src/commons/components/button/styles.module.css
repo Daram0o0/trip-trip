@@ -180,14 +180,14 @@
     font-size: var(--font-size-sm);
     line-height: var(--line-height-sm);
   }
-  
+
   .medium {
     height: 44px;
     padding: 0 20px;
     font-size: var(--font-size-lg);
     line-height: var(--line-height-lg);
   }
-  
+
   .large {
     height: 44px;
     padding: 0 24px;

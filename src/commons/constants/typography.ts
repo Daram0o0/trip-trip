@@ -7,13 +7,17 @@
 export const fontFamilies = {
   // 한국어 폰트
   korean: {
-    primary: 'Pretendard Variable, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif',
-    variable: 'Pretendard Variable, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif',
+    primary:
+      'Pretendard Variable, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif',
+    variable:
+      'Pretendard Variable, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif',
   },
   // 영문 폰트 (추후 확장 가능)
   english: {
-    primary: 'Pretendard Variable, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", sans-serif',
-    variable: 'Pretendard Variable, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", sans-serif',
+    primary:
+      'Pretendard Variable, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", sans-serif',
+    variable:
+      'Pretendard Variable, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", sans-serif',
   },
 } as const;
 
@@ -516,22 +520,34 @@ export const englishTypography = {
 } as const;
 
 // Utility Functions
-export const getTypography = (language: 'korean' | 'english' = 'korean', device: 'mobile' | 'desktop' = 'desktop') => {
+export const getTypography = (
+  language: 'korean' | 'english' = 'korean',
+  device: 'mobile' | 'desktop' = 'desktop'
+) => {
   if (language === 'english') {
     return englishTypography;
   }
   return device === 'mobile' ? mobileTypography : typography;
 };
 
-export const getFontFamily = (language: 'korean' | 'english' = 'korean', variant: 'primary' | 'variable' = 'primary') => {
+export const getFontFamily = (
+  language: 'korean' | 'english' = 'korean',
+  variant: 'primary' | 'variable' = 'primary'
+) => {
   return fontFamilies[language][variant];
 };
 
-export const getFontSize = (device: 'mobile' | 'desktop' = 'desktop', size: keyof typeof fontSizes.mobile) => {
+export const getFontSize = (
+  device: 'mobile' | 'desktop' = 'desktop',
+  size: keyof typeof fontSizes.mobile
+) => {
   return fontSizes[device][size];
 };
 
-export const getLineHeight = (device: 'mobile' | 'desktop' = 'desktop', size: keyof typeof lineHeights.mobile) => {
+export const getLineHeight = (
+  device: 'mobile' | 'desktop' = 'desktop',
+  size: keyof typeof lineHeights.mobile
+) => {
   return lineHeights[device][size];
 };
 

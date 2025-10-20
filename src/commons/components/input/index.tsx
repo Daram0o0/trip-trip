@@ -8,7 +8,8 @@ const cn = (...classes: (string | undefined | null | false)[]): string => {
   return classes.filter(Boolean).join(' ');
 };
 
-export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+export interface InputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   variant?: 'primary' | 'secondary' | 'tertiary';
   size?: 'small' | 'medium' | 'large';
   theme?: 'light' | 'dark';
@@ -52,7 +53,9 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
     const [inputValue, setInputValue] = useState(value || '');
     const [isFocused, setIsFocused] = useState(false);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
       const newValue = e.target.value;
       setInputValue(newValue);
       onChange?.(e as React.ChangeEvent<HTMLInputElement>);
@@ -75,7 +78,7 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
       isFocused ? styles['input--focused'] : '',
       disabled ? styles['input--disabled'] : '',
       leftIcon ? styles['input--with-left-icon'] : '',
-      (rightIcon || rightButton) ? styles['input--with-right-icon'] : '',
+      rightIcon || rightButton ? styles['input--with-right-icon'] : '',
       className
     );
 
@@ -150,10 +153,10 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
             </label>
           </div>
         )}
-        
+
         <div className={styles.inputContainer}>
           {leftIcon && <div className={styles.leftIcon}>{leftIcon}</div>}
-          
+
           <div className={styles.inputWrapper}>
             {renderInput()}
             {showCount && maxLength && (
@@ -162,16 +165,16 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
               </div>
             )}
           </div>
-          
+
           {rightIcon && <div className={styles.rightIcon}>{rightIcon}</div>}
-          {rightButton && <div className={styles.rightButton}>{rightButton}</div>}
+          {rightButton && (
+            <div className={styles.rightButton}>{rightButton}</div>
+          )}
         </div>
-        
+
         {(error || helperText) && (
           <div className={styles.helperTextContainer}>
-            <span className={helperTextClasses}>
-              {error || helperText}
-            </span>
+            <span className={helperTextClasses}>{error || helperText}</span>
           </div>
         )}
       </div>

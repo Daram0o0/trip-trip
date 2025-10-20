@@ -356,7 +356,7 @@
 }
 
 /* Textarea Specific Styles */
-.input[type="textarea"] {
+.input[type='textarea'] {
   resize: vertical;
   min-height: 120px;
   padding-bottom: 32px; /* Space for count */
@@ -368,12 +368,12 @@
     min-height: 40px;
     padding: 10px 12px;
   }
-  
+
   .input--medium {
     min-height: 44px;
     padding: 12px 16px;
   }
-  
+
   .input--large {
     min-height: 48px;
     padding: 14px 18px;
@@ -382,7 +382,10 @@
 
 /* Animation */
 .input {
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  transition:
+    border-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out,
+    background-color 0.2s ease-in-out;
 }
 
 .label {

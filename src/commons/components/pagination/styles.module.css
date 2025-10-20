@@ -289,15 +289,15 @@
   .container {
     padding: 0 16px;
   }
-  
+
   .paginationContent {
     gap: 6px;
   }
-  
+
   .pageNumbers {
     gap: 6px;
   }
-  
+
   /* Mobile에서 작은 크기로 조정 */
   .medium .pageButton {
     width: 28px;
@@ -305,29 +305,29 @@
     font-size: var(--font-size-sm);
     line-height: var(--line-height-sm);
   }
-  
+
   .medium .navButton {
     width: 28px;
     height: 28px;
   }
-  
+
   .medium .icon {
     width: 20px;
     height: 20px;
   }
-  
+
   .large .pageButton {
     width: 32px;
     height: 32px;
     font-size: var(--font-size-lg);
     line-height: var(--line-height-lg);
   }
-  
+
   .large .navButton {
     width: 32px;
     height: 32px;
   }
-  
+
   .large .icon {
     width: 24px;
     height: 24px;
@@ -349,7 +349,7 @@
   .pageButton.active {
     border: 2px solid var(--color-gray-B);
   }
-  
+
   .navButton:focus-visible {
     outline: 3px solid var(--color-gray-B);
   }

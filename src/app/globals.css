@@ -15,7 +15,7 @@
   /* 기존 변수들 */
   --background: #ffffff;
   --foreground: #171717;
-  
+
   /* Gray 색상 팔레트 */
   --color-gray-w: #ffffff;
   --color-gray-50: #f2f2f2;
@@ -29,16 +29,28 @@
   --color-gray-800: #333333;
   --color-gray-900: #1c1c1c;
   --color-gray-B: #000000;
-  
+
   /* Root 색상 팔레트 */
   --color-root-main: #2974e5;
   --color-root-red: #f66a6a;
 
   /* Typography Tokens - Font Families */
-  --font-family-korean-primary: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-  --font-family-korean-variable: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-  --font-family-english-primary: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", sans-serif;
-  --font-family-english-variable: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", sans-serif;
+  --font-family-korean-primary:
+    'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR',
+    'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    sans-serif;
+  --font-family-korean-variable:
+    'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR',
+    'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    sans-serif;
+  --font-family-english-primary:
+    'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    'Helvetica Neue', 'Segoe UI', sans-serif;
+  --font-family-english-variable:
+    'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    'Helvetica Neue', 'Segoe UI', sans-serif;
 
   /* Typography Tokens - Font Weights */
   --font-weight-light: 300;

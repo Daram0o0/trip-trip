@@ -41,25 +41,30 @@ export const Selectbox: React.FC<SelectboxProps> = ({
   onClose,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(value || defaultValue || '');
+  const [selectedValue, setSelectedValue] = useState(
+    value || defaultValue || ''
+  );
   const selectboxRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
-  const handleSelect = useCallback((optionValue: string) => {
-    if (disabled) return;
-    
-    setSelectedValue(optionValue);
-    setIsOpen(false);
-    onChange?.(optionValue);
-    onClose?.();
-  }, [disabled, onChange, onClose]);
+  const handleSelect = useCallback(
+    (optionValue: string) => {
+      if (disabled) return;
+
+      setSelectedValue(optionValue);
+      setIsOpen(false);
+      onChange?.(optionValue);
+      onClose?.();
+    },
+    [disabled, onChange, onClose]
+  );
 
   const handleToggle = () => {
     if (disabled) return;
-    
+
     const newIsOpen = !isOpen;
     setIsOpen(newIsOpen);
-    
+
     if (newIsOpen) {
       onOpen?.();
     } else {
@@ -70,7 +75,10 @@ export const Selectbox: React.FC<SelectboxProps> = ({
   // 외부 클릭 감지
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (selectboxRef.current && !selectboxRef.current.contains(event.target as Node)) {
+      if (
+        selectboxRef.current &&
+        !selectboxRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
         onClose?.();
       }
@@ -87,17 +95,21 @@ export const Selectbox: React.FC<SelectboxProps> = ({
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!isOpen) return;
 
-      const currentIndex = options.findIndex(option => option.value === selectedValue);
-      
+      const currentIndex = options.findIndex(
+        option => option.value === selectedValue
+      );
+
       switch (event.key) {
         case 'ArrowDown':
           event.preventDefault();
-          const nextIndex = currentIndex < options.length - 1 ? currentIndex + 1 : 0;
+          const nextIndex =
+            currentIndex < options.length - 1 ? currentIndex + 1 : 0;
           setSelectedValue(options[nextIndex].value);
           break;
         case 'ArrowUp':
           event.preventDefault();
-          const prevIndex = currentIndex > 0 ? currentIndex - 1 : options.length - 1;
+          const prevIndex =
+            currentIndex > 0 ? currentIndex - 1 : options.length - 1;
           setSelectedValue(options[prevIndex].value);
           break;
         case 'Enter':
@@ -169,9 +181,7 @@ export const Selectbox: React.FC<SelectboxProps> = ({
       >
         <div className={styles.triggerContent}>
           {selectedOption?.icon && (
-            <span className={styles.triggerIcon}>
-              {selectedOption.icon}
-            </span>
+            <span className={styles.triggerIcon}>{selectedOption.icon}</span>
           )}
           <span className={styles.triggerLabel}>
             {selectedOption?.label || placeholder}
@@ -203,10 +213,11 @@ export const Selectbox: React.FC<SelectboxProps> = ({
           role="listbox"
           aria-label="옵션 목록"
         >
-          {options.map((option) => (
+          {options.map(option => (
             <li
               key={option.value}
-              className={cn(styles.option, 
+              className={cn(
+                styles.option,
                 option.value === selectedValue && styles.selected,
                 option.disabled && styles.disabled
               )}
@@ -216,13 +227,9 @@ export const Selectbox: React.FC<SelectboxProps> = ({
               aria-disabled={option.disabled}
             >
               {option.icon && (
-                <span className={styles.optionIcon}>
-                  {option.icon}
-                </span>
+                <span className={styles.optionIcon}>{option.icon}</span>
               )}
-              <span className={styles.optionLabel}>
-                {option.label}
-              </span>
+              <span className={styles.optionLabel}>{option.label}</span>
             </li>
           ))}
         </ul>

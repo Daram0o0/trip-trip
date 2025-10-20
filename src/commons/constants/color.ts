@@ -5,24 +5,24 @@
 
 // Gray 색상 팔레트
 export const gray = {
-  w: '#ffffff',      // white
-  50: '#f2f2f2',     // 매우 밝은 회색
-  100: '#e4e4e4',    // 밝은 회색
-  200: '#d4d3d3',    // 연한 회색
-  300: '#c7c7c7',    // 중간 밝은 회색
-  400: '#ababab',    // 중간 회색
-  500: '#919191',    // 중간 어두운 회색
-  600: '#777777',    // 어두운 회색
-  700: '#5f5f5f',    // 매우 어두운 회색
-  800: '#333333',    // 거의 검은색
-  900: '#1c1c1c',    // 매우 어두운 회색
-  B: '#000000',      // black
+  w: '#ffffff', // white
+  50: '#f2f2f2', // 매우 밝은 회색
+  100: '#e4e4e4', // 밝은 회색
+  200: '#d4d3d3', // 연한 회색
+  300: '#c7c7c7', // 중간 밝은 회색
+  400: '#ababab', // 중간 회색
+  500: '#919191', // 중간 어두운 회색
+  600: '#777777', // 어두운 회색
+  700: '#5f5f5f', // 매우 어두운 회색
+  800: '#333333', // 거의 검은색
+  900: '#1c1c1c', // 매우 어두운 회색
+  B: '#000000', // black
 } as const;
 
 // Root 색상 팔레트
 export const root = {
-  main: '#2974e5',   // 메인 파란색
-  red: '#f66a6a',    // 빨간색
+  main: '#2974e5', // 메인 파란색
+  red: '#f66a6a', // 빨간색
 } as const;
 
 // 전체 컬러 팔레트
@@ -61,16 +61,16 @@ export const getCSSVariableName = (colorKey: ColorKey): string => {
 // 모든 컬러의 CSS 변수명과 값 반환
 export const getAllCSSVariables = (): Record<string, string> => {
   const variables: Record<string, string> = {};
-  
+
   // Gray 색상들
   Object.entries(gray).forEach(([key, value]) => {
     variables[`--color-gray-${key}`] = value;
   });
-  
+
   // Root 색상들
   Object.entries(root).forEach(([key, value]) => {
     variables[`--color-root-${key}`] = value;
   });
-  
+
   return variables;
 };
