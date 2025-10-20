@@ -6,7 +6,6 @@ const fn = () => () => {};
 
 // 아이콘은 핵심요구사항에 따라 제거됨
 
-
 const meta: Meta<typeof Input> = {
   title: 'Components/Input',
   component: Input,
@@ -408,42 +407,24 @@ export const IconSizeCombinations: Story = {
       <div className="space-y-2">
         <h3 className="text-lg font-semibold">Small with Icons</h3>
         <div className="flex flex-col gap-4 w-80">
-          <Input
-            size="small"
-            placeholder="Search Small"
-          />
-          <Input
-            size="small"
-            placeholder="Password Small"
-          />
+          <Input size="small" placeholder="Search Small" />
+          <Input size="small" placeholder="Password Small" />
         </div>
       </div>
 
       <div className="space-y-2">
         <h3 className="text-lg font-semibold">Medium with Icons</h3>
         <div className="flex flex-col gap-4 w-80">
-          <Input
-            size="medium"
-            placeholder="Search Medium"
-          />
-          <Input
-            size="medium"
-            placeholder="Password Medium"
-          />
+          <Input size="medium" placeholder="Search Medium" />
+          <Input size="medium" placeholder="Password Medium" />
         </div>
       </div>
 
       <div className="space-y-2">
         <h3 className="text-lg font-semibold">Large with Icons</h3>
         <div className="flex flex-col gap-4 w-80">
-          <Input
-            size="large"
-            placeholder="Search Large"
-          />
-          <Input
-            size="large"
-            placeholder="Password Large"
-          />
+          <Input size="large" placeholder="Search Large" />
+          <Input size="large" placeholder="Password Large" />
         </div>
       </div>
     </div>
@@ -498,14 +479,8 @@ export const DisabledCombinations: Story = {
       <div className="space-y-2">
         <h3 className="text-lg font-semibold">Disabled with Icons</h3>
         <div className="flex flex-col gap-4 w-80">
-          <Input
-            disabled
-            placeholder="Search Disabled"
-          />
-          <Input
-            disabled
-            placeholder="Password Disabled"
-          />
+          <Input disabled placeholder="Search Disabled" />
+          <Input disabled placeholder="Password Disabled" />
         </div>
       </div>
     </div>
@@ -581,10 +556,7 @@ export const Responsive: Story = {
         <h3 className="text-lg font-semibold">Mobile Size (Small)</h3>
         <div className="space-y-2">
           <Input size="small" placeholder="Small Full Width" />
-          <Input
-            size="small"
-            placeholder="With Icon"
-          />
+          <Input size="small" placeholder="With Icon" />
         </div>
       </div>
     </div>
