@@ -1,0 +1,50 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  width: 1280px;
+  height: 80px;
+  background: #f2f2f2;
+}
+
+.banner {
+  width: 1920px;
+  height: 516px;
+  background: #e9e9e9;
+}
+
+.gap {
+  width: 1280px;
+  height: 40px;
+}
+
+.children {
+  width: 1280px;
+  min-height: 0;
+}
+
+.authRoot {
+  display: flex;
+  justify-content: center;
+}
+
+.authWrapper {
+  display: flex;
+  width: 1920px;
+  height: 1080px;
+}
+
+.authChildren {
+  width: 400px;
+  height: 1080px;
+  background: #f6f6f6;
+}
+
+.authImage {
+  width: 1520px;
+  height: 1080px;
+  background: #e0e0e0;
+}
