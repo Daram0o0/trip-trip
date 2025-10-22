@@ -2,20 +2,137 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
+/* Header Styles */
 .header {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1920px;
   height: 80px;
-  background: #f2f2f2;
+  background: var(--color-gray-w);
+  display: flex;
+  justify-content: center;
 }
 
+.headerContainer {
+  width: 1280px;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.logoArea {
+  display: flex;
+  align-items: center;
+}
+
+.navigation {
+  display: flex;
+  gap: 16px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: var(--font-family-korean-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-800);
+  transition: all 0.2s ease;
+}
+
+.navItem:hover {
+  background-color: var(--color-gray-50);
+}
+
+.navItemActive {
+  border-bottom: 2px solid var(--color-gray-B);
+  color: var(--color-gray-B);
+  font-weight: var(--font-weight-bold);
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+}
+
+/* Banner Carousel Styles */
 .banner {
   width: 100%;
   max-width: 1920px;
   height: 516px;
-  background: #e9e9e9;
+  position: relative;
+  overflow: hidden;
+}
+
+.carouselContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.carouselViewport {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.carouselTrack {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.carouselSlide {
+  flex: 0 0 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.bannerImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.carouselIndicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.indicatorActive {
+  background-color: var(--color-gray-w);
 }
 
 .gap {
@@ -29,6 +146,7 @@
   min-height: 0;
 }
 
+/* Auth Layout Styles */
 .authRoot {
   display: flex;
   justify-content: center;
