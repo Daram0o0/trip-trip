@@ -6,26 +6,164 @@
   margin: 0 auto;
 }
 
+/* 오늘 핫한 트립토크 영역 */
 .hotTripTalk {
   width: 1280px;
   height: 212px;
-  background-color: #f5f5f5;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #ddd;
+  flex-direction: column;
 }
 
-.hotTripTalk h2 {
+/* 타이틀 영역 */
+.title {
+  width: 1280px;
+  height: 36px;
   margin: 0;
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 36px;
+  color: var(--color-gray-B);
+  letter-spacing: var(--letter-spacing-normal);
 }
 
+/* Gap 영역 */
 .gap {
   width: 1280px;
   height: 40px;
+}
+
+/* 갤러리 영역 */
+.galleryArea {
+  width: 1280px;
+  height: 152px;
+  display: flex;
+  gap: 32px;
+}
+
+/* 갤러리 카드 */
+.galleryCard {
+  width: 296px;
+  height: 152px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--color-gray-w);
+}
+
+/* 이미지 영역 */
+.imageArea {
+  width: 112px;
+  height: 152px;
+}
+
+.cardImage {
+  width: 112px;
+  height: 152px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* 콘텐츠 영역 */
+.contentArea {
+  width: 176px;
+  height: 152px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+}
+
+/* 상단 영역 */
+.topArea {
+  width: 176px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardTitle {
+  width: 176px;
+  height: 48px;
+  margin: 0;
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: 24px;
+  color: var(--color-gray-900);
+  letter-spacing: var(--letter-spacing-normal);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.profile {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profileImage {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.authorName {
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-light);
+  line-height: 20px;
+  color: var(--color-gray-700);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+/* 하단 영역 */
+.bottomArea {
+  width: 176px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.likeArea {
+  width: 45px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.likeIcon {
+  width: 24px;
+  height: 24px;
+  background-image: url('/icons/outline/good.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.likeCount {
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: 20px;
+  color: var(--color-root-red);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+.date {
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: 20px;
+  color: var(--color-gray-600);
+  letter-spacing: var(--letter-spacing-normal);
 }
 
 .tripTalkBoard {
