@@ -1,4 +1,7 @@
+'use client';
+
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import styles from './styles.module.css';
 
 export type WireframeLayoutVariant = 'default' | 'auth';
@@ -8,11 +11,11 @@ interface WireframeLayoutProps {
   variant?: WireframeLayoutVariant;
 }
 
-export default function WireframeLayout({
-  children,
-  variant = 'default',
-}: WireframeLayoutProps) {
-  if (variant === 'auth') {
+export default function WireframeLayout({ children }: WireframeLayoutProps) {
+  const pathname = usePathname();
+  const isAuthPage = pathname.includes('auth');
+
+  if (isAuthPage) {
     return (
       <div className={styles.authRoot}>
         <div className={styles.authWrapper}>

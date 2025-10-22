@@ -30,3 +30,8 @@
                 - {children}: 400 * 1080
                 - image: 1520 * 1080
                 - header, banner 없음
+
+핵심요구사항2) URL 경로에 따라 레이아웃을 분기처리할 것.
+                - URL에 'auth'가 포함된 경우: auth 레이아웃 적용 (children: 400*1080, image: 1520*1080)
+                - URL에 'auth'가 없는 경우: 기본 레이아웃 적용 (header: 1280*80, banner: 1920*516, children: 1280*auto)
+                - usePathname 훅을 사용하여 현재 경로를 감지하고 조건부 렌더링 구현
