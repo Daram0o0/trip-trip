@@ -1,0 +1,264 @@
+/* DatePicker Component Styles */
+/* 피그마 디자인 시스템을 기반으로 한 날짜 기간 선택기 컴포넌트 스타일 */
+
+/* Date Range Container */
+.dateRangeContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+}
+
+.dateInputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.dateSeparator {
+  font-family: var(--font-family-korean-primary);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-500);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+  flex-shrink: 0;
+}
+
+.dateRangeDisplay {
+  font-family: var(--font-family-korean-primary);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-gray-600);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+  text-align: center;
+  padding: 4px 8px;
+  background-color: var(--color-gray-50);
+  border-radius: 4px;
+  border: 1px solid var(--color-gray-200);
+}
+
+/* Base DatePicker Styles */
+.datePicker {
+  flex: 1;
+  font-family: var(--font-family-korean-primary);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-gray-800);
+  background-color: var(--color-gray-w);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.datePicker::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.datePicker::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+.datePicker:focus {
+  border-color: var(--color-root-main);
+  box-shadow: 0 0 0 2px rgba(41, 116, 229, 0.1);
+}
+
+.datePicker:disabled {
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-800);
+  cursor: not-allowed;
+  border-color: var(--color-gray-200);
+}
+
+.datePicker:disabled::-webkit-calendar-picker-indicator {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Size Variants */
+/* Small */
+.datePicker--small {
+  padding: 8px 12px;
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+  min-height: 36px;
+}
+
+/* Medium */
+.datePicker--medium {
+  padding: 12px 16px;
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+  min-height: 48px;
+}
+
+/* Large */
+.datePicker--large {
+  padding: 16px 20px;
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-lg);
+  min-height: 56px;
+}
+
+/* Theme Styles */
+/* Light Theme (Default) */
+.datePicker--light {
+  background-color: var(--color-gray-w);
+  color: var(--color-gray-800);
+  border-color: var(--color-gray-200);
+}
+
+.datePicker--light:disabled {
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-800);
+}
+
+.dateRangeContainer--light .dateRangeDisplay {
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-600);
+  border-color: var(--color-gray-200);
+}
+
+/* Dark Theme */
+.datePicker--dark {
+  background-color: var(--color-gray-800);
+  color: var(--color-gray-100);
+  border-color: var(--color-gray-600);
+}
+
+.datePicker--dark:focus {
+  border-color: var(--color-root-main);
+  box-shadow: 0 0 0 2px rgba(41, 116, 229, 0.2);
+}
+
+.datePicker--dark:disabled {
+  background-color: var(--color-gray-700);
+  color: var(--color-gray-400);
+  border-color: var(--color-gray-600);
+}
+
+.dateRangeContainer--dark .dateRangeDisplay {
+  background-color: var(--color-gray-700);
+  color: var(--color-gray-300);
+  border-color: var(--color-gray-600);
+}
+
+.dateRangeContainer--dark .dateSeparator {
+  color: var(--color-gray-400);
+}
+
+/* Focus States */
+.datePicker--focused {
+  border-color: var(--color-root-main);
+  box-shadow: 0 0 0 2px rgba(41, 116, 229, 0.1);
+}
+
+/* Disabled States */
+.datePicker--disabled {
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-800);
+  cursor: not-allowed;
+  border-color: var(--color-gray-200);
+}
+
+/* Filled State - 날짜가 선택되었을 때 */
+.datePicker--filled {
+  color: var(--color-gray-B);
+  border-color: var(--color-gray-600);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dateInputWrapper {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .dateSeparator {
+    display: none;
+  }
+
+  .datePicker--small {
+    min-height: 40px;
+    padding: 10px 12px;
+  }
+
+  .datePicker--medium {
+    min-height: 44px;
+    padding: 12px 16px;
+  }
+
+  .datePicker--large {
+    min-height: 48px;
+    padding: 14px 18px;
+  }
+}
+
+/* Animation */
+.datePicker {
+  transition:
+    border-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out,
+    background-color 0.2s ease-in-out;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .datePicker {
+    transition: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .datePicker {
+    border-width: 2px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .datePicker {
+    background-color: transparent !important;
+    color: var(--color-gray-B) !important;
+    border: 1px solid var(--color-gray-B) !important;
+  }
+}
+
+/* Date Picker Specific Styles */
+/* Firefox */
+.datePicker::-moz-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.datePicker::-moz-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+.datePicker:disabled::-moz-calendar-picker-indicator {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Edge/IE */
+.datePicker::-ms-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.datePicker::-ms-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+.datePicker:disabled::-ms-calendar-picker-indicator {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
