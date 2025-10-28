@@ -17,17 +17,14 @@ const AuthLogin: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.formContainer}>
         {/* 로고 영역 */}
-        <div className={styles.logoContainer}>
-          <div className={styles.logo}>
-            <Image
-              src="/icons/filled/triptrip_logo.svg"
-              alt="TripTrip Logo"
-              width={120}
-              height={80}
-            />
-            {/* 로고 이미지가 있다면 여기에 추가 */}
-            {/* <div className={styles.logoPlaceholder}>로고</div> */}
-          </div>
+
+        <div className={styles.logo}>
+          <Image
+            src="/icons/filled/triptrip_logo.svg"
+            alt="TripTrip Logo"
+            width={120}
+            height={80}
+          />
         </div>
 
         {/* 환영 메시지 */}
