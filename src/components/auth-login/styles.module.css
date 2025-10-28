@@ -19,8 +19,8 @@
 
 /* 로고 영역 */
 .logoContainer {
-  width: 120px;
-  height: 80px;
+  width: 52px;
+  height: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -95,25 +95,6 @@
 /* 로그인 버튼 */
 .loginButton {
   width: 100%;
-  background-color: var(--color-root-main);
-  color: var(--color-gray-w);
-  border: none;
-  border-radius: 8px;
-  height: 48px;
-  font-family: var(--font-family-korean-primary);
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-xl);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.loginButton:hover {
-  background-color: #1e5bb8;
-}
-
-.loginButton:active {
-  background-color: #164a9a;
 }
 
 /* 회원가입 링크 */
@@ -142,7 +123,7 @@
 }
 
 .signupLink:active {
-  color: #1e5bb8;
+  color: var(--color-gray-700);
 }
 
 /* 반응형 디자인 */
@@ -154,5 +135,29 @@
   .formContainer {
     width: 100%;
     max-width: 320px;
+  }
+  
+  .welcomeTitle {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-lg);
+  }
+  
+  .loginSubtitle {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+}
+
+/* 접근성 개선 */
+@media (prefers-reduced-motion: reduce) {
+  .signupLink {
+    transition: none;
+  }
+}
+
+/* 고대비 모드 */
+@media (prefers-contrast: high) {
+  .signupLink {
+    border-bottom: 1px solid currentColor;
   }
 }
