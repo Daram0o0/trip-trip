@@ -64,7 +64,7 @@ const AuthLogin: React.FC = () => {
           {/* 로그인 버튼 */}
           <div className={styles.buttonWrapper}>
             <Button
-              variant="primary"
+              variant="secondary"
               size="large"
               theme="light"
               className={styles.loginButton}
