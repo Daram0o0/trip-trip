@@ -6,6 +6,7 @@ import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import { Button } from '../components/button';
+import { shouldShowBanner } from '@/commons/constants/url';
 import styles from './styles.module.css';
 
 export type WireframeLayoutVariant = 'default' | 'auth';
@@ -167,7 +168,7 @@ export default function WireframeLayout({ children }: WireframeLayoutProps) {
   return (
     <div className={styles.root}>
       <Header />
-      <BannerCarousel />
+      {shouldShowBanner(pathname) && <BannerCarousel />}
       <div className={styles.gap} />
       <main className={styles.children}>{children}</main>
     </div>

@@ -1,0 +1,264 @@
+/* BoardsNew Component Styles */
+/* 프로젝트 디자인 시스템을 기반으로 한 게시물 작성 컴포넌트 스타일 */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.title {
+  width: 100%;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-family-korean-primary);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-3xl);
+  color: var(--color-gray-B);
+  margin-bottom: 0;
+}
+
+.gap {
+  width: 100%;
+  height: 40px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  box-sizing: border-box;
+  background-color: var(--color-gray-w);
+}
+
+/* Input Row Styles */
+.inputRow {
+  display: flex;
+  gap: 40px;
+  width: 100%;
+}
+
+.inputHalf {
+  flex: 1;
+  width: 620px;
+}
+
+.inputFull {
+  width: 100%;
+}
+
+/* Divider Styles */
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-gray-200);
+}
+
+/* Address Section Styles */
+.addressSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.postcodeRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.postcodeInput {
+  width: 82px;
+}
+
+.postcodeField {
+  width: 100%;
+}
+
+.postcodeButton {
+  width: 130px;
+  height: 48px;
+}
+
+.addressFields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.addressField {
+  width: 100%;
+}
+
+/* Image Upload Section Styles */
+.imageUploadSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.imageUploadLabel {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.labelText {
+  font-family: var(--font-family-korean-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-B);
+}
+
+.required {
+  color: var(--color-root-red);
+  font-weight: var(--font-weight-medium);
+}
+
+.imageUploadGrid {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.imageUploadBox {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  background-color: var(--color-gray-100);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.imageUploadBox:hover {
+  background-color: var(--color-gray-200);
+}
+
+.uploadIcon {
+  font-size: 40px;
+  color: var(--color-gray-400);
+  margin-bottom: 8px;
+}
+
+.uploadText {
+  font-family: var(--font-family-korean-primary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-gray-500);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.fileInput {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Button Area Styles */
+.buttonArea {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+}
+
+.cancelButton {
+  width: 64px;
+  height: 48px;
+}
+
+.submitButton {
+  width: 95px;
+  height: 48px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 12px;
+  }
+
+  .title {
+    font-size: var(--font-size-2xl);
+    line-height: var(--line-height-2xl);
+  }
+
+  .form {
+    padding: 16px;
+    gap: 24px;
+  }
+
+  .inputRow {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .inputHalf {
+    width: 100%;
+  }
+
+  .postcodeRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .postcodeInput {
+    width: 100%;
+  }
+
+  .postcodeButton {
+    width: 100%;
+  }
+
+  .imageUploadGrid {
+    justify-content: center;
+  }
+
+  .imageUploadBox {
+    width: 140px;
+    height: 140px;
+  }
+
+  .buttonArea {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .cancelButton,
+  .submitButton {
+    width: 100%;
+  }
+}
+
+/* 접근성 개선 */
+@media (prefers-reduced-motion: reduce) {
+  .form {
+    transition: none;
+  }
+}
+
+/* 고대비 모드 */
+@media (prefers-contrast: high) {
+  .form {
+    border-width: 2px;
+  }
+}

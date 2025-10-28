@@ -9,29 +9,20 @@
 
 ==============================================
 
-조건-파일경로) 구현될 TSX 파일경로: src/commons/boards-new/index.tsx
-조건-파일경로) 구현될 CSS 파일경로: src/commons/boards-new/styles.module.css
+조건-파일경로) 구현될 TSX 파일경로: src/components/boards-new/index.tsx
+조건-파일경로) 구현될 CSS 파일경로: src/components/boards-new/styles.module.css
+
+조건-공통사항) commons/constants/url.ts를 참고할 것.
 
 ==============================================
+[1차 핵심요구사항]
 
-핵심요구사항) 완성된 컴포넌트를 페이지에서 import하여 연결시킬 것. (children을 감싸도록 만들 것)
-                - 연결될 경로: src/app/boards/new.tsx
+1. 완성된 컴포넌트를 페이지에서 import하여 연결시킬 것.
+                - 연결될 경로: src/app/boards/new/page.tsx
 
 핵심요구사항) HTML과 flexbox를 활용한 와이어프레임 구조만 만들어낼 것.
 
-핵심요구사항) 각 영역은 아래의 수치값을 그대로 반영할 것. (단위: px) - 기본 값(auth 이외에 사용)
-                - header: 1280 * 80
-                - banner: 1920 * 516
+핵심요구사항) 각 영역은 아래의 수치값을 그대로 반영할 것. (단위: px)
+                - 제목: 1280 * 28
                 - {gap}: 1280 * 40
-                - {children}: 1280 * auto
-                - image 없음
-
-핵심요구사항) 각 영역은 아래의 수치값을 그대로 반영할 것. (단위: px) - auth에서만 사용
-                - {children}: 400 * 1080
-                - image: 1520 * 1080
-                - header, banner 없음
-
-핵심요구사항2) URL 경로에 따라 레이아웃을 분기처리할 것.
-                - URL에 'auth'가 포함된 경우: auth 레이아웃 적용 (children: 400*1080, image: 1520*1080)
-                - URL에 'auth'가 없는 경우: 기본 레이아웃 적용 (header: 1280*80, banner: 1920*516, children: 1280*auto)
-                - usePathname 훅을 사용하여 현재 경로를 감지하고 조건부 렌더링 구현
+                - 게시물 폼: 1280 * 1440
