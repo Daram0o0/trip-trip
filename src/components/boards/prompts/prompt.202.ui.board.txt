@@ -10,8 +10,8 @@
 
 ==============================================
 
-조건-피그마) 활용할MCP: CursorTalkToFigmaMCP(채널명: q6w4n01u)
-조건-피그마) 구현될 컴포넌트 노드ID(오늘 핫한 트립토크): 285:33467
+조건-피그마) 활용할MCP: CursorTalkToFigmaMCP(채널명: jiiec59p)
+조건-피그마) 구현될 컴포넌트 노드ID(트립토크 게시판): 285:33467
 
 조건-파일경로) 구현될 TSX 파일경로: src/components/boards/index.tsx
 조건-파일경로) 구현될 CSS 파일경로: src/components/boards/styles.module.css
@@ -26,8 +26,12 @@
 
 조건-공통목록) MCP를 연동해 Figma 디자인을 픽셀 단위로 동일하게 구현할 것.
 
+조건-공통목록) 공통 컴포넌트를 수정하지 말 것.
+
 ==============================================
 [1차 핵심요구사항]
+
+- 트립토크 게시판 영역에 구성할 것.
 
 1. 컴포넌트 구성
   - 타이틀 영역 : 1280 x 36
@@ -56,4 +60,17 @@
       - icon size: 24 * 24
 
   2. main 영역
-    - 
+    - 상세
+      - 노드 ID: 285:33475
+      - 사용 컴포넌트: <Pagination/>
+    - 구성
+     - top 영역 / {gap}: 24px / down 영역
+     - style: flex-direction: column, padding: 24px 48px
+
+    1. top 영역(gap: 8px)
+      - grid로 비율로 크기 나눌 것
+      - 번호 / 제목 / 작성자 / 날짜
+      - 게시글 10개 표시(gap: 12px)
+    
+    2. down 영역
+      - <Pagination/> size: 288 * 32
