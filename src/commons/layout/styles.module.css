@@ -168,5 +168,6 @@
 .authImage {
   width: 100%;
   max-width: 1520px;
-  background: #e0e0e0;
+  position: relative;
+  overflow: hidden;
 }

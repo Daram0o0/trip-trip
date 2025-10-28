@@ -159,7 +159,15 @@ export default function WireframeLayout({ children }: WireframeLayoutProps) {
       <div className={styles.authRoot}>
         <div className={styles.authWrapper}>
           <div className={styles.authChildren}>{children}</div>
-          <div className={styles.authImage} />
+          <div className={styles.authImage}>
+            <Image
+              src="/images/main.png"
+              alt="Main Background"
+              fill
+              className={styles.bannerImage}
+              priority
+            />
+          </div>
         </div>
       </div>
     );

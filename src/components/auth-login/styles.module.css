@@ -1,0 +1,158 @@
+/* AuthLogin 컴포넌트 스타일 */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--color-gray-w);
+  padding: 20px;
+}
+
+.formContainer {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* 로고 영역 */
+.logoContainer {
+  width: 120px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.logo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoPlaceholder {
+  font-family: var(--font-family-korean-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-800);
+  text-align: center;
+}
+
+/* 환영 메시지 */
+.welcomeTitle {
+  font-family: var(--font-family-korean-primary);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-xl);
+  color: var(--color-gray-B);
+  text-align: center;
+  margin: 0;
+  width: 100%;
+}
+
+/* 로그인 안내 메시지 */
+.loginSubtitle {
+  font-family: var(--font-family-korean-primary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-md);
+  color: var(--color-gray-800);
+  text-align: center;
+  margin: 0;
+  width: 100%;
+}
+
+/* 폼 영역 */
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+/* 입력 필드 래퍼 */
+.inputWrapper {
+  width: 100%;
+}
+
+/* 입력 필드 스타일 */
+.input {
+  width: 100%;
+}
+
+/* 버튼 래퍼 */
+.buttonWrapper {
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* 로그인 버튼 */
+.loginButton {
+  width: 100%;
+  background-color: var(--color-root-main);
+  color: var(--color-gray-w);
+  border: none;
+  border-radius: 8px;
+  height: 48px;
+  font-family: var(--font-family-korean-primary);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-xl);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.loginButton:hover {
+  background-color: #1e5bb8;
+}
+
+.loginButton:active {
+  background-color: #164a9a;
+}
+
+/* 회원가입 링크 */
+.signupWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.signupLink {
+  background: none;
+  border: none;
+  font-family: var(--font-family-korean-primary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-md);
+  color: var(--color-gray-800);
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.signupLink:hover {
+  color: var(--color-root-main);
+}
+
+.signupLink:active {
+  color: #1e5bb8;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .formContainer {
+    width: 100%;
+    max-width: 320px;
+  }
+}
