@@ -1,0 +1,444 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* 타이틀 영역 */
+.titleArea {
+  width: 1280px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  width: 100%;
+  height: 36px;
+  margin: 0;
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 36px;
+  color: var(--color-gray-B);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+/* Gap 영역 */
+.gap {
+  width: 1280px;
+  height: 24px;
+}
+
+/* Info 영역 */
+.infoArea {
+  width: 1280px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.infoTop {
+  width: 1280px;
+  height: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profileImage {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.profileName {
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-light);
+  line-height: 20px;
+  color: var(--color-gray-700);
+}
+
+.dateArea {
+  display: flex;
+  align-items: center;
+}
+
+.date {
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: 20px;
+  color: var(--color-gray-500);
+}
+
+.divider {
+  width: 1280px;
+  height: 0px;
+  border-top: 1px solid var(--color-gray-100);
+}
+
+.infoBottom {
+  height: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.iconGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  color: var(--color-gray-700);
+}
+
+.outlineIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--color-gray-B);
+  stroke-width: 2;
+  fill: none !important;
+}
+
+.iconArea .icon {
+  color: var(--color-gray-700);
+}
+
+.iconArea .iconItem:last-child .icon {
+  color: var(--color-root-red);
+}
+
+/* 이미지 영역 */
+.imageArea {
+  width: 400px;
+  height: auto;
+}
+
+.postImage {
+  width: 400px;
+  height: 531px;
+  object-fit: cover;
+}
+
+/* Content 영역 */
+.contentArea {
+  width: 1280px;
+  height: auto;
+}
+
+.content {
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-regular);
+  line-height: 24px;
+  color: var(--color-gray-B);
+  margin: 0;
+  white-space: pre-line;
+}
+
+/* 동영상 영역 */
+.videoArea {
+  width: 1280px;
+  height: 512px;
+  background-color: var(--color-gray-50);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.videoContainer {
+  position: relative;
+  width: 822px;
+  height: 464px;
+}
+
+.videoThumbnail {
+  width: 822px;
+  height: 464px;
+  object-fit: cover;
+}
+
+.playButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.playButton:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.playIcon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 아이콘 영역 */
+.iconArea {
+  width: 1280px;
+  height: 48px;
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.iconItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 24px;
+  height: 48px;
+}
+
+.iconCount {
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: 20px;
+  color: var(--color-gray-700);
+}
+
+.iconCountActive {
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: 20px;
+  color: var(--color-root-red);
+}
+
+/* 버튼 영역 */
+.buttonArea {
+  width: 1280px;
+  height: 40px;
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+
+.button {
+  width: 105px;
+  height: 40px;
+}
+
+/* 댓글 영역 */
+.commentArea {
+  width: 1280px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 댓글 입력 영역 */
+.commentInputArea {
+  width: 1280px;
+  height: 304px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.commentHeader {
+  width: 1280px;
+  height: 24px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.commentTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 60px;
+  height: 24px;
+}
+
+.commentTitleText {
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  line-height: 24px;
+  color: var(--color-gray-B);
+}
+
+.starRating {
+  width: 1280px;
+  height: 24px;
+  display: flex;
+  gap: 8px;
+}
+
+.starIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--color-gray-300); /* 기본 회색 */
+}
+
+.clickableStar {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.clickableStar:hover {
+  color: #fbbf24; /* 호버 시 노란색 */
+}
+
+.starIcon[fill='currentColor'] {
+  color: #fbbf24; /* 선택된 별은 노란색 */
+}
+
+.inputContainer {
+  width: 1280px;
+  height: 208px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inputWrapper {
+  width: 1280px;
+  height: 144px;
+}
+
+.commentInput {
+  width: 100%;
+  height: 100%;
+  min-height: 144px;
+}
+
+.commentSubmitButton {
+  width: 99px;
+  height: 48px;
+  align-self: flex-end;
+  font-family: var(--font-family-korean-variable);
+  font-size: 18px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 24px;
+}
+
+/* 댓글 갭 */
+.commentGap {
+  width: 1280px;
+  height: 40px;
+}
+
+/* 댓글 리스트 영역 */
+.commentListArea {
+  width: 1280px;
+  height: auto;
+  display: flex;
+  gap: 40px;
+  flex-direction: column;
+}
+
+.commentItem {
+  width: 1280px;
+  height: 136px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.commentItemHeader {
+  width: 1280px;
+  height: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.commentProfile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+}
+
+.commentStars {
+  display: flex;
+  gap: 8px;
+}
+
+.commentActions {
+  display: flex;
+  gap: 8px;
+  width: 48px;
+  height: 20px;
+}
+
+.actionIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-gray-700);
+  cursor: pointer;
+}
+
+.actionIcon:hover {
+  color: var(--color-gray-500);
+}
+
+.commentContent {
+  width: 1280px;
+  height: 72px;
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-regular);
+  line-height: 24px;
+  color: var(--color-gray-800);
+  white-space: pre-line;
+}
+
+.commentDate {
+  width: 62px;
+  height: 24px;
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: 20px;
+  color: var(--color-gray-500);
+}
+
+.commentDivider {
+  width: 1280px;
+  height: 0px;
+  border-top: 1px solid var(--color-gray-100);
+}
+
+.noComments {
+  width: 1280px;
+  height: 20px;
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: 20px;
+  color: var(--color-gray-600);
+  text-align: center;
+}
