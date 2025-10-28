@@ -131,17 +131,17 @@
   .container {
     padding: 16px;
   }
-  
+
   .formContainer {
     width: 100%;
     max-width: 320px;
   }
-  
+
   .welcomeTitle {
     font-size: var(--font-size-lg);
     line-height: var(--line-height-lg);
   }
-  
+
   .loginSubtitle {
     font-size: var(--font-size-sm);
     line-height: var(--line-height-sm);

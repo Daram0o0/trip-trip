@@ -22,8 +22,8 @@ const AuthLogin: React.FC = () => {
             <Image
               src="/icons/filled/triptrip_logo.svg"
               alt="TripTrip Logo"
-              width={52}
-              height={32}
+              width={120}
+              height={80}
             />
             {/* 로고 이미지가 있다면 여기에 추가 */}
             {/* <div className={styles.logoPlaceholder}>로고</div> */}
