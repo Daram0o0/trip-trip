@@ -1,0 +1,116 @@
+/* AuthSignup 컴포넌트 스타일 */
+
+/* Main Container */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--color-gray-w);
+  padding: 20px;
+}
+
+/* Form Container */
+.formContainer {
+  width: 320px;
+  background-color: var(--color-gray-w);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* 제목 */
+.title {
+  font-family: var(--font-family-korean-primary);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-xl);
+  color: var(--color-gray-B);
+  text-align: center;
+  margin: 0;
+  width: 100%;
+}
+
+/* 설명 */
+.description {
+  font-family: var(--font-family-korean-primary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-md);
+  color: var(--color-gray-800);
+  text-align: center;
+  margin: 0;
+  width: 100%;
+}
+
+/* 폼 영역 */
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+/* 입력 필드 래퍼 */
+.inputWrapper {
+  width: 100%;
+}
+
+/* 입력 필드 스타일 */
+.input {
+  width: 100%;
+}
+
+/* 버튼 래퍼 */
+.buttonWrapper {
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* 회원가입 버튼 */
+.submitButton {
+  width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .formContainer {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .title {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-lg);
+  }
+
+  .description {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+
+  .submitButton {
+    height: 44px;
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-lg);
+  }
+}
+
+/* 접근성 개선 */
+@media (prefers-reduced-motion: reduce) {
+  .submitButton {
+    transition: none;
+  }
+}
+
+/* 고대비 모드 */
+@media (prefers-contrast: high) {
+  .submitButton {
+    border-bottom: 1px solid currentColor;
+  }
+}
