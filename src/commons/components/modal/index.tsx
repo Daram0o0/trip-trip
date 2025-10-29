@@ -103,6 +103,7 @@ export default function Modal({
           size="medium"
           onClick={onConfirm}
           className={styles.confirmButton}
+          data-testid="modal-confirm-button"
         >
           {confirmText}
         </Button>

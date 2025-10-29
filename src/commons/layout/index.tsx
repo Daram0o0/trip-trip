@@ -7,7 +7,16 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import { Button } from '../components/button';
 import { useLayoutRouting } from './hooks/index.link.routing.hook';
+import { useLayoutAuth } from './hooks/index.auth.hook';
 import { useArea } from './hooks/index.area.hook';
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+} from '@/components/ui/navigation-menu';
+import { cn } from '@/lib/utils';
 import styles from './styles.module.css';
 
 export type WireframeLayoutVariant = 'default' | 'auth';
@@ -24,10 +33,11 @@ function Header() {
   const {
     handleLogoClick,
     handleTriptalkClick,
-    handleLoginClick,
     handleAccommodationClick,
     handleMypageClick,
   } = useLayoutRouting();
+  const { isAuthenticated, userName, handleLogin, handleLogout } =
+    useLayoutAuth();
 
   const handleTriptalkClickWithState = useCallback(() => {
     setActiveNav(null); // 다른 액티브 상태 초기화
@@ -101,24 +111,66 @@ function Header() {
           </nav>
         </div>
 
-        {/* 오른쪽 영역: 로그인 버튼 */}
+        {/* 오른쪽 영역: 로그인 버튼 또는 프로필 메뉴 */}
         <div className={styles.headerRight}>
-          <Button
-            variant="primary"
-            size="small"
-            onClick={handleLoginClick}
-            rightIcon={
-              <Image
-                src="/icons/outline/right_icon.svg"
-                alt="Right Icon"
-                width={24}
-                height={24}
-              />
-            }
-            data-testid="login-button"
-          >
-            로그인
-          </Button>
+          {isAuthenticated ? (
+            <div data-testid="profile-area">
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger
+                      className={cn(styles.profileTrigger)}
+                      data-testid="profile-trigger"
+                    >
+                      <div className={styles.profileContent}>
+                        <Image
+                          src="/images/profile/img.png"
+                          alt="Profile"
+                          width={32}
+                          height={32}
+                          className={styles.profileImage}
+                        />
+                        <span
+                          className={styles.profileName}
+                          data-testid="user-name"
+                        >
+                          {userName || '사용자'}
+                        </span>
+                      </div>
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent
+                      className={cn(styles.profileMenuContent)}
+                    >
+                      <button
+                        onClick={handleLogout}
+                        data-testid="logout-button"
+                        className={styles.logoutButton}
+                      >
+                        로그아웃
+                      </button>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+            </div>
+          ) : (
+            <Button
+              variant="primary"
+              size="small"
+              onClick={handleLogin}
+              rightIcon={
+                <Image
+                  src="/icons/outline/right_icon.svg"
+                  alt="Right Icon"
+                  width={24}
+                  height={24}
+                />
+              }
+              data-testid="login-button"
+            >
+              로그인
+            </Button>
+          )}
         </div>
       </div>
     </header>

@@ -70,6 +70,68 @@
   align-items: center;
 }
 
+/* Profile Menu Styles */
+.profileTrigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.profileContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profileImage {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profileName {
+  font-family: var(--font-family-korean-primary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-800);
+}
+
+.profileMenuContent {
+  min-width: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  font-family: var(--font-family-korean-primary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-700);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logoutButton:hover {
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-900);
+}
+
+.logoutButton:active {
+  background-color: var(--color-gray-100);
+}
+
 /* Banner Carousel Styles */
 .banner {
   width: 100%;
