@@ -1,19 +1,16 @@
 import { defineConfig, devices } from '@playwright/test';
 
-// 각 워커별로 다른 포트를 사용하도록 baseURL 설정
-const getBaseURL = () => {
-  const basePort = 3000;
-  const agentIndex = process.env.AGENT_INDEX
-    ? parseInt(process.env.AGENT_INDEX)
-    : 0;
-  return `http://localhost:${basePort + agentIndex}`;
-};
+const agentIndex = process.env.AGENT_INDEX
+  ? parseInt(process.env.AGENT_INDEX, 10)
+  : 0;
+const PORT = 3000 + (Number.isNaN(agentIndex) ? 0 : agentIndex);
+const BASE_URL = `http://localhost:${PORT}`;
 
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
-  testDir: './src/commons/layout/tests',
+  testDir: './src',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -27,10 +24,15 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: getBaseURL(),
+    baseURL: BASE_URL,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+  },
+
+  /* Default expect timeout for all assertions */
+  expect: {
+    timeout: 3000,
   },
 
   /* Configure projects for major browsers */
@@ -73,8 +75,12 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npm run dev',
-    url: getBaseURL(),
+    command: `NEXT_PUBLIC_TEST_ENV=test next dev -p ${PORT}`,
+    url: BASE_URL,
     reuseExistingServer: !process.env.CI,
+    timeout: 180000,
+    env: {
+      NEXT_PUBLIC_TEST_ENV: 'test',
+    },
   },
 });

@@ -5,6 +5,7 @@ import Input from '@/commons/components/input';
 import Button from '@/commons/components/button';
 import styles from './styles.module.css';
 import Image from 'next/image';
+import { useLoginForm } from './hooks/index.form.hook';
 
 /**
  * AuthLogin 컴포넌트
@@ -13,9 +14,11 @@ import Image from 'next/image';
  * 피그마 디자인을 기반으로 구현되었습니다.
  */
 const AuthLogin: React.FC = () => {
+  const { register, errors, onSubmit, isSubmitDisabled } = useLoginForm();
+
   return (
     <div className={styles.container}>
-      <div className={styles.formContainer}>
+      <div className={styles.formContainer} data-testid="auth-login-container">
         {/* 로고 영역 */}
 
         <div className={styles.logo}>
@@ -34,7 +37,7 @@ const AuthLogin: React.FC = () => {
         <p className={styles.loginSubtitle}>트립트립에 로그인 하세요.</p>
 
         {/* 폼 영역 */}
-        <div className={styles.form}>
+        <form className={styles.form} onSubmit={onSubmit}>
           {/* 이메일 입력 */}
           <div className={styles.inputWrapper}>
             <Input
@@ -43,6 +46,8 @@ const AuthLogin: React.FC = () => {
               theme="light"
               placeholder="이메일을 입력해 주세요."
               className={styles.input}
+              {...register('email')}
+              error={errors.email?.message}
             />
           </div>
 
@@ -55,6 +60,8 @@ const AuthLogin: React.FC = () => {
               type="password"
               placeholder="비밀번호를 입력해 주세요."
               className={styles.input}
+              {...register('password')}
+              error={errors.password?.message}
             />
           </div>
 
@@ -65,6 +72,8 @@ const AuthLogin: React.FC = () => {
               size="large"
               theme="light"
               className={styles.loginButton}
+              type="submit"
+              disabled={isSubmitDisabled}
             >
               로그인
             </Button>
@@ -74,7 +83,7 @@ const AuthLogin: React.FC = () => {
           <div className={styles.signupWrapper}>
             <button className={styles.signupLink}>회원가입</button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
