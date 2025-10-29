@@ -31,6 +31,11 @@ const BoardsDetail = () => {
   // 별점 상태
   const [rating, setRating] = useState<number>(0);
 
+  // 댓글 입력 상태
+  const [author, setAuthor] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [commentText, setCommentText] = useState<string>('');
+
   // 댓글 데이터 상태
   const [comments] = useState<Comment[]>([
     {
@@ -199,7 +204,7 @@ const BoardsDetail = () => {
           className={styles.button}
           leftIcon={<TextAlignJustify className={styles.outlineIcon} />}
         >
-          <span style={{ fontSize: '14px', lineHeight: '20px' }}>목록으로</span>
+          목록으로
         </Button>
         <Button
           variant="outline"
@@ -207,7 +212,7 @@ const BoardsDetail = () => {
           className={styles.button}
           leftIcon={<Pencil className={styles.outlineIcon} />}
         >
-          <span style={{ fontSize: '14px', lineHeight: '20px' }}>수정하기</span>
+          수정하기
         </Button>
       </div>
 
@@ -228,12 +233,37 @@ const BoardsDetail = () => {
           <div className={styles.starRating}>{renderStars()}</div>
 
           <div className={styles.inputContainer}>
-            <div className={styles.inputWrapper}>
+            <div className={styles.authorPasswordRow}>
+              <div className={styles.authorField}>
+                <Input
+                  label="작성자"
+                  required
+                  placeholder="작성자 명을 입력해 주세요."
+                  value={author}
+                  onChange={e => setAuthor(e.target.value)}
+                  className={styles.authorInput}
+                />
+              </div>
+              <div className={styles.passwordField}>
+                <Input
+                  label="비밀번호"
+                  required
+                  type="password"
+                  placeholder="비밀번호를 입력해 주세요."
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  className={styles.passwordInput}
+                />
+              </div>
+            </div>
+            <div className={styles.commentTextWrapper}>
               <Input
                 isTextarea
                 placeholder="댓글을 입력해 주세요."
                 maxLength={100}
                 showCount
+                value={commentText}
+                onChange={e => setCommentText(e.target.value)}
                 className={styles.commentInput}
               />
             </div>

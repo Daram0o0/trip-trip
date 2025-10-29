@@ -260,7 +260,7 @@
 /* 댓글 입력 영역 */
 .commentInputArea {
   width: 1280px;
-  height: 304px;
+  height: 400px;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -317,13 +317,46 @@
 
 .inputContainer {
   width: 1280px;
-  height: 208px;
+  height: 304px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.inputWrapper {
+.authorPasswordRow {
+  width: 1280px;
+  height: 80px;
+  display: flex;
+  gap: 16px;
+}
+
+.authorField {
+  width: 312px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.passwordField {
+  width: 312px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.authorInput {
+  width: 100%;
+  height: 48px;
+}
+
+.passwordInput {
+  width: 100%;
+  height: 48px;
+}
+
+.commentTextWrapper {
   width: 1280px;
   height: 144px;
 }
