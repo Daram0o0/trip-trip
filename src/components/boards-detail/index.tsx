@@ -204,7 +204,7 @@ const BoardsDetail = () => {
           className={styles.button}
           leftIcon={<TextAlignJustify className={styles.outlineIcon} />}
         >
-          목록으로
+          <p className={styles.buttonText}>목록으로</p>
         </Button>
         <Button
           variant="outline"
@@ -212,7 +212,7 @@ const BoardsDetail = () => {
           className={styles.button}
           leftIcon={<Pencil className={styles.outlineIcon} />}
         >
-          수정하기
+          <p className={styles.buttonText}>수정하기</p>
         </Button>
       </div>
 

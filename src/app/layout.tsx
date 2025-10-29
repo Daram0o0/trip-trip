@@ -5,6 +5,8 @@ import WireframeLayout from '@/commons/layout';
 import { ModalProvider } from '@/commons/providers/modal/modal.provider';
 import { NextThemesProvider } from '@/commons/providers/next-themes/next-themes.provider';
 import { ReactQueryProvider } from '@/commons/providers/react-query/react-query.provider';
+import { AuthProvider } from '@/commons/providers/auth/auth.provider';
+import { AuthGuard } from '@/commons/providers/auth/auth.guard';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -39,13 +41,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${pretendard.variable} antialiased`}
       >
-        <ReactQueryProvider>
-          <NextThemesProvider>
-            <ModalProvider>
-              <WireframeLayout>{children}</WireframeLayout>
-            </ModalProvider>
-          </NextThemesProvider>
-        </ReactQueryProvider>
+        <AuthProvider>
+          <ReactQueryProvider>
+            <NextThemesProvider>
+              <ModalProvider>
+                <AuthGuard>
+                  <WireframeLayout>{children}</WireframeLayout>
+                </AuthGuard>
+              </ModalProvider>
+            </NextThemesProvider>
+          </ReactQueryProvider>
+        </AuthProvider>
       </body>
     </html>
   );

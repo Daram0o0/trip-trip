@@ -1,5 +1,14 @@
 import { defineConfig, devices } from '@playwright/test';
 
+// 각 워커별로 다른 포트를 사용하도록 baseURL 설정
+const getBaseURL = () => {
+  const basePort = 3000;
+  const agentIndex = process.env.AGENT_INDEX
+    ? parseInt(process.env.AGENT_INDEX)
+    : 0;
+  return `http://localhost:${basePort + agentIndex}`;
+};
+
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -18,7 +27,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'http://localhost:3001',
+    baseURL: getBaseURL(),
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -65,7 +74,7 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: {
     command: 'npm run dev',
-    url: 'http://localhost:3001',
+    url: getBaseURL(),
     reuseExistingServer: !process.env.CI,
   },
 });

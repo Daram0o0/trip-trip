@@ -249,6 +249,14 @@
   height: 40px;
 }
 
+.buttonText {
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: 20px;
+  color: var(--color-gray-B);
+}
+
 /* 댓글 영역 */
 .commentArea {
   width: 1280px;
