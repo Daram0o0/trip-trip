@@ -6,7 +6,8 @@ import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import { Button } from '../components/button';
-import { shouldShowBanner } from '@/commons/constants/url';
+import { useLayoutRouting } from './hooks/index.link.routing.hook';
+import { useArea } from './hooks/index.area.hook';
 import styles from './styles.module.css';
 
 export type WireframeLayoutVariant = 'default' | 'auth';
@@ -19,19 +20,49 @@ interface WireframeLayoutProps {
 // Header 컴포넌트
 function Header() {
   const pathname = usePathname();
+  const [activeNav, setActiveNav] = useState<string | null>(null);
+  const {
+    handleLogoClick,
+    handleTriptalkClick,
+    handleLoginClick,
+    handleAccommodationClick,
+    handleMypageClick,
+  } = useLayoutRouting();
+
+  const handleTriptalkClickWithState = useCallback(() => {
+    setActiveNav(null); // 다른 액티브 상태 초기화
+    handleTriptalkClick();
+  }, [handleTriptalkClick]);
+
+  const handleAccommodationClickWithState = useCallback(() => {
+    setActiveNav('accommodation');
+    handleAccommodationClick();
+  }, [handleAccommodationClick]);
+
+  const handleMypageClickWithState = useCallback(() => {
+    setActiveNav('mypage');
+    handleMypageClick();
+  }, [handleMypageClick]);
 
   const navigationItems = [
     {
       label: '트립토크',
-      href: '/triptalk',
-      isActive: pathname === '/triptalk',
+      href: '/boards',
+      isActive: pathname === '/boards' && activeNav === null,
+      onClick: handleTriptalkClickWithState,
     },
     {
       label: '숙박권 구매',
-      href: '/accommodation',
-      isActive: pathname === '/accommodation',
+      href: '/#',
+      isActive: activeNav === 'accommodation',
+      onClick: handleAccommodationClickWithState,
     },
-    { label: '마이 페이지', href: '/mypage', isActive: pathname === '/mypage' },
+    {
+      label: '마이 페이지',
+      href: '/#',
+      isActive: activeNav === 'mypage',
+      onClick: handleMypageClickWithState,
+    },
   ];
 
   return (
@@ -39,7 +70,11 @@ function Header() {
       <div className={styles.headerContainer}>
         {/* 왼쪽 영역: 로고 + 네비게이션 */}
         <div className={styles.headerLeft}>
-          <div className={styles.logoArea}>
+          <div
+            className={styles.logoArea}
+            onClick={handleLogoClick}
+            data-testid="logo-area"
+          >
             <Image
               src="/icons/filled/triptrip_logo.svg"
               alt="TripTrip Logo"
@@ -53,7 +88,12 @@ function Header() {
               <a
                 key={item.href}
                 href={item.href}
+                onClick={e => {
+                  e.preventDefault();
+                  item.onClick();
+                }}
                 className={`${styles.navItem} ${item.isActive ? styles.navItemActive : ''}`}
+                data-testid={`nav-${item.label === '트립토크' ? 'triptalk' : item.label === '숙박권 구매' ? 'accommodation' : 'mypage'}`}
               >
                 {item.label}
               </a>
@@ -66,6 +106,7 @@ function Header() {
           <Button
             variant="primary"
             size="small"
+            onClick={handleLoginClick}
             rightIcon={
               <Image
                 src="/icons/outline/right_icon.svg"
@@ -74,6 +115,7 @@ function Header() {
                 height={24}
               />
             }
+            data-testid="login-button"
           >
             로그인
           </Button>
@@ -116,7 +158,7 @@ function BannerCarousel() {
   }, [emblaApi, onSelect]);
 
   return (
-    <div className={styles.banner}>
+    <div className={styles.banner} data-testid="banner-area">
       <div className={styles.carouselContainer}>
         <div className={styles.carouselViewport} ref={emblaRef}>
           <div className={styles.carouselTrack}>
@@ -151,32 +193,33 @@ function BannerCarousel() {
 }
 
 export default function WireframeLayout({ children }: WireframeLayoutProps) {
-  const pathname = usePathname();
-  const isAuthPage = pathname.includes('auth');
+  const { visibility, isAuthPage } = useArea();
 
   if (isAuthPage) {
     return (
-      <div className={styles.authRoot}>
+      <div className={styles.authRoot} data-testid="layout-root">
         <div className={styles.authWrapper}>
           <div className={styles.authChildren}>{children}</div>
-          <div className={styles.authImage}>
-            <Image
-              src="/images/main.png"
-              alt="Main Background"
-              fill
-              className={styles.bannerImage}
-              priority
-            />
-          </div>
+          {visibility.image && (
+            <div className={styles.authImage}>
+              <Image
+                src="/images/main.png"
+                alt="Main Background"
+                fill
+                className={styles.bannerImage}
+                priority
+              />
+            </div>
+          )}
         </div>
       </div>
     );
   }
 
   return (
-    <div className={styles.root}>
-      <Header />
-      {shouldShowBanner(pathname) && <BannerCarousel />}
+    <div className={styles.root} data-testid="layout-root">
+      {visibility.header && <Header />}
+      {visibility.banner && <BannerCarousel />}
       <div className={styles.gap} />
       <main className={styles.children}>{children}</main>
     </div>

@@ -32,6 +32,7 @@
 .logoArea {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .navigation {
@@ -51,6 +52,7 @@
   font-weight: var(--font-weight-medium);
   color: var(--color-gray-800);
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .navItem:hover {
