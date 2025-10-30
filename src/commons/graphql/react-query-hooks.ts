@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery, useSuspenseQuery, useMutation, UseQueryOptions, UseSuspenseQueryOptions, UseMutationOptions } from '@tanstack/react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -33,8 +34,8 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  DateTime: { input: unknown; output: unknown; }
-  Upload: { input: unknown; output: unknown; }
+  DateTime: { input: any; output: any; }
+  Upload: { input: any; output: any; }
 };
 
 export type Board = {
@@ -597,6 +598,37 @@ export type LoginUserMutationVariables = Exact<{
 
 export type LoginUserMutation = { __typename?: 'Mutation', loginUser: { __typename?: 'Token', accessToken: string } };
 
+export type CreateUserMutationVariables = Exact<{
+  createUserInput: CreateUserInput;
+}>;
+
+
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', _id: string } };
+
+export type FetchBoardsQueryVariables = Exact<{
+  endDate?: InputMaybe<Scalars['DateTime']['input']>;
+  startDate?: InputMaybe<Scalars['DateTime']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type FetchBoardsQuery = { __typename?: 'Query', fetchBoards: Array<{ __typename?: 'Board', _id: string, writer?: string | null, title: string, contents: string, createdAt: any, likeCount: number, images?: Array<string> | null }> };
+
+export type FetchBoardsCountQueryVariables = Exact<{
+  endDate?: InputMaybe<Scalars['DateTime']['input']>;
+  startDate?: InputMaybe<Scalars['DateTime']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type FetchBoardsCountQuery = { __typename?: 'Query', fetchBoardsCount: number };
+
+export type FetchBoardsOfTheBestQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FetchBoardsOfTheBestQuery = { __typename?: 'Query', fetchBoardsOfTheBest: Array<{ __typename?: 'Board', _id: string, writer?: string | null, title: string, contents: string, youtubeUrl?: string | null, likeCount: number, dislikeCount: number, images?: Array<string> | null, createdAt: any, updatedAt: any, deletedAt?: any | null, boardAddress?: { __typename?: 'BoardAddress', _id: string, zipcode?: string | null, address?: string | null, addressDetail?: string | null } | null, user?: { __typename?: 'User', _id: string, email: string, name: string } | null }> };
+
 
 
 export const FetchUserLoggedInDocument = `
@@ -670,3 +702,198 @@ export const useLoginUserMutation = <
 
 
 useLoginUserMutation.fetcher = (variables: LoginUserMutationVariables) => fetcher<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument, variables);
+
+export const CreateUserDocument = `
+    mutation CreateUser($createUserInput: CreateUserInput!) {
+  createUser(createUserInput: $createUserInput) {
+    _id
+  }
+}
+    `;
+
+export const useCreateUserMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<CreateUserMutation, TError, CreateUserMutationVariables, TContext>) => {
+    
+    return useMutation<CreateUserMutation, TError, CreateUserMutationVariables, TContext>(
+      {
+    mutationKey: ['CreateUser'],
+    mutationFn: (variables?: CreateUserMutationVariables) => fetcher<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useCreateUserMutation.fetcher = (variables: CreateUserMutationVariables) => fetcher<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, variables);
+
+export const FetchBoardsDocument = `
+    query fetchBoards($endDate: DateTime, $startDate: DateTime, $search: String, $page: Int) {
+  fetchBoards(
+    endDate: $endDate
+    startDate: $startDate
+    search: $search
+    page: $page
+  ) {
+    _id
+    writer
+    title
+    contents
+    createdAt
+    likeCount
+    images
+  }
+}
+    `;
+
+export const useFetchBoardsQuery = <
+      TData = FetchBoardsQuery,
+      TError = unknown
+    >(
+      variables?: FetchBoardsQueryVariables,
+      options?: Omit<UseQueryOptions<FetchBoardsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<FetchBoardsQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<FetchBoardsQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['fetchBoards'] : ['fetchBoards', variables],
+    queryFn: fetcher<FetchBoardsQuery, FetchBoardsQueryVariables>(FetchBoardsDocument, variables),
+    ...options
+  }
+    )};
+
+useFetchBoardsQuery.getKey = (variables?: FetchBoardsQueryVariables) => variables === undefined ? ['fetchBoards'] : ['fetchBoards', variables];
+
+export const useSuspenseFetchBoardsQuery = <
+      TData = FetchBoardsQuery,
+      TError = unknown
+    >(
+      variables?: FetchBoardsQueryVariables,
+      options?: Omit<UseSuspenseQueryOptions<FetchBoardsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<FetchBoardsQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useSuspenseQuery<FetchBoardsQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['fetchBoardsSuspense'] : ['fetchBoardsSuspense', variables],
+    queryFn: fetcher<FetchBoardsQuery, FetchBoardsQueryVariables>(FetchBoardsDocument, variables),
+    ...options
+  }
+    )};
+
+useSuspenseFetchBoardsQuery.getKey = (variables?: FetchBoardsQueryVariables) => variables === undefined ? ['fetchBoardsSuspense'] : ['fetchBoardsSuspense', variables];
+
+
+useFetchBoardsQuery.fetcher = (variables?: FetchBoardsQueryVariables) => fetcher<FetchBoardsQuery, FetchBoardsQueryVariables>(FetchBoardsDocument, variables);
+
+export const FetchBoardsCountDocument = `
+    query fetchBoardsCount($endDate: DateTime, $startDate: DateTime, $search: String) {
+  fetchBoardsCount(endDate: $endDate, startDate: $startDate, search: $search)
+}
+    `;
+
+export const useFetchBoardsCountQuery = <
+      TData = FetchBoardsCountQuery,
+      TError = unknown
+    >(
+      variables?: FetchBoardsCountQueryVariables,
+      options?: Omit<UseQueryOptions<FetchBoardsCountQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<FetchBoardsCountQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<FetchBoardsCountQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['fetchBoardsCount'] : ['fetchBoardsCount', variables],
+    queryFn: fetcher<FetchBoardsCountQuery, FetchBoardsCountQueryVariables>(FetchBoardsCountDocument, variables),
+    ...options
+  }
+    )};
+
+useFetchBoardsCountQuery.getKey = (variables?: FetchBoardsCountQueryVariables) => variables === undefined ? ['fetchBoardsCount'] : ['fetchBoardsCount', variables];
+
+export const useSuspenseFetchBoardsCountQuery = <
+      TData = FetchBoardsCountQuery,
+      TError = unknown
+    >(
+      variables?: FetchBoardsCountQueryVariables,
+      options?: Omit<UseSuspenseQueryOptions<FetchBoardsCountQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<FetchBoardsCountQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useSuspenseQuery<FetchBoardsCountQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['fetchBoardsCountSuspense'] : ['fetchBoardsCountSuspense', variables],
+    queryFn: fetcher<FetchBoardsCountQuery, FetchBoardsCountQueryVariables>(FetchBoardsCountDocument, variables),
+    ...options
+  }
+    )};
+
+useSuspenseFetchBoardsCountQuery.getKey = (variables?: FetchBoardsCountQueryVariables) => variables === undefined ? ['fetchBoardsCountSuspense'] : ['fetchBoardsCountSuspense', variables];
+
+
+useFetchBoardsCountQuery.fetcher = (variables?: FetchBoardsCountQueryVariables) => fetcher<FetchBoardsCountQuery, FetchBoardsCountQueryVariables>(FetchBoardsCountDocument, variables);
+
+export const FetchBoardsOfTheBestDocument = `
+    query fetchBoardsOfTheBest {
+  fetchBoardsOfTheBest {
+    _id
+    writer
+    title
+    contents
+    youtubeUrl
+    likeCount
+    dislikeCount
+    images
+    boardAddress {
+      _id
+      zipcode
+      address
+      addressDetail
+    }
+    user {
+      _id
+      email
+      name
+    }
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}
+    `;
+
+export const useFetchBoardsOfTheBestQuery = <
+      TData = FetchBoardsOfTheBestQuery,
+      TError = unknown
+    >(
+      variables?: FetchBoardsOfTheBestQueryVariables,
+      options?: Omit<UseQueryOptions<FetchBoardsOfTheBestQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<FetchBoardsOfTheBestQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<FetchBoardsOfTheBestQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['fetchBoardsOfTheBest'] : ['fetchBoardsOfTheBest', variables],
+    queryFn: fetcher<FetchBoardsOfTheBestQuery, FetchBoardsOfTheBestQueryVariables>(FetchBoardsOfTheBestDocument, variables),
+    ...options
+  }
+    )};
+
+useFetchBoardsOfTheBestQuery.getKey = (variables?: FetchBoardsOfTheBestQueryVariables) => variables === undefined ? ['fetchBoardsOfTheBest'] : ['fetchBoardsOfTheBest', variables];
+
+export const useSuspenseFetchBoardsOfTheBestQuery = <
+      TData = FetchBoardsOfTheBestQuery,
+      TError = unknown
+    >(
+      variables?: FetchBoardsOfTheBestQueryVariables,
+      options?: Omit<UseSuspenseQueryOptions<FetchBoardsOfTheBestQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<FetchBoardsOfTheBestQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useSuspenseQuery<FetchBoardsOfTheBestQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['fetchBoardsOfTheBestSuspense'] : ['fetchBoardsOfTheBestSuspense', variables],
+    queryFn: fetcher<FetchBoardsOfTheBestQuery, FetchBoardsOfTheBestQueryVariables>(FetchBoardsOfTheBestDocument, variables),
+    ...options
+  }
+    )};
+
+useSuspenseFetchBoardsOfTheBestQuery.getKey = (variables?: FetchBoardsOfTheBestQueryVariables) => variables === undefined ? ['fetchBoardsOfTheBestSuspense'] : ['fetchBoardsOfTheBestSuspense', variables];
+
+
+useFetchBoardsOfTheBestQuery.fetcher = (variables?: FetchBoardsOfTheBestQueryVariables) => fetcher<FetchBoardsOfTheBestQuery, FetchBoardsOfTheBestQueryVariables>(FetchBoardsOfTheBestDocument, variables);

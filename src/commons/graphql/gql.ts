@@ -16,10 +16,14 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 type Documents = {
     "\n  query FetchUserLoggedIn {\n    fetchUserLoggedIn {\n      _id\n      name\n    }\n  }\n": typeof types.FetchUserLoggedInDocument,
     "\n  mutation LoginUser($email: String!, $password: String!) {\n    loginUser(email: $email, password: $password) {\n      accessToken\n    }\n  }\n": typeof types.LoginUserDocument,
+    "\n  mutation CreateUser($createUserInput: CreateUserInput!) {\n    createUser(createUserInput: $createUserInput) {\n      _id\n    }\n  }\n": typeof types.CreateUserDocument,
+    "query fetchBoards($endDate: DateTime, $startDate: DateTime, $search: String, $page: Int) {\n  fetchBoards(\n    endDate: $endDate\n    startDate: $startDate\n    search: $search\n    page: $page\n  ) {\n    _id\n    writer\n    title\n    contents\n    createdAt\n    likeCount\n    images\n  }\n}\n\nquery fetchBoardsCount($endDate: DateTime, $startDate: DateTime, $search: String) {\n  fetchBoardsCount(endDate: $endDate, startDate: $startDate, search: $search)\n}\n\nquery fetchBoardsOfTheBest {\n  fetchBoardsOfTheBest {\n    _id\n    writer\n    title\n    contents\n    youtubeUrl\n    likeCount\n    dislikeCount\n    images\n    boardAddress {\n      _id\n      zipcode\n      address\n      addressDetail\n    }\n    user {\n      _id\n      email\n      name\n    }\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}": typeof types.FetchBoardsDocument,
 };
 const documents: Documents = {
     "\n  query FetchUserLoggedIn {\n    fetchUserLoggedIn {\n      _id\n      name\n    }\n  }\n": types.FetchUserLoggedInDocument,
     "\n  mutation LoginUser($email: String!, $password: String!) {\n    loginUser(email: $email, password: $password) {\n      accessToken\n    }\n  }\n": types.LoginUserDocument,
+    "\n  mutation CreateUser($createUserInput: CreateUserInput!) {\n    createUser(createUserInput: $createUserInput) {\n      _id\n    }\n  }\n": types.CreateUserDocument,
+    "query fetchBoards($endDate: DateTime, $startDate: DateTime, $search: String, $page: Int) {\n  fetchBoards(\n    endDate: $endDate\n    startDate: $startDate\n    search: $search\n    page: $page\n  ) {\n    _id\n    writer\n    title\n    contents\n    createdAt\n    likeCount\n    images\n  }\n}\n\nquery fetchBoardsCount($endDate: DateTime, $startDate: DateTime, $search: String) {\n  fetchBoardsCount(endDate: $endDate, startDate: $startDate, search: $search)\n}\n\nquery fetchBoardsOfTheBest {\n  fetchBoardsOfTheBest {\n    _id\n    writer\n    title\n    contents\n    youtubeUrl\n    likeCount\n    dislikeCount\n    images\n    boardAddress {\n      _id\n      zipcode\n      address\n      addressDetail\n    }\n    user {\n      _id\n      email\n      name\n    }\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}": types.FetchBoardsDocument,
 };
 
 /**
@@ -44,6 +48,14 @@ export function graphql(source: "\n  query FetchUserLoggedIn {\n    fetchUserLog
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation LoginUser($email: String!, $password: String!) {\n    loginUser(email: $email, password: $password) {\n      accessToken\n    }\n  }\n"): (typeof documents)["\n  mutation LoginUser($email: String!, $password: String!) {\n    loginUser(email: $email, password: $password) {\n      accessToken\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation CreateUser($createUserInput: CreateUserInput!) {\n    createUser(createUserInput: $createUserInput) {\n      _id\n    }\n  }\n"): (typeof documents)["\n  mutation CreateUser($createUserInput: CreateUserInput!) {\n    createUser(createUserInput: $createUserInput) {\n      _id\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query fetchBoards($endDate: DateTime, $startDate: DateTime, $search: String, $page: Int) {\n  fetchBoards(\n    endDate: $endDate\n    startDate: $startDate\n    search: $search\n    page: $page\n  ) {\n    _id\n    writer\n    title\n    contents\n    createdAt\n    likeCount\n    images\n  }\n}\n\nquery fetchBoardsCount($endDate: DateTime, $startDate: DateTime, $search: String) {\n  fetchBoardsCount(endDate: $endDate, startDate: $startDate, search: $search)\n}\n\nquery fetchBoardsOfTheBest {\n  fetchBoardsOfTheBest {\n    _id\n    writer\n    title\n    contents\n    youtubeUrl\n    likeCount\n    dislikeCount\n    images\n    boardAddress {\n      _id\n      zipcode\n      address\n      addressDetail\n    }\n    user {\n      _id\n      email\n      name\n    }\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"): (typeof documents)["query fetchBoards($endDate: DateTime, $startDate: DateTime, $search: String, $page: Int) {\n  fetchBoards(\n    endDate: $endDate\n    startDate: $startDate\n    search: $search\n    page: $page\n  ) {\n    _id\n    writer\n    title\n    contents\n    createdAt\n    likeCount\n    images\n  }\n}\n\nquery fetchBoardsCount($endDate: DateTime, $startDate: DateTime, $search: String) {\n  fetchBoardsCount(endDate: $endDate, startDate: $startDate, search: $search)\n}\n\nquery fetchBoardsOfTheBest {\n  fetchBoardsOfTheBest {\n    _id\n    writer\n    title\n    contents\n    youtubeUrl\n    likeCount\n    dislikeCount\n    images\n    boardAddress {\n      _id\n      zipcode\n      address\n      addressDetail\n    }\n    user {\n      _id\n      email\n      name\n    }\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

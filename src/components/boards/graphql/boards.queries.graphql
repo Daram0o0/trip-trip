@@ -1,0 +1,56 @@
+query fetchBoards(
+  $endDate: DateTime
+  $startDate: DateTime
+  $search: String
+  $page: Int
+) {
+  fetchBoards(
+    endDate: $endDate
+    startDate: $startDate
+    search: $search
+    page: $page
+  ) {
+    _id
+    writer
+    title
+    contents
+    createdAt
+    likeCount
+    images
+  }
+}
+
+query fetchBoardsCount(
+  $endDate: DateTime
+  $startDate: DateTime
+  $search: String
+) {
+  fetchBoardsCount(endDate: $endDate, startDate: $startDate, search: $search)
+}
+
+query fetchBoardsOfTheBest {
+  fetchBoardsOfTheBest {
+    _id
+    writer
+    title
+    contents
+    youtubeUrl
+    likeCount
+    dislikeCount
+    images
+    boardAddress {
+      _id
+      zipcode
+      address
+      addressDetail
+    }
+    user {
+      _id
+      email
+      name
+    }
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}
