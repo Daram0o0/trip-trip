@@ -4,6 +4,14 @@ import Image from 'next/image';
 import { Button } from '@/commons/components/button';
 import Input from '@/commons/components/input';
 import styles from './styles.module.css';
+import { useParams } from 'next/navigation';
+import { useBoardDetailBinding } from './hooks/index.binding.hook';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import {
   MessageCircle,
   Star,
@@ -11,23 +19,17 @@ import {
   MapPin,
   ThumbsDown,
   ThumbsUp,
-  X,
   Play,
   Pencil,
   TextAlignJustify,
 } from 'lucide-react';
 
-interface Comment {
-  id: number;
-  author: string;
-  profileImage: string;
-  rating: number;
-  content: string;
-  date: string;
-  canEdit?: boolean;
-}
+// 제거된 더미 타입: 서버 데이터 바인딩으로 대체
 
 const BoardsDetail = () => {
+  const params = useParams<{ id?: string }>();
+  const boardId = params?.id ?? '';
+  const { detail, comments } = useBoardDetailBinding({ boardId });
   // 별점 상태
   const [rating, setRating] = useState<number>(0);
 
@@ -36,29 +38,7 @@ const BoardsDetail = () => {
   const [password, setPassword] = useState<string>('');
   const [commentText, setCommentText] = useState<string>('');
 
-  // 댓글 데이터 상태
-  const [comments] = useState<Comment[]>([
-    {
-      id: 1,
-      author: '홍길동',
-      profileImage: '/images/profile/img-4.png',
-      rating: 5,
-      content:
-        '살겠노라 살겠노라. 청산에 살겠노라.\n머루랑 다래를 먹고 청산에 살겠노라.\n얄리얄리 얄랑셩 얄라리 얄라',
-      date: '2024.11.11',
-      canEdit: true,
-    },
-    {
-      id: 2,
-      author: '애슐리',
-      profileImage: '/images/profile/img-5.png',
-      rating: 5,
-      content:
-        '살겠노라 살겠노라. 청산에 살겠노라.\n머루랑 다래를 먹고 청산에 살겠노라.\n얄리얄리 얄랑셩 얄라리 얄라',
-      date: '2024.11.11',
-      canEdit: false,
-    },
-  ]);
+  // 댓글 데이터는 서버 데이터 바인딩
 
   // 별점 렌더링 함수
   const renderStars = (
@@ -81,12 +61,11 @@ const BoardsDetail = () => {
     });
   };
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="board-detail-page">
       {/* 타이틀 영역 */}
       <div className={styles.titleArea}>
-        <h1 className={styles.title}>
-          살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고
-          쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라
+        <h1 className={styles.title} data-testid="board-title">
+          {detail?.title ?? ''}
         </h1>
       </div>
 
@@ -104,10 +83,14 @@ const BoardsDetail = () => {
               height={24}
               className={styles.profileImage}
             />
-            <span className={styles.profileName}>홍길동</span>
+            <span className={styles.profileName} data-testid="board-writer">
+              {detail?.writer ?? ''}
+            </span>
           </div>
           <div className={styles.dateArea}>
-            <span className={styles.date}>2024.11.11</span>
+            <span className={styles.date} data-testid="board-date">
+              {detail?.createdDate ?? ''}
+            </span>
           </div>
         </div>
 
@@ -116,7 +99,22 @@ const BoardsDetail = () => {
         <div className={styles.infoBottom}>
           <div className={styles.iconGroup}>
             <Link size={24} className={styles.icon} />
-            <MapPin size={24} className={styles.icon} />
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <MapPin
+                    size={24}
+                    className={styles.icon}
+                    data-testid="board-address-pin"
+                  />
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  <span data-testid="board-address-tooltip">
+                    {detail?.addressText ?? '주소 정보 없음'}
+                  </span>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
       </div>
@@ -127,7 +125,7 @@ const BoardsDetail = () => {
       {/* 이미지 영역 */}
       <div className={styles.imageArea}>
         <Image
-          src="/images/Tranquil Beachside Serenity 1.png"
+          src={detail?.image ?? '/images/img.png'}
           alt="게시물 이미지"
           width={400}
           height={531}
@@ -140,22 +138,8 @@ const BoardsDetail = () => {
 
       {/* Content 영역 */}
       <div className={styles.contentArea}>
-        <p className={styles.content}>
-          {`살겠노라 살겠노라. 청산에 살겠노라. 머루랑 다래를 먹고 청산에
-          살겠노라. 얄리얄리 얄랑셩 얄라리 얄라 우는구나 우는구나 새야. 자고
-          일어나 우는구나 새야. 너보다 시름 많은 나도 자고 일어나 우노라.
-          얄리얄리 얄라셩 얄라리 얄라 갈던 밭(사래) 갈던 밭 보았느냐. 물
-          아래(근처) 갈던 밭 보았느냐 이끼 묻은 쟁기를 가지고 물 아래 갈던 밭
-          보았느냐. 얄리얄리 얄라셩 얄라리 얄라 이럭저럭 하여 낮일랑 지내 왔건만
-          올 이도 갈 이도 없는 밤일랑 또 어찌 할 것인가. 얄리얄리 얄라셩 얄라리
-          얄라 어디다 던지는 돌인가 누구를 맞히려던 돌인가. 미워할 이도 사랑할
-          이도 없이 맞아서 우노라. 얄리얄리 얄라셩 얄라리 얄라 살겠노라
-          살겠노라. 바다에 살겠노라. 나문재, 굴, 조개를 먹고 바다에 살겠노라.
-          얄리얄리 얄라셩 얄라리 얄라 가다가 가다가 듣노라. 에정지(미상) 가다가
-          듣노라. 사슴(탈 쓴 광대)이 솟대에 올라서 해금을 켜는 것을 듣노라.
-          얄리얄리 얄라셩 얄라리 얄라 가다 보니 배불룩한 술독에 독한 술을
-          빚는구나. 조롱박꽃 모양 누룩이 매워 (나를) 붙잡으니 내 어찌
-          하리이까.[1] 얄리얄리 얄라셩 얄라리 얄라`}
+        <p className={styles.content} data-testid="board-contents">
+          {detail?.contents ?? ''}
         </p>
       </div>
 
@@ -185,11 +169,18 @@ const BoardsDetail = () => {
       <div className={styles.iconArea}>
         <div className={styles.iconItem}>
           <ThumbsDown size={24} className={styles.icon} />
-          <span className={styles.iconCount}>24</span>
+          <span className={styles.iconCount} data-testid="board-dislike-count">
+            {detail?.dislikeCount ?? 0}
+          </span>
         </div>
         <div className={styles.iconItem}>
           <ThumbsUp size={24} className={styles.icon} />
-          <span className={styles.iconCountActive}>24</span>
+          <span
+            className={styles.iconCountActive}
+            data-testid="board-like-count"
+          >
+            {detail?.likeCount ?? 0}
+          </span>
         </div>
       </div>
 
@@ -285,11 +276,14 @@ const BoardsDetail = () => {
           {comments.length > 0 ? (
             comments.map((comment, index) => (
               <React.Fragment key={comment.id}>
-                <div className={styles.commentItem}>
+                <div
+                  className={styles.commentItem}
+                  data-testid={`comment-item-${index}`}
+                >
                   <div className={styles.commentItemHeader}>
                     <div className={styles.commentProfile}>
                       <Image
-                        src={comment.profileImage}
+                        src={'/images/profile/img.png'}
                         alt="프로필 이미지"
                         width={24}
                         height={24}
@@ -302,12 +296,6 @@ const BoardsDetail = () => {
                         {renderStars(comment.rating, false)}
                       </div>
                     </div>
-                    {comment.canEdit && (
-                      <div className={styles.commentActions}>
-                        <Pencil size={20} className={styles.actionIcon} />
-                        <X size={20} className={styles.actionIcon} />
-                      </div>
-                    )}
                   </div>
                   <div className={styles.commentContent}>{comment.content}</div>
                   <div className={styles.commentDate}>{comment.date}</div>
@@ -318,7 +306,9 @@ const BoardsDetail = () => {
               </React.Fragment>
             ))
           ) : (
-            <div className={styles.noComments}>등록된 댓글이 없습니다.</div>
+            <div className={styles.noComments} data-testid="no-comments">
+              회고가 없습니다.
+            </div>
           )}
         </div>
       </div>
