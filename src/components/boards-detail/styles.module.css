@@ -141,6 +141,25 @@
   color: var(--color-root-red);
 }
 
+.iconActive {
+  width: 24px;
+  height: 24px;
+  color: var(--color-root-red);
+}
+
+/* 2차 요구: 좋아요는 항상 빨강, 싫어요는 항상 검정계열 */
+.iconLikeColor {
+  width: 24px;
+  height: 24px;
+  color: var(--color-root-red);
+}
+
+.iconDislikeColor {
+  width: 24px;
+  height: 24px;
+  color: var(--color-gray-500);
+}
+
 /* 이미지 영역 */
 .imageArea {
   width: 400px;
@@ -246,6 +265,29 @@
   height: 48px;
 }
 
+.iconItemButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 24px;
+  height: 48px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.iconItemButton:hover:not(:disabled) {
+  opacity: 0.7;
+}
+
+.iconItemButton:disabled {
+  cursor: not-allowed;
+  opacity: 1;
+}
+
 .iconCount {
   font-family: var(--font-family-korean-variable);
   font-size: var(--font-size-md);
@@ -262,6 +304,22 @@
   color: var(--color-root-red);
 }
 
+.iconLikeCountColor {
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: 20px;
+  color: var(--color-root-red);
+}
+
+.iconDislikeCountColor {
+  font-family: var(--font-family-korean-variable);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: 20px;
+  color: var(--color-gray-500);
+}
+
 /* 버튼 영역 */
 .buttonArea {
   width: 1280px;
@@ -274,6 +332,7 @@
 .button {
   width: 105px;
   height: 40px;
+  cursor: pointer;
 }
 
 .buttonText {

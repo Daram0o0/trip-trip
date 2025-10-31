@@ -1,0 +1,8 @@
+mutation likeBoard($boardId: ID!) {
+  likeBoard(boardId: $boardId)
+}
+
+mutation dislikeBoard($boardId: ID!) {
+  dislikeBoard(boardId: $boardId)
+}
+

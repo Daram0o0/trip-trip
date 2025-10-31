@@ -6,6 +6,7 @@ import Input from '@/commons/components/input';
 import styles from './styles.module.css';
 import { useParams } from 'next/navigation';
 import { useBoardDetailBinding } from './hooks/index.binding.hook';
+import { useBoardDetailLinkRouting } from './hooks/index.link.routing.hook';
 import {
   Tooltip,
   TooltipContent,
@@ -29,7 +30,16 @@ import {
 const BoardsDetail = () => {
   const params = useParams<{ id?: string }>();
   const boardId = params?.id ?? '';
-  const { detail, comments } = useBoardDetailBinding({ boardId });
+  const {
+    detail,
+    comments,
+    isLiked,
+    isDisliked,
+    handleLikeClick,
+    handleDislikeClick,
+  } = useBoardDetailBinding({ boardId });
+  const { handleListClick, handleEditClick } =
+    useBoardDetailLinkRouting(boardId);
   // 별점 상태
   const [rating, setRating] = useState<number>(0);
   // 유튜브 재생 상태
@@ -211,21 +221,44 @@ const BoardsDetail = () => {
 
       {/* 아이콘 영역 */}
       <div className={styles.iconArea}>
-        <div className={styles.iconItem}>
-          <ThumbsDown size={24} className={styles.icon} />
-          <span className={styles.iconCount} data-testid="board-dislike-count">
+        <button
+          type="button"
+          className={styles.iconItemButton}
+          onClick={handleDislikeClick}
+          data-testid="board-dislike-button"
+          disabled={isDisliked}
+        >
+          <ThumbsDown
+            size={24}
+            className={`${styles.iconDislikeColor}`}
+            fill={isDisliked ? 'currentColor' : 'none'}
+          />
+          <span
+            className={styles.iconDislikeCountColor}
+            data-testid="board-dislike-count"
+          >
             {detail?.dislikeCount ?? 0}
           </span>
-        </div>
-        <div className={styles.iconItem}>
-          <ThumbsUp size={24} className={styles.icon} />
+        </button>
+        <button
+          type="button"
+          className={styles.iconItemButton}
+          onClick={handleLikeClick}
+          data-testid="board-like-button"
+          disabled={isLiked}
+        >
+          <ThumbsUp
+            size={24}
+            className={`${styles.iconLikeColor}`}
+            fill={isLiked ? 'currentColor' : 'none'}
+          />
           <span
-            className={styles.iconCountActive}
+            className={styles.iconLikeCountColor}
             data-testid="board-like-count"
           >
             {detail?.likeCount ?? 0}
           </span>
-        </div>
+        </button>
       </div>
 
       {/* Gap */}
@@ -238,6 +271,9 @@ const BoardsDetail = () => {
           size="medium"
           className={styles.button}
           leftIcon={<TextAlignJustify className={styles.outlineIcon} />}
+          onClick={handleListClick}
+          type="button"
+          data-testid="board-detail-list-button"
         >
           <p className={styles.buttonText}>목록으로</p>
         </Button>
@@ -246,6 +282,9 @@ const BoardsDetail = () => {
           size="medium"
           className={styles.button}
           leftIcon={<Pencil className={styles.outlineIcon} />}
+          onClick={handleEditClick}
+          type="button"
+          data-testid="board-detail-edit-button"
         >
           <p className={styles.buttonText}>수정하기</p>
         </Button>

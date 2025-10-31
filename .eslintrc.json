@@ -3,5 +3,13 @@
     "next/core-web-vitals",
     "next/typescript",
     "plugin:storybook/recommended"
+  ],
+  "overrides": [
+    {
+      "files": ["src/commons/graphql/**"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    }
   ]
 }

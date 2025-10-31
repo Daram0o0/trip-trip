@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery, useSuspenseQuery, useMutation, UseQueryOptions, UseSuspenseQueryOptions, UseMutationOptions } from '@tanstack/react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -605,6 +604,35 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', _id: string } };
 
+export type LikeBoardMutationVariables = Exact<{
+  boardId: Scalars['ID']['input'];
+}>;
+
+
+export type LikeBoardMutation = { __typename?: 'Mutation', likeBoard: number };
+
+export type DislikeBoardMutationVariables = Exact<{
+  boardId: Scalars['ID']['input'];
+}>;
+
+
+export type DislikeBoardMutation = { __typename?: 'Mutation', dislikeBoard: number };
+
+export type FetchBoardQueryVariables = Exact<{
+  boardId: Scalars['ID']['input'];
+}>;
+
+
+export type FetchBoardQuery = { __typename?: 'Query', fetchBoard: { __typename?: 'Board', _id: string, writer?: string | null, title: string, contents: string, youtubeUrl?: string | null, likeCount: number, dislikeCount: number, images?: Array<string> | null, createdAt: any, updatedAt: any, deletedAt?: any | null, boardAddress?: { __typename?: 'BoardAddress', _id: string, zipcode?: string | null, address?: string | null, addressDetail?: string | null } | null, user?: { __typename?: 'User', _id: string, email: string, name: string } | null } };
+
+export type FetchBoardCommentsQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  boardId: Scalars['ID']['input'];
+}>;
+
+
+export type FetchBoardCommentsQuery = { __typename?: 'Query', fetchBoardComments: Array<{ __typename?: 'BoardComment', _id: string, writer?: string | null, contents: string, rating: number, createdAt: any, updatedAt: any, deletedAt?: any | null, user?: { __typename?: 'User', _id: string, email: string, name: string } | null }> };
+
 export type FetchBoardsQueryVariables = Exact<{
   endDate?: InputMaybe<Scalars['DateTime']['input']>;
   startDate?: InputMaybe<Scalars['DateTime']['input']>;
@@ -726,6 +754,176 @@ export const useCreateUserMutation = <
 
 
 useCreateUserMutation.fetcher = (variables: CreateUserMutationVariables) => fetcher<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, variables);
+
+export const LikeBoardDocument = `
+    mutation likeBoard($boardId: ID!) {
+  likeBoard(boardId: $boardId)
+}
+    `;
+
+export const useLikeBoardMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<LikeBoardMutation, TError, LikeBoardMutationVariables, TContext>) => {
+    
+    return useMutation<LikeBoardMutation, TError, LikeBoardMutationVariables, TContext>(
+      {
+    mutationKey: ['likeBoard'],
+    mutationFn: (variables?: LikeBoardMutationVariables) => fetcher<LikeBoardMutation, LikeBoardMutationVariables>(LikeBoardDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useLikeBoardMutation.fetcher = (variables: LikeBoardMutationVariables) => fetcher<LikeBoardMutation, LikeBoardMutationVariables>(LikeBoardDocument, variables);
+
+export const DislikeBoardDocument = `
+    mutation dislikeBoard($boardId: ID!) {
+  dislikeBoard(boardId: $boardId)
+}
+    `;
+
+export const useDislikeBoardMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<DislikeBoardMutation, TError, DislikeBoardMutationVariables, TContext>) => {
+    
+    return useMutation<DislikeBoardMutation, TError, DislikeBoardMutationVariables, TContext>(
+      {
+    mutationKey: ['dislikeBoard'],
+    mutationFn: (variables?: DislikeBoardMutationVariables) => fetcher<DislikeBoardMutation, DislikeBoardMutationVariables>(DislikeBoardDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useDislikeBoardMutation.fetcher = (variables: DislikeBoardMutationVariables) => fetcher<DislikeBoardMutation, DislikeBoardMutationVariables>(DislikeBoardDocument, variables);
+
+export const FetchBoardDocument = `
+    query fetchBoard($boardId: ID!) {
+  fetchBoard(boardId: $boardId) {
+    _id
+    writer
+    title
+    contents
+    youtubeUrl
+    likeCount
+    dislikeCount
+    images
+    boardAddress {
+      _id
+      zipcode
+      address
+      addressDetail
+    }
+    user {
+      _id
+      email
+      name
+    }
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}
+    `;
+
+export const useFetchBoardQuery = <
+      TData = FetchBoardQuery,
+      TError = unknown
+    >(
+      variables: FetchBoardQueryVariables,
+      options?: Omit<UseQueryOptions<FetchBoardQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<FetchBoardQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<FetchBoardQuery, TError, TData>(
+      {
+    queryKey: ['fetchBoard', variables],
+    queryFn: fetcher<FetchBoardQuery, FetchBoardQueryVariables>(FetchBoardDocument, variables),
+    ...options
+  }
+    )};
+
+useFetchBoardQuery.getKey = (variables: FetchBoardQueryVariables) => ['fetchBoard', variables];
+
+export const useSuspenseFetchBoardQuery = <
+      TData = FetchBoardQuery,
+      TError = unknown
+    >(
+      variables: FetchBoardQueryVariables,
+      options?: Omit<UseSuspenseQueryOptions<FetchBoardQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<FetchBoardQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useSuspenseQuery<FetchBoardQuery, TError, TData>(
+      {
+    queryKey: ['fetchBoardSuspense', variables],
+    queryFn: fetcher<FetchBoardQuery, FetchBoardQueryVariables>(FetchBoardDocument, variables),
+    ...options
+  }
+    )};
+
+useSuspenseFetchBoardQuery.getKey = (variables: FetchBoardQueryVariables) => ['fetchBoardSuspense', variables];
+
+
+useFetchBoardQuery.fetcher = (variables: FetchBoardQueryVariables) => fetcher<FetchBoardQuery, FetchBoardQueryVariables>(FetchBoardDocument, variables);
+
+export const FetchBoardCommentsDocument = `
+    query fetchBoardComments($page: Int, $boardId: ID!) {
+  fetchBoardComments(page: $page, boardId: $boardId) {
+    _id
+    writer
+    contents
+    rating
+    user {
+      _id
+      email
+      name
+    }
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}
+    `;
+
+export const useFetchBoardCommentsQuery = <
+      TData = FetchBoardCommentsQuery,
+      TError = unknown
+    >(
+      variables: FetchBoardCommentsQueryVariables,
+      options?: Omit<UseQueryOptions<FetchBoardCommentsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<FetchBoardCommentsQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<FetchBoardCommentsQuery, TError, TData>(
+      {
+    queryKey: ['fetchBoardComments', variables],
+    queryFn: fetcher<FetchBoardCommentsQuery, FetchBoardCommentsQueryVariables>(FetchBoardCommentsDocument, variables),
+    ...options
+  }
+    )};
+
+useFetchBoardCommentsQuery.getKey = (variables: FetchBoardCommentsQueryVariables) => ['fetchBoardComments', variables];
+
+export const useSuspenseFetchBoardCommentsQuery = <
+      TData = FetchBoardCommentsQuery,
+      TError = unknown
+    >(
+      variables: FetchBoardCommentsQueryVariables,
+      options?: Omit<UseSuspenseQueryOptions<FetchBoardCommentsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<FetchBoardCommentsQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useSuspenseQuery<FetchBoardCommentsQuery, TError, TData>(
+      {
+    queryKey: ['fetchBoardCommentsSuspense', variables],
+    queryFn: fetcher<FetchBoardCommentsQuery, FetchBoardCommentsQueryVariables>(FetchBoardCommentsDocument, variables),
+    ...options
+  }
+    )};
+
+useSuspenseFetchBoardCommentsQuery.getKey = (variables: FetchBoardCommentsQueryVariables) => ['fetchBoardCommentsSuspense', variables];
+
+
+useFetchBoardCommentsQuery.fetcher = (variables: FetchBoardCommentsQueryVariables) => fetcher<FetchBoardCommentsQuery, FetchBoardCommentsQueryVariables>(FetchBoardCommentsDocument, variables);
 
 export const FetchBoardsDocument = `
     query fetchBoards($endDate: DateTime, $startDate: DateTime, $search: String, $page: Int) {
