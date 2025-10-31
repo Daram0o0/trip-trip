@@ -340,6 +340,7 @@
 
 .inputWrapper :global(textarea) {
   resize: none;
+  height: 144px;
 }
 /* Filled State - text가 채워졌을 때 */
 .input--filled {

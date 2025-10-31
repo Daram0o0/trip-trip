@@ -1,18 +1,7 @@
 'use client';
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { Button } from '@/commons/components/button';
-import Input from '@/commons/components/input';
+import React, { useState, useEffect } from 'react';
 import styles from './styles.module.css';
-import { useParams } from 'next/navigation';
-import { useBoardDetailBinding } from './hooks/index.binding.hook';
-import { useBoardDetailLinkRouting } from './hooks/index.link.routing.hook';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import Image from 'next/image';
 import {
   MessageCircle,
   Star,
@@ -24,8 +13,19 @@ import {
   Pencil,
   TextAlignJustify,
 } from 'lucide-react';
-
-// 제거된 더미 타입: 서버 데이터 바인딩으로 대체
+// 실제 데이터 바인딩 타입
+import { Button } from '@/commons/components/button';
+import Input from '@/commons/components/input';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { useParams } from 'next/navigation';
+import { useBoardDetailBinding } from './hooks/index.binding.hook';
+import { useBoardDetailLinkRouting } from './hooks/index.link.routing.hook';
+import { useAuth } from '@/commons/providers/auth/auth.provider';
 
 const BoardsDetail = () => {
   const params = useParams<{ id?: string }>();
@@ -40,17 +40,68 @@ const BoardsDetail = () => {
   } = useBoardDetailBinding({ boardId });
   const { handleListClick, handleEditClick } =
     useBoardDetailLinkRouting(boardId);
+  const { user, isAuthenticated } = useAuth();
+
   // 별점 상태
   const [rating, setRating] = useState<number>(0);
   // 유튜브 재생 상태
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
+  // 사용자 이름 추출 헬퍼 함수
+  const getUserNameFromUser = (userObj: unknown): string | null => {
+    if (!userObj || typeof userObj !== 'object') return null;
+    const obj = userObj as { name?: string; _id?: string };
+    return obj.name || null;
+  };
+
+  // localStorage에서 user 정보를 안전하게 가져오는 함수
+  const getUserFromLocalStorage = (): string => {
+    if (typeof window === 'undefined') return '';
+    try {
+      const userStr = window.localStorage.getItem('user');
+      if (userStr) {
+        const userFromStorage = JSON.parse(userStr) as {
+          name?: string;
+          _id?: string;
+        };
+        return userFromStorage?.name || '';
+      }
+    } catch {
+      // localStorage 파싱 오류는 무시 (빈 문자열 반환)
+    }
+    return '';
+  };
+
   // 댓글 입력 상태
-  const [author, setAuthor] = useState<string>('');
+  const [author, setAuthor] = useState<string>(() => getUserFromLocalStorage());
   const [password, setPassword] = useState<string>('');
   const [commentText, setCommentText] = useState<string>('');
 
-  // 댓글 데이터는 서버 데이터 바인딩
+  // 로그인된 사용자 정보를 작성자 Input에 자동 입력
+  useEffect(() => {
+    // auth provider의 user가 있으면 우선 사용
+    if (isAuthenticated && user) {
+      const userName = getUserNameFromUser(user);
+      if (userName) {
+        setAuthor(userName);
+        return;
+      }
+    }
+
+    // auth provider의 user가 없거나 name이 없으면 localStorage에서 직접 확인
+    if (isAuthenticated) {
+      const userNameFromStorage = getUserFromLocalStorage();
+      if (userNameFromStorage) {
+        setAuthor(userNameFromStorage);
+        return;
+      }
+    }
+
+    // 로그인하지 않았으면 빈 문자열
+    if (!isAuthenticated) {
+      setAuthor('');
+    }
+  }, [isAuthenticated, user]);
 
   // 별점 렌더링 함수
   const renderStars = (
@@ -316,6 +367,8 @@ const BoardsDetail = () => {
                   value={author}
                   onChange={e => setAuthor(e.target.value)}
                   className={styles.authorInput}
+                  readOnly={isAuthenticated}
+                  data-testid="comment-author-input"
                 />
               </div>
               <div className={styles.passwordField}>

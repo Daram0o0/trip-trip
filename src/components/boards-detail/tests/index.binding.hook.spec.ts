@@ -13,10 +13,14 @@ async function login(page: import('@playwright/test').Page) {
   await emailInput.fill('a@a.aa');
   await passwordInput.fill('aaaaaaaa8');
   await loginButton.click();
-  // 로그인 토큰이 저장될 때까지 대기 (API 응답 대기 포함)
-  await page.waitForFunction(() => !!localStorage.getItem('accessToken'), {
-    timeout: 10000,
-  });
+  // 로그인 토큰과 사용자 정보가 저장될 때까지 대기 (API 응답 대기 포함)
+  await page.waitForFunction(
+    () =>
+      !!localStorage.getItem('accessToken') && !!localStorage.getItem('user'),
+    {
+      timeout: 10000,
+    }
+  );
 }
 
 test.describe('Board detail binding - real APIs', () => {
@@ -412,5 +416,98 @@ test.describe('Board detail like/dislike - failure scenario (mock API)', () => {
 
     // 5) 에러가 발생해도 페이지가 크래시되지 않아야 함
     await expect(page.getByTestId('board-detail-page')).toBeVisible();
+  });
+});
+
+test.describe('Board detail comment author input - 5차 핵심요구사항', () => {
+  test('로그인된 사용자 정보가 작성자 Input에 자동 입력되고 readonly 처리된다', async ({
+    page,
+    request,
+  }) => {
+    await login(page);
+    // 1) 임의의 게시글 ID 조회
+    const resList = await request.post(GRAPHQL_ENDPOINT, {
+      data: {
+        query: `query($page:Int){ fetchBoards(page:$page){ _id title } }`,
+        variables: { page: 1 },
+      },
+    });
+    expect(resList.ok()).toBeTruthy();
+    const listJson = await resList.json();
+    const firstId: string = listJson.data.fetchBoards?.[0]?._id;
+    expect(firstId).toBeTruthy();
+
+    // 2) 상세 페이지 이동 및 로드 대기 (고정 testid)
+    await page.goto(`/boards/${firstId}`);
+    await page.getByTestId('board-detail-page').waitFor({ timeout: 1500 });
+
+    // 3) localStorage에서 사용자 정보 확인 (페이지 이동 후에도 유지되는지 확인)
+    await page.waitForFunction(() => !!localStorage.getItem('user'), {
+      timeout: 1500,
+    });
+    const userStr = await page.evaluate(() => localStorage.getItem('user'));
+    expect(userStr).toBeTruthy();
+    const userObj = JSON.parse(userStr!);
+    expect(userObj.name).toBeTruthy();
+    const expectedUserName = userObj.name as string;
+
+    // 4) 작성자 Input에 사용자 이름이 자동 입력되었는지 확인
+    const authorInput = page.getByTestId('comment-author-input');
+    await expect(authorInput).toBeVisible({ timeout: 1500 });
+    // Input에 값이 입력될 때까지 약간 대기
+    await page.waitForFunction(
+      () => {
+        const input = document.querySelector(
+          '[data-testid="comment-author-input"]'
+        ) as HTMLInputElement;
+        return input && input.value.trim() !== '';
+      },
+      { timeout: 1500 }
+    );
+    const inputValue = await authorInput.inputValue();
+    expect(inputValue).toBe(expectedUserName);
+
+    // 5) 작성자 Input이 readonly 상태인지 확인
+    const isReadOnly = await authorInput.getAttribute('readonly');
+    expect(isReadOnly).not.toBeNull();
+  });
+
+  test('로그인하지 않은 경우 작성자 Input이 빈 상태이고 readonly가 아니다', async ({
+    page,
+    request,
+  }) => {
+    // 로그인하지 않은 상태로 상세 페이지 접근
+    // 1) 임의의 게시글 ID 조회
+    const resList = await request.post(GRAPHQL_ENDPOINT, {
+      data: {
+        query: `query($page:Int){ fetchBoards(page:$page){ _id title } }`,
+        variables: { page: 1 },
+      },
+    });
+    expect(resList.ok()).toBeTruthy();
+    const listJson = await resList.json();
+    const firstId: string = listJson.data.fetchBoards?.[0]?._id;
+    expect(firstId).toBeTruthy();
+
+    // 2) localStorage 비우기
+    await page.goto('/boards');
+    await page.evaluate(() => {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('user');
+    });
+
+    // 3) 상세 페이지 이동 및 로드 대기 (고정 testid)
+    await page.goto(`/boards/${firstId}`);
+    await page.getByTestId('board-detail-page').waitFor({ timeout: 1500 });
+
+    // 4) 작성자 Input이 빈 상태인지 확인
+    const authorInput = page.getByTestId('comment-author-input');
+    await expect(authorInput).toBeVisible({ timeout: 1500 });
+    const inputValue = await authorInput.inputValue();
+    expect(inputValue).toBe('');
+
+    // 5) 작성자 Input이 readonly 상태가 아닌지 확인
+    const isReadOnly = await authorInput.getAttribute('readonly');
+    expect(isReadOnly).toBeNull();
   });
 });

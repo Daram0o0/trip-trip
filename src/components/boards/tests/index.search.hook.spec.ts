@@ -16,8 +16,8 @@ test.describe('Boards search - real APIs', () => {
     await expect(searchInput).toBeVisible({ timeout: 450 });
     await searchInput.fill('테스트');
 
-    // 검색 버튼 클릭
-    const searchButton = page.getByRole('button', { name: '검색' });
+    // 검색 버튼 클릭 (strict mode violation 방지를 위해 data-testid 사용)
+    const searchButton = page.getByTestId('search-button');
     await expect(searchButton).toBeVisible({ timeout: 450 });
 
     // 검색 버튼 클릭 전 API 응답 대기 설정
@@ -82,8 +82,8 @@ test.describe('Boards search - real APIs', () => {
     await expect(searchInput).toBeVisible({ timeout: 450 });
     await searchInput.fill('테스트');
 
-    // 검색 버튼 클릭
-    const searchButton = page.getByRole('button', { name: '검색' });
+    // 검색 버튼 클릭 (strict mode violation 방지를 위해 data-testid 사용)
+    const searchButton = page.getByTestId('search-button');
     await expect(searchButton).toBeVisible({ timeout: 450 });
 
     // 검색 버튼 클릭 전 API 응답 대기 설정
@@ -138,8 +138,8 @@ test.describe('Boards search - real APIs', () => {
     const endDateStr = today.toISOString().split('T')[0];
     await dateInputs.nth(1).fill(endDateStr);
 
-    // 검색 버튼 클릭
-    const searchButton = page.getByRole('button', { name: '검색' });
+    // 검색 버튼 클릭 (strict mode violation 방지를 위해 data-testid 사용)
+    const searchButton = page.getByTestId('search-button');
     await expect(searchButton).toBeVisible({ timeout: 450 });
 
     // 검색 버튼 클릭 전 API 응답 대기 설정
@@ -200,8 +200,8 @@ test.describe('Boards search - real APIs', () => {
     await expect(searchInput).toBeVisible({ timeout: 450 });
     await searchInput.fill('테스트검색');
 
-    // 검색 버튼 클릭
-    const searchButton = page.getByRole('button', { name: '검색' });
+    // 검색 버튼 클릭 (strict mode violation 방지를 위해 data-testid 사용)
+    const searchButton = page.getByTestId('search-button');
     await expect(searchButton).toBeVisible({ timeout: 450 });
     await searchButton.click({ timeout: 450 });
 
@@ -240,8 +240,8 @@ test.describe('Boards search - real APIs', () => {
       await expect(searchInput).toBeVisible({ timeout: 450 });
       await searchInput.fill('테스트');
 
-      // 검색 버튼 클릭
-      const searchButton = page.getByRole('button', { name: '검색' });
+      // 검색 버튼 클릭 (strict mode violation 방지를 위해 data-testid 사용)
+      const searchButton = page.getByTestId('search-button');
       await expect(searchButton).toBeVisible({ timeout: 450 });
       await searchButton.click({ timeout: 450 });
 
@@ -291,8 +291,8 @@ test.describe('Boards search - failure (mocked)', () => {
     await expect(searchInput).toBeVisible({ timeout: 450 });
     await searchInput.fill('테스트');
 
-    // 검색 버튼 클릭
-    const searchButton = page.getByRole('button', { name: '검색' });
+    // 검색 버튼 클릭 (strict mode violation 방지를 위해 data-testid 사용)
+    const searchButton = page.getByTestId('search-button');
     await expect(searchButton).toBeVisible({ timeout: 450 });
     await searchButton.click({ timeout: 450 });
 
