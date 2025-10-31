@@ -32,6 +32,8 @@ const BoardsDetail = () => {
   const { detail, comments } = useBoardDetailBinding({ boardId });
   // 별점 상태
   const [rating, setRating] = useState<number>(0);
+  // 유튜브 재생 상태
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   // 댓글 입력 상태
   const [author, setAuthor] = useState<string>('');
@@ -98,19 +100,32 @@ const BoardsDetail = () => {
 
         <div className={styles.infoBottom}>
           <div className={styles.iconGroup}>
-            <Link size={24} className={styles.icon} />
+            {detail?.youtubeUrl && (
+              <a
+                href={detail.youtubeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.iconLink}
+              >
+                <Link size={24} className={styles.icon} />
+              </a>
+            )}
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <MapPin
-                    size={24}
-                    className={styles.icon}
+                  <button
+                    type="button"
+                    className={styles.iconButton}
                     data-testid="board-address-pin"
-                  />
+                  >
+                    <MapPin size={24} className={styles.icon} />
+                  </button>
                 </TooltipTrigger>
                 <TooltipContent side="bottom">
                   <span data-testid="board-address-tooltip">
-                    {detail?.addressText ?? '주소 정보 없음'}
+                    {detail?.addressText && detail.addressText.trim()
+                      ? detail.addressText
+                      : '등록된 주소 없음'}
                   </span>
                 </TooltipContent>
               </Tooltip>
@@ -123,18 +138,22 @@ const BoardsDetail = () => {
       <div className={styles.gap}></div>
 
       {/* 이미지 영역 */}
-      <div className={styles.imageArea}>
-        <Image
-          src={detail?.image ?? '/images/img.png'}
-          alt="게시물 이미지"
-          width={400}
-          height={531}
-          className={styles.postImage}
-        />
-      </div>
+      {detail?.images && detail.images.length > 0 && (
+        <>
+          <div className={styles.imageArea}>
+            <Image
+              src={detail.image}
+              alt="게시물 이미지"
+              width={400}
+              height={531}
+              className={styles.postImage}
+            />
+          </div>
 
-      {/* Gap */}
-      <div className={styles.gap}></div>
+          {/* Gap */}
+          <div className={styles.gap}></div>
+        </>
+      )}
 
       {/* Content 영역 */}
       <div className={styles.contentArea}>
@@ -144,26 +163,51 @@ const BoardsDetail = () => {
       </div>
 
       {/* Gap */}
-      <div className={styles.gap}></div>
+      {detail?.youtubeUrl && (
+        <>
+          <div className={styles.gap}></div>
 
-      {/* 동영상 영역 */}
-      <div className={styles.videoArea}>
-        <div className={styles.videoContainer}>
-          <Image
-            src="/images/Frame 427323252.png"
-            alt="동영상 썸네일"
-            width={822}
-            height={464}
-            className={styles.videoThumbnail}
-          />
-          <button className={styles.playButton}>
-            <Play size={20} className={styles.playIcon} />
-          </button>
-        </div>
-      </div>
+          {/* 동영상 영역 */}
+          <div className={styles.videoArea}>
+            <div className={styles.videoContainer}>
+              {isPlaying && detail.youtubeEmbedUrl ? (
+                <iframe
+                  src={detail.youtubeEmbedUrl}
+                  width="822"
+                  height="464"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className={styles.videoIframe}
+                  data-testid="youtube-iframe"
+                />
+              ) : (
+                <>
+                  <Image
+                    src={
+                      detail.youtubeThumbnail ?? '/images/Frame 427323252.png'
+                    }
+                    alt="동영상 썸네일"
+                    width={822}
+                    height={464}
+                    className={styles.videoThumbnail}
+                  />
+                  <button
+                    onClick={() => setIsPlaying(true)}
+                    className={styles.playButton}
+                    type="button"
+                    data-testid="youtube-play-button"
+                  >
+                    <Play size={20} className={styles.playIcon} />
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
 
-      {/* Gap */}
-      <div className={styles.gap}></div>
+          {/* Gap */}
+          <div className={styles.gap}></div>
+        </>
+      )}
 
       {/* 아이콘 영역 */}
       <div className={styles.iconArea}>

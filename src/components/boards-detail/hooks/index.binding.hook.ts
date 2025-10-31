@@ -13,7 +13,10 @@ export interface BoardDetailBinding {
   likeCount: number;
   dislikeCount: number;
   image: string;
+  images?: string[] | null;
   youtubeUrl?: string | null;
+  youtubeThumbnail?: string | null;
+  youtubeEmbedUrl?: string | null;
   addressText?: string | null;
 }
 
@@ -95,6 +98,42 @@ export function useBoardDetailBinding(
           .filter(Boolean)
           .join(' ')
       : null;
+
+    // 유튜브 Video ID 추출
+    const getYoutubeVideoId = (
+      url: string | null | undefined
+    ): string | null => {
+      if (!url) return null;
+      try {
+        // https://www.youtube.com/watch?v=VIDEO_ID 형식
+        const watchMatch = url.match(/[?&]v=([^&]+)/);
+        if (watchMatch) {
+          return watchMatch[1];
+        }
+        // https://youtu.be/VIDEO_ID 형식
+        const shortMatch = url.match(/youtu\.be\/([^?]+)/);
+        if (shortMatch) {
+          return shortMatch[1];
+        }
+        // https://www.youtube.com/embed/VIDEO_ID 형식
+        const embedMatch = url.match(/\/embed\/([^?]+)/);
+        if (embedMatch) {
+          return embedMatch[1];
+        }
+      } catch {
+        // URL 파싱 실패 시 null 반환
+      }
+      return null;
+    };
+
+    const videoId = getYoutubeVideoId(board.youtubeUrl);
+    const youtubeThumbnail = videoId
+      ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+      : null;
+    const youtubeEmbedUrl = videoId
+      ? `https://www.youtube.com/embed/${videoId}?autoplay=1`
+      : null;
+
     return {
       id: board._id,
       title: board.title,
@@ -107,7 +146,10 @@ export function useBoardDetailBinding(
       likeCount: board.likeCount ?? 0,
       dislikeCount: board.dislikeCount ?? 0,
       image: board.images?.[0] ?? '/images/img.png',
+      images: board.images ?? null,
       youtubeUrl: board.youtubeUrl ?? null,
+      youtubeThumbnail,
+      youtubeEmbedUrl,
       addressText,
     };
   }, [boardData]);

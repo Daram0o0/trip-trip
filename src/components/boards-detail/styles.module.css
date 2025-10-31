@@ -105,6 +105,26 @@
   color: var(--color-gray-700);
 }
 
+.iconLink {
+  display: inline-flex;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.iconLink:hover {
+  opacity: 0.7;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
 .outlineIcon {
   width: 24px;
   height: 24px;
@@ -171,6 +191,12 @@
   object-fit: cover;
 }
 
+.videoIframe {
+  width: 822px;
+  height: 464px;
+  border: none;
+}
+
 .playButton {
   position: absolute;
   top: 50%;
@@ -185,6 +211,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  text-decoration: none;
   transition: background-color 0.2s ease;
 }
 
