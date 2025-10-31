@@ -48,4 +48,3 @@ export function useArea(): UseAreaReturn {
     isAuthPage,
   };
 }
-

@@ -1,10 +1,12 @@
 'use client';
 
 import { useMemo, useState, useCallback } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   useFetchBoardsCountQuery,
   useFetchBoardsOfTheBestQuery,
   useFetchBoardsQuery,
+  useLikeBoardMutation,
 } from '@/commons/graphql/react-query-hooks';
 
 export interface GalleryCardBinding {
@@ -36,11 +38,13 @@ interface UseBoardsBindingResult {
   currentPage: number;
   totalPages: number;
   setPage: (page: number) => void;
+  likeBoardById: (boardId: string) => Promise<number>;
 }
 
 export function useBoardsBinding(
   params: UseBoardsBindingParams = {}
 ): UseBoardsBindingResult {
+  const queryClient = useQueryClient();
   const pageSize = params.pageSize ?? 10;
   const [currentPage, setCurrentPage] = useState<number>(
     params.initialPage ?? 1
@@ -65,6 +69,8 @@ export function useBoardsBinding(
     staleTime: 30_000,
     gcTime: 5 * 60_000,
   });
+
+  const likeMutation = useLikeBoardMutation();
 
   const totalCount = countData?.fetchBoardsCount ?? 0;
   const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
@@ -104,5 +110,30 @@ export function useBoardsBinding(
     setCurrentPage(page);
   }, []);
 
-  return { galleryCards, boardItems, currentPage, totalPages, setPage };
+  const likeBoardById = useCallback(
+    async (boardId: string): Promise<number> => {
+      const result = await likeMutation.mutateAsync({ boardId });
+      // 로컬 상태 지속화: 재방문 시 하트 유지
+      try {
+        localStorage.setItem(`board-like-${boardId}`, 'true');
+      } catch {}
+      // 관련 리스트 최신화
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['fetchBoards'] }),
+        queryClient.invalidateQueries({ queryKey: ['fetchBoardsOfTheBest'] }),
+        queryClient.invalidateQueries({ queryKey: ['fetchBoardsCount'] }),
+      ]);
+      return result.likeBoard;
+    },
+    [likeMutation, queryClient]
+  );
+
+  return {
+    galleryCards,
+    boardItems,
+    currentPage,
+    totalPages,
+    setPage,
+    likeBoardById,
+  };
 }

@@ -405,38 +405,22 @@ export const PageCountVariations: Story = {
     <div className="space-y-8">
       <div className="space-y-4">
         <h3 className="text-lg font-semibold">Few Pages (3 pages)</h3>
-        <Pagination
-          currentPage={2}
-          totalPages={3}
-          onPageChange={fn()}
-        />
+        <Pagination currentPage={2} totalPages={3} onPageChange={fn()} />
       </div>
 
       <div className="space-y-4">
         <h3 className="text-lg font-semibold">Medium Pages (10 pages)</h3>
-        <Pagination
-          currentPage={5}
-          totalPages={10}
-          onPageChange={fn()}
-        />
+        <Pagination currentPage={5} totalPages={10} onPageChange={fn()} />
       </div>
 
       <div className="space-y-4">
         <h3 className="text-lg font-semibold">Many Pages (50 pages)</h3>
-        <Pagination
-          currentPage={25}
-          totalPages={50}
-          onPageChange={fn()}
-        />
+        <Pagination currentPage={25} totalPages={50} onPageChange={fn()} />
       </div>
 
       <div className="space-y-4">
         <h3 className="text-lg font-semibold">Very Many Pages (100 pages)</h3>
-        <Pagination
-          currentPage={50}
-          totalPages={100}
-          onPageChange={fn()}
-        />
+        <Pagination currentPage={50} totalPages={100} onPageChange={fn()} />
       </div>
     </div>
   ),
@@ -525,7 +509,9 @@ export const SpecialOptionsCombinations: Story = {
       </div>
 
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Minimal (No Navigation, No First/Last)</h3>
+        <h3 className="text-lg font-semibold">
+          Minimal (No Navigation, No First/Last)
+        </h3>
         <Pagination
           currentPage={5}
           totalPages={20}
@@ -542,7 +528,7 @@ export const SpecialOptionsCombinations: Story = {
 export const Interactive: Story = {
   render: () => {
     const [currentPage, setCurrentPage] = useState(5);
-    
+
     return (
       <div className="space-y-4">
         <div className="text-center">
@@ -561,7 +547,8 @@ export const Interactive: Story = {
   parameters: {
     docs: {
       description: {
-        story: '페이지네이션을 클릭하면 페이지가 변경되는 것을 확인할 수 있습니다.',
+        story:
+          '페이지네이션을 클릭하면 페이지가 변경되는 것을 확인할 수 있습니다.',
       },
     },
   },
@@ -574,10 +561,10 @@ export const RealWorldExample: Story = {
     const totalPages = 15;
     const itemsPerPage = 10;
     const totalItems = totalPages * itemsPerPage;
-    
+
     const startItem = (currentPage - 1) * itemsPerPage + 1;
     const endItem = Math.min(currentPage * itemsPerPage, totalItems);
-    
+
     return (
       <div className="space-y-6 w-full max-w-4xl">
         <div className="bg-white p-6 rounded-lg shadow-sm border">
@@ -589,10 +576,7 @@ export const RealWorldExample: Story = {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
             {Array.from({ length: itemsPerPage }, (_, i) => (
-              <div
-                key={i}
-                className="p-4 border rounded-lg bg-gray-50"
-              >
+              <div key={i} className="p-4 border rounded-lg bg-gray-50">
                 <div className="h-32 bg-gray-200 rounded mb-2"></div>
                 <h4 className="font-medium">상품 {startItem + i}</h4>
                 <p className="text-sm text-gray-600">상품 설명...</p>

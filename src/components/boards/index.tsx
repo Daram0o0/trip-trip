@@ -1,7 +1,8 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './styles.module.css';
 import Image from 'next/image';
+import { Heart, SquarePen } from 'lucide-react';
 // 실제 데이터 바인딩 타입
 import DatePicker from '@/commons/components/datepicker';
 import Searchbar from '@/commons/components/searchbar';
@@ -15,8 +16,13 @@ import {
 
 // 갤러리 카드 컴포넌트
 const GalleryCardComponent: React.FC<
-  GalleryCardBinding & { onClick: () => void; testId?: string }
+  GalleryCardBinding & {
+    onClick: () => void;
+    onLike: (id: string) => Promise<number>;
+    testId?: string;
+  }
 > = ({
+  id,
   title,
   author,
   authorImage,
@@ -24,8 +30,22 @@ const GalleryCardComponent: React.FC<
   date,
   image,
   onClick,
+  onLike,
   testId,
 }) => {
+  const [isLikedByMe, setIsLikedByMe] = useState<boolean>(false);
+  const [optimisticLikeCount, setOptimisticLikeCount] =
+    useState<number>(likeCount);
+
+  useEffect(() => {
+    try {
+      const liked = localStorage.getItem(`board-like-${id}`) === 'true';
+      setIsLikedByMe(liked);
+    } catch {
+      setIsLikedByMe(false);
+    }
+  }, [id]);
+
   return (
     <div className={styles.galleryCard} onClick={onClick} data-testid={testId}>
       {/* 이미지 영역 */}
@@ -58,9 +78,25 @@ const GalleryCardComponent: React.FC<
 
         {/* 하단 영역 */}
         <div className={styles.bottomArea}>
-          <div className={styles.likeArea}>
-            <div className={styles.likeIcon}></div>
-            <span className={styles.likeCount}>{likeCount}</span>
+          <div
+            className={styles.likeArea}
+            onClick={async e => {
+              e.stopPropagation();
+              if (isLikedByMe) return; // 한 아이디 당 한 번만
+              try {
+                const next = await onLike(id);
+                setIsLikedByMe(true);
+                setOptimisticLikeCount(next);
+              } catch {}
+            }}
+            data-testid={`heart-${id}`}
+          >
+            <Heart
+              size={24}
+              className={styles.heartIcon}
+              fill={isLikedByMe ? 'currentColor' : 'none'}
+            />
+            <span className={styles.likeCount}>{optimisticLikeCount}</span>
           </div>
           <span className={styles.date}>{date}</span>
         </div>
@@ -74,8 +110,14 @@ const GalleryCardComponent: React.FC<
 const Boards = () => {
   const { handleClickHotCard, handleClickBoardItem, handleClickCreate } =
     useBoardsLinkRouting();
-  const { galleryCards, boardItems, currentPage, totalPages, setPage } =
-    useBoardsBinding({ initialPage: 1, pageSize: 10 });
+  const {
+    galleryCards,
+    boardItems,
+    currentPage,
+    totalPages,
+    setPage,
+    likeBoardById,
+  } = useBoardsBinding({ initialPage: 1, pageSize: 10 });
 
   return (
     <div className={styles.container} data-testid="boards-page">
@@ -93,6 +135,7 @@ const Boards = () => {
               key={card.id}
               {...card}
               onClick={() => handleClickHotCard(card.id)}
+              onLike={likeBoardById}
               testId={`hot-card-${card.id}`}
             />
           ))}
@@ -140,14 +183,7 @@ const Boards = () => {
               size="medium"
               className={styles.writeButton}
               onClick={handleClickCreate}
-              leftIcon={
-                <Image
-                  src="/icons/outline/rwrite.svg"
-                  alt="글쓰기"
-                  width={24}
-                  height={24}
-                />
-              }
+              leftIcon={<SquarePen size={24} className={styles.writeIcon} />}
               data-testid="write-button"
             >
               트립토크 등록

@@ -141,13 +141,10 @@
   gap: 3px;
 }
 
-.likeIcon {
+.heartIcon {
   width: 24px;
   height: 24px;
-  background-image: url('/icons/outline/good.svg');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  color: var(--color-root-red);
 }
 
 .likeCount {
@@ -166,6 +163,14 @@
   line-height: 20px;
   color: var(--color-gray-600);
   letter-spacing: var(--letter-spacing-normal);
+}
+
+/* 글쓰기 아이콘 (lucide-react) */
+.writeIcon {
+  width: 24px;
+  height: 24px;
+  color: #ffffff; /* 버튼 배경 위에서 흰색 아이콘 */
+  fill: none !important;
 }
 
 /* 트립토크 게시판 영역 */

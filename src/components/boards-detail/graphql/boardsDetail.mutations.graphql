@@ -5,4 +5,3 @@ mutation likeBoard($boardId: ID!) {
 mutation dislikeBoard($boardId: ID!) {
   dislikeBoard(boardId: $boardId)
 }
-
