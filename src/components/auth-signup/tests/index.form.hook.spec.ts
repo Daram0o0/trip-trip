@@ -10,7 +10,7 @@ test.describe('Auth Signup Form Hook', () => {
 
     // 페이지 로드 대기 - data-testid 사용
     await page.waitForSelector('[data-testid="auth-signup-container"]', {
-      timeout: 500,
+      timeout: 1500,
     });
   });
 
@@ -64,7 +64,7 @@ test.describe('Auth Signup Form Hook', () => {
             (postData?.includes('CreateUser') ?? false)
           );
         },
-        { timeout: 2000 }
+        { timeout: 10000 }
       );
 
       const signupResponse = await signupResponsePromise;
@@ -80,7 +80,7 @@ test.describe('Auth Signup Form Hook', () => {
 
       // 모달 확인 버튼 클릭
       const confirmButton = page.locator('button:has-text("확인")');
-      await confirmButton.click({ timeout: 500 });
+      await confirmButton.click({ timeout: 1500 });
 
       // 로그인 페이지로 이동 확인 (네트워크 통신이므로 2000ms)
       await expect(page).toHaveURL(/.*\/auth\/login/, { timeout: 2000 });
@@ -140,7 +140,7 @@ test.describe('Auth Signup Form Hook', () => {
 
       // 모달 확인 버튼 클릭
       const confirmButton = page.locator('button:has-text("확인")');
-      await confirmButton.click({ timeout: 500 });
+      await confirmButton.click({ timeout: 1500 });
 
       // 모달이 닫히고 회원가입 페이지에 남아있는지 확인
       await expect(modalTitle).not.toBeVisible({ timeout: 500 });

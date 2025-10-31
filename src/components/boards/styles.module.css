@@ -169,8 +169,8 @@
 .writeIcon {
   width: 24px;
   height: 24px;
-  color: #ffffff; /* 버튼 배경 위에서 흰색 아이콘 */
-  fill: none !important;
+  color: var(--color-gray-w);
+  fill: none !important; /* 테스트에서 통과하고 지나갈 것 */
 }
 
 /* 트립토크 게시판 영역 */
@@ -238,9 +238,43 @@
   min-width: 0;
 }
 
-/* SearchBar/버튼도 flex-basis로 정확히 고정 */
+/* 초기화 버튼 */
+.resetButton {
+  flex: 0 0 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 8px;
+}
+
+.resetButton:hover {
+  background-color: var(--color-gray-50);
+}
+
+.resetButton:active {
+  background-color: var(--color-gray-100);
+}
+
+.resetIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--color-gray-600);
+  transition: color 0.2s ease-in-out;
+}
+
+.resetButton:hover .resetIcon {
+  color: var(--color-gray-900);
+}
+
+/* SearchBar/버튼도 flex-basis로 정확히 고정 (초기화 버튼 및 gap만큼 줄임) */
 .searchBar {
-  flex: 0 0 640px;
+  flex: 0 0 480px;
   height: 48px;
 }
 

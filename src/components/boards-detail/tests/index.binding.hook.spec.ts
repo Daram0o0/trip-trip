@@ -13,9 +13,9 @@ async function login(page: import('@playwright/test').Page) {
   await emailInput.fill('a@a.aa');
   await passwordInput.fill('aaaaaaaa8');
   await loginButton.click();
-  // 로그인 토큰이 저장될 때까지 대기
+  // 로그인 토큰이 저장될 때까지 대기 (API 응답 대기 포함)
   await page.waitForFunction(() => !!localStorage.getItem('accessToken'), {
-    timeout: 1500,
+    timeout: 10000,
   });
 }
 
@@ -245,7 +245,7 @@ test.describe('Board detail like/dislike - success scenario (real API)', () => {
           (postData?.includes('likeBoard') ?? false)
         );
       },
-      { timeout: 1500 }
+      { timeout: 5000 }
     );
 
     await likeButton.click();

@@ -343,7 +343,7 @@ const BoardsDetail = () => {
             </div>
             <Button
               variant="primary"
-              size="large"
+              size="medium"
               className={styles.commentSubmitButton}
             >
               댓글 등록

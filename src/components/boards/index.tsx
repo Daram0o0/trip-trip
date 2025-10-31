@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './styles.module.css';
 import Image from 'next/image';
-import { Heart, SquarePen } from 'lucide-react';
+import { Heart, SquarePen, RotateCcw } from 'lucide-react';
 // 실제 데이터 바인딩 타입
 import DatePicker from '@/commons/components/datepicker';
 import Searchbar from '@/commons/components/searchbar';
@@ -13,6 +13,7 @@ import {
   useBoardsBinding,
   type GalleryCardBinding,
 } from './hooks/index.binding.hook';
+import { useBoardsSearch } from './hooks/index.search.hook';
 
 // 갤러리 카드 컴포넌트
 const GalleryCardComponent: React.FC<
@@ -118,6 +119,17 @@ const Boards = () => {
     setPage,
     likeBoardById,
   } = useBoardsBinding({ initialPage: 1, pageSize: 10 });
+  const {
+    searchValue,
+    startDate,
+    endDate,
+    setSearchValue,
+    setStartDate,
+    setEndDate,
+    handleSearch,
+    handleDateRangeChange,
+    handleReset,
+  } = useBoardsSearch();
 
   return (
     <div className={styles.container} data-testid="boards-page">
@@ -156,11 +168,31 @@ const Boards = () => {
         {/* Search 영역 */}
         <div className={styles.searchArea}>
           <div className={styles.searchLeft}>
+            {/* 초기화 버튼 */}
+            <button
+              type="button"
+              className={styles.resetButton}
+              onClick={handleReset}
+              data-testid="reset-button"
+              title="검색 조건 초기화"
+            >
+              <RotateCcw size={24} className={styles.resetIcon} />
+            </button>
             <div className={styles.datePickerBox}>
               <DatePicker
                 size="medium"
                 theme="light"
                 className={styles.datePicker}
+                startDate={startDate || undefined}
+                endDate={endDate || undefined}
+                onDateRangeChange={(start, end) => {
+                  // DatePicker는 yyyy-mm-dd 형식의 문자열을 반환
+                  const startStr = start && start.trim() !== '' ? start : null;
+                  const endStr = end && end.trim() !== '' ? end : null;
+                  setStartDate(startStr);
+                  setEndDate(endStr);
+                  handleDateRangeChange(startStr, endStr);
+                }}
               />
             </div>
             <Searchbar
@@ -168,11 +200,16 @@ const Boards = () => {
               theme="light"
               placeholder="제목을 검색해 주세요."
               className={styles.searchBar}
+              value={searchValue}
+              onChange={setSearchValue}
+              onSearch={handleSearch}
             />
             <Button
               variant="primary"
               size="medium"
               className={styles.searchButton}
+              onClick={handleSearch}
+              data-testid="search-button"
             >
               검색
             </Button>
@@ -234,6 +271,7 @@ const Boards = () => {
               size="medium"
               theme="light"
               className={styles.pagination}
+              alwaysShow={true}
             />
           </div>
         </div>

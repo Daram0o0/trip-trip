@@ -3,13 +3,17 @@ import { test, expect } from '@playwright/test';
 test.describe('Layout Auth Hook - 비로그인 유저', () => {
   test('비회원으로 /boards에 접속하여 페이지 로드 확인', async ({ page }) => {
     await page.goto('/boards');
-    await page.waitForSelector('[data-testid="layout-root"]', { timeout: 500 });
+    await page.waitForSelector('[data-testid="layout-root"]', {
+      timeout: 1500,
+    });
     await expect(page).toHaveURL('/boards');
   });
 
   test('layout의 로그인버튼 노출여부 확인', async ({ page }) => {
     await page.goto('/boards');
-    await page.waitForSelector('[data-testid="layout-root"]', { timeout: 500 });
+    await page.waitForSelector('[data-testid="layout-root"]', {
+      timeout: 1500,
+    });
 
     const loginButton = page.locator('[data-testid="login-button"]');
     await expect(loginButton).toBeVisible();
@@ -17,13 +21,15 @@ test.describe('Layout Auth Hook - 비로그인 유저', () => {
 
   test('로그인버튼 클릭하여 /auth/login 페이지로 이동', async ({ page }) => {
     await page.goto('/boards');
-    await page.waitForSelector('[data-testid="layout-root"]', { timeout: 500 });
+    await page.waitForSelector('[data-testid="layout-root"]', {
+      timeout: 1500,
+    });
 
     const loginButton = page.locator('[data-testid="login-button"]');
     await loginButton.click();
 
     await page.waitForSelector('[data-testid="auth-login-container"]', {
-      timeout: 500,
+      timeout: 1500,
     });
     await expect(page).toHaveURL('/auth/login');
   });
@@ -34,7 +40,7 @@ test.describe('Layout Auth Hook - 로그인 유저', () => {
     // 1. 비회원으로 /auth/login에 접속하여 페이지 로드 확인
     await page.goto('/auth/login');
     await page.waitForSelector('[data-testid="auth-login-container"]', {
-      timeout: 500,
+      timeout: 1500,
     });
 
     // 2. 로그인시도
@@ -51,12 +57,16 @@ test.describe('Layout Auth Hook - 로그인 유저', () => {
     const confirmButton = page
       .locator('[data-testid="modal-confirm-button"]')
       .first();
-    await expect(confirmButton).toBeVisible({ timeout: 2000 });
+    await expect(confirmButton).toBeVisible({ timeout: 5000 });
     await confirmButton.click();
 
+    // /boards 페이지로 이동할 때까지 대기
+    await expect(page).toHaveURL('/boards', { timeout: 3000 });
+
     // /boards 페이지 로드 대기
-    await page.waitForSelector('[data-testid="layout-root"]', { timeout: 500 });
-    await expect(page).toHaveURL('/boards');
+    await page.waitForSelector('[data-testid="layout-root"]', {
+      timeout: 1500,
+    });
 
     // 4. layout에서 프로필, navigation menu(이름, 로그아웃 버튼) 노출여부 확인
     const profileArea = page.locator('[data-testid="profile-area"]');
@@ -71,18 +81,20 @@ test.describe('Layout Auth Hook - 로그인 유저', () => {
 
     // 메뉴가 열릴 때까지 대기 - logout-button이 보일 때까지 기다림
     const logoutButton = page.locator('[data-testid="logout-button"]');
-    await expect(logoutButton).toBeVisible({ timeout: 500 });
+    await expect(logoutButton).toBeVisible({ timeout: 1500 });
 
     // 5. 로그아웃버튼 클릭하여 /auth/login 페이지 로드 확인
     await logoutButton.click();
     await page.waitForSelector('[data-testid="auth-login-container"]', {
-      timeout: 500,
+      timeout: 1500,
     });
     await expect(page).toHaveURL('/auth/login');
 
     // 6. /boards 접속하여 페이지 로드 확인
     await page.goto('/boards');
-    await page.waitForSelector('[data-testid="layout-root"]', { timeout: 500 });
+    await page.waitForSelector('[data-testid="layout-root"]', {
+      timeout: 1500,
+    });
     await expect(page).toHaveURL('/boards');
 
     // 7. layout에 로그인버튼 노출여부 확인

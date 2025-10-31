@@ -44,6 +44,10 @@ export interface PaginationProps {
    * 첫 페이지/마지막 페이지로 이동 버튼 표시
    */
   showFirstLast?: boolean;
+  /**
+   * totalPages가 1 이하일 때도 표시할지 여부 (기본값: false)
+   */
+  alwaysShow?: boolean;
 }
 
 export const Pagination: React.FC<PaginationProps> = ({
@@ -57,6 +61,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   className,
   hideNavigation = false,
   showFirstLast = false,
+  alwaysShow = false,
 }) => {
   // 페이지 번호 배열 생성
   const generatePageNumbers = (): number[] => {
@@ -145,7 +150,8 @@ export const Pagination: React.FC<PaginationProps> = ({
       .filter(Boolean)
       .join(' ');
 
-  if (totalPages <= 1) {
+  // alwaysShow가 false이고 totalPages가 1 이하면 표시하지 않음
+  if (!alwaysShow && totalPages <= 1) {
     return null;
   }
 

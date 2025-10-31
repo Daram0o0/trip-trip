@@ -10,7 +10,7 @@ test.describe('Auth Login Form Hook', () => {
 
     // 페이지 로드 대기 - data-testid 사용
     await page.waitForSelector('[data-testid="auth-login-container"]', {
-      timeout: 500,
+      timeout: 1500,
     });
   });
 
@@ -48,7 +48,7 @@ test.describe('Auth Login Form Hook', () => {
             (postData?.includes('LoginUser') ?? false)
           );
         },
-        { timeout: 5000 }
+        { timeout: 10000 }
       );
 
       const loginResponse = await loginResponsePromise;

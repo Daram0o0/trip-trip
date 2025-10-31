@@ -1,6 +1,6 @@
 'use client';
 
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import styles from './styles.module.css';
 
@@ -112,6 +112,15 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     const [endDateValue, setEndDateValue] = useState(endDate || '');
     const [isStartFocused, setIsStartFocused] = useState(false);
     const [isEndFocused, setIsEndFocused] = useState(false);
+
+    // 외부 prop 변경 시 내부 state 동기화
+    useEffect(() => {
+      setStartDateValue(startDate || '');
+    }, [startDate]);
+
+    useEffect(() => {
+      setEndDateValue(endDate || '');
+    }, [endDate]);
 
     const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;

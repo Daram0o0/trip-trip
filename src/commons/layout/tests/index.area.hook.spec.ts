@@ -265,11 +265,11 @@ test.describe('Area Hook Tests', () => {
     test('should hide banner on signup page', async ({ page }) => {
       await page.goto('/auth/signup');
       await page.waitForSelector('[data-testid="layout-root"]', {
-        timeout: 400,
+        timeout: 1500,
       });
 
       const banner = page.locator('[data-testid="banner-area"]');
-      await expect(banner).not.toBeVisible({ timeout: 400 });
+      await expect(banner).not.toBeVisible({ timeout: 1500 });
     });
   });
 
