@@ -25,19 +25,6 @@
   flex-shrink: 0;
 }
 
-.dateRangeDisplay {
-  font-family: var(--font-family-korean-primary);
-  font-weight: var(--font-weight-regular);
-  color: var(--color-gray-600);
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-sm);
-  text-align: center;
-  padding: 4px 8px;
-  background-color: var(--color-gray-50);
-  border-radius: 4px;
-  border: 1px solid var(--color-gray-200);
-}
-
 /* Base DatePicker Styles */
 .datePicker {
   flex: 1;
@@ -118,12 +105,6 @@
   color: var(--color-gray-800);
 }
 
-.dateRangeContainer--light .dateRangeDisplay {
-  background-color: var(--color-gray-50);
-  color: var(--color-gray-600);
-  border-color: var(--color-gray-200);
-}
-
 /* Dark Theme */
 .datePicker--dark {
   background-color: var(--color-gray-800);
@@ -139,12 +120,6 @@
 .datePicker--dark:disabled {
   background-color: var(--color-gray-700);
   color: var(--color-gray-400);
-  border-color: var(--color-gray-600);
-}
-
-.dateRangeContainer--dark .dateRangeDisplay {
-  background-color: var(--color-gray-700);
-  color: var(--color-gray-300);
   border-color: var(--color-gray-600);
 }
 

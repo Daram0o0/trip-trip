@@ -77,16 +77,6 @@ export interface DatePickerProps {
  * />
  * ```
  */
-// 날짜 포맷팅 함수 (yyyy.mm.dd 형식)
-const formatDate = (dateString: string): string => {
-  if (!dateString) return '';
-  const date = new Date(dateString);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}.${month}.${day}`;
-};
-
 // 날짜 문자열을 input type="date" 형식으로 변환
 const formatDateForInput = (dateString: string): string => {
   if (!dateString) return '';
@@ -202,11 +192,6 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             placeholder="종료일"
           />
         </div>
-        {(startDateValue || endDateValue) && (
-          <div className={styles.dateRangeDisplay}>
-            {formatDate(startDateValue)} - {formatDate(endDateValue)}
-          </div>
-        )}
       </div>
     );
   }
