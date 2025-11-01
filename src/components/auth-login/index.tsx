@@ -1,11 +1,13 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import Input from '@/commons/components/input';
 import Button from '@/commons/components/button';
 import styles from './styles.module.css';
 import Image from 'next/image';
 import { useLoginForm } from './hooks/index.form.hook';
+import { ROUTE_PATHS } from '@/commons/constants/url';
 
 /**
  * AuthLogin 컴포넌트
@@ -14,7 +16,12 @@ import { useLoginForm } from './hooks/index.form.hook';
  * 피그마 디자인을 기반으로 구현되었습니다.
  */
 const AuthLogin: React.FC = () => {
+  const router = useRouter();
   const { register, errors, onSubmit, isSubmitDisabled } = useLoginForm();
+
+  const handleSignupClick = () => {
+    router.push(ROUTE_PATHS.auth.signup);
+  };
 
   return (
     <div className={styles.container}>
@@ -81,7 +88,13 @@ const AuthLogin: React.FC = () => {
 
           {/* 회원가입 링크 */}
           <div className={styles.signupWrapper}>
-            <button className={styles.signupLink}>회원가입</button>
+            <button
+              type="button"
+              className={styles.signupLink}
+              onClick={handleSignupClick}
+            >
+              회원가입
+            </button>
           </div>
         </form>
       </div>
