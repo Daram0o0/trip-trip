@@ -50,6 +50,45 @@
   justify-content: space-between;
   background-color: var(--color-gray-w);
   cursor: pointer;
+  position: relative;
+}
+
+/* 갤러리 카드 호버 시 삭제 버튼 표시 */
+.galleryCard:hover .deleteButton {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 삭제 버튼 */
+.deleteButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-gray-900);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.2s ease-in-out,
+    visibility 0.2s ease-in-out;
+  z-index: 10;
+}
+
+.deleteButton:hover {
+  background-color: var(--color-gray-700);
+}
+
+.deleteIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-gray-w);
 }
 
 /* 이미지 영역 */
@@ -365,6 +404,46 @@
   border-radius: 8px;
   background-color: var(--color-gray-w);
   cursor: pointer;
+  position: relative;
+}
+
+/* 게시판 아이템 호버 시 삭제 버튼 표시 */
+.boardItem:hover .boardDeleteButton {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 게시판 아이템 삭제 버튼 */
+.boardDeleteButton {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-gray-900);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.2s ease-in-out,
+    visibility 0.2s ease-in-out;
+  z-index: 10;
+}
+
+.boardDeleteButton:hover {
+  background-color: var(--color-gray-700);
+}
+
+.boardDeleteIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-gray-w);
 }
 
 .itemNumber {

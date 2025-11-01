@@ -1,25 +1,29 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './styles.module.css';
 import Image from 'next/image';
-import { Heart, SquarePen, RotateCcw } from 'lucide-react';
+import { Heart, SquarePen, RotateCcw, Trash2 } from 'lucide-react';
 // 실제 데이터 바인딩 타입
 import DatePicker from '@/commons/components/datepicker';
 import Searchbar from '@/commons/components/searchbar';
 import Button from '@/commons/components/button';
 import Pagination from '@/commons/components/pagination';
+import Modal from '@/commons/components/modal';
+import { useModal } from '@/commons/providers/modal/modal.provider';
 import { useBoardsLinkRouting } from './hooks/index.link.routing.hook';
 import {
   useBoardsBinding,
   type GalleryCardBinding,
 } from './hooks/index.binding.hook';
 import { useBoardsSearch } from './hooks/index.search.hook';
+import { useBoardsDelete } from './hooks/index.delete.hook';
 
 // 갤러리 카드 컴포넌트
 const GalleryCardComponent: React.FC<
   GalleryCardBinding & {
     onClick: () => void;
     onLike: (id: string) => Promise<number>;
+    onDelete?: (id: string) => void;
     testId?: string;
   }
 > = ({
@@ -32,6 +36,7 @@ const GalleryCardComponent: React.FC<
   image,
   onClick,
   onLike,
+  onDelete,
   testId,
 }) => {
   const [isLikedByMe, setIsLikedByMe] = useState<boolean>(false);
@@ -49,6 +54,22 @@ const GalleryCardComponent: React.FC<
 
   return (
     <div className={styles.galleryCard} onClick={onClick} data-testid={testId}>
+      {/* 삭제 버튼 (호버 시 표시) */}
+      {onDelete && (
+        <button
+          className={styles.deleteButton}
+          onClick={e => {
+            e.stopPropagation();
+            onDelete(id);
+          }}
+          data-testid={`delete-button-${id}`}
+          type="button"
+          aria-label="게시물 삭제"
+        >
+          <Trash2 size={20} className={styles.deleteIcon} />
+        </button>
+      )}
+
       {/* 이미지 영역 */}
       <div className={styles.imageArea}>
         <Image
@@ -130,6 +151,67 @@ const Boards = () => {
     handleDateRangeChange,
     handleReset,
   } = useBoardsSearch();
+  const { deleteBoardById } = useBoardsDelete({ pageSize: 10 });
+  const { openModal, closeModal, isOpen } = useModal();
+  const deleteModalShownRef = useRef(false);
+
+  // 모달이 닫힐 때 ref를 리셋
+  useEffect(() => {
+    if (!isOpen) {
+      deleteModalShownRef.current = false;
+    }
+  }, [isOpen]);
+
+  const handleDeleteClick = (boardId: string) => {
+    if (!deleteModalShownRef.current) {
+      deleteModalShownRef.current = true;
+      openModal(
+        <div data-testid="delete-confirm-modal">
+          <Modal
+            variant="danger"
+            actions="dual"
+            theme="light"
+            icon="close"
+            size="m"
+            title="게시물 삭제"
+            description="게시물 삭제하겠냐"
+            confirmText="삭제"
+            cancelText="취소"
+            onConfirm={async () => {
+              try {
+                await deleteBoardById(boardId);
+                // 성공 메시지는 삭제 후 목록이 자동으로 업데이트되므로 생략 가능
+                // 필요시 토스트 메시지 추가 가능
+              } catch {
+                // 에러 발생 시 모달 표시
+                deleteModalShownRef.current = true;
+                openModal(
+                  <Modal
+                    variant="danger"
+                    actions="single"
+                    theme="light"
+                    icon="close"
+                    size="m"
+                    title="삭제 실패"
+                    description="게시물 삭제에 실패했습니다."
+                    confirmText="확인"
+                    onConfirm={() => {
+                      closeModal();
+                    }}
+                  />
+                );
+              } finally {
+                closeModal();
+              }
+            }}
+            onCancel={() => {
+              closeModal();
+            }}
+          />
+        </div>
+      );
+    }
+  };
 
   return (
     <div className={styles.container} data-testid="boards-page">
@@ -148,6 +230,7 @@ const Boards = () => {
               {...card}
               onClick={() => handleClickHotCard(card.id)}
               onLike={likeBoardById}
+              onDelete={handleDeleteClick}
               testId={`hot-card-${card.id}`}
             />
           ))}
@@ -252,6 +335,19 @@ const Boards = () => {
                   onClick={() => handleClickBoardItem(item.id)}
                   data-testid={`board-item-${item.id}`}
                 >
+                  {/* 삭제 버튼 (호버 시 표시) */}
+                  <button
+                    className={styles.boardDeleteButton}
+                    onClick={e => {
+                      e.stopPropagation();
+                      handleDeleteClick(item.id);
+                    }}
+                    data-testid={`delete-button-${item.id}`}
+                    type="button"
+                    aria-label="게시물 삭제"
+                  >
+                    <Trash2 size={20} className={styles.boardDeleteIcon} />
+                  </button>
                   <div className={styles.itemNumber}>{item.number}</div>
                   <div className={styles.itemTitle}>{item.title}</div>
                   <div className={styles.itemAuthor}>{item.author}</div>

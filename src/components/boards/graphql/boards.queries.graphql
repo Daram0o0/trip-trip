@@ -54,3 +54,7 @@ query fetchBoardsOfTheBest {
     deletedAt
   }
 }
+
+mutation deleteBoard($boardId: ID!) {
+  deleteBoard(boardId: $boardId)
+}
