@@ -1,6 +1,6 @@
 'use client';
 
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import styles from './styles.module.css';
 
@@ -113,6 +113,13 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
   ) => {
     const [inputValue, setInputValue] = useState(value || '');
     const [isFocused, setIsFocused] = useState(false);
+
+    // Controlled component를 위해 value prop이 변경되면 내부 state도 업데이트
+    useEffect(() => {
+      if (value !== undefined) {
+        setInputValue(value);
+      }
+    }, [value]);
 
     const handleChange = (
       e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

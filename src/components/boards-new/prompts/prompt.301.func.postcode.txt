@@ -1,0 +1,73 @@
+아래의 조건을 모두 적용하여, 아래의 요구사항을 모두 구현할 것.
+구현 결과를 체크리스트로 반환할 것.
+
+==============================================
+
+조건-커서룰) 아래의 커서룰을 적용하여 작업하고, 이 작업이 끝나면 해당 rules 적용 결과를 체크리스트로 반환할 것.
+            - @01-common.mdc
+            - @04-func.mdc
+
+==============================================
+
+조건-파일경로) 참고할 API  문서경로: https://www.npmjs.com/package/react-daum-postcode
+조건-파일경로) 참고할 TSX  파일경로: src/components/boards-new/index.tsx
+조건-파일경로) 참고할 CSS  파일경로: src/components/boards-new/styles.module.css
+조건-파일경로) 구현될 HOOK 파일경로: src/components/boards-new/hooks/index.postcode.hook.tsx
+조건-파일경로) 구현될 TEST 파일경로: src/components/boards-new/tests/index.postcode.hook.spec.ts
+
+==============================================
+[1차 핵심요구사항]
+핵심요구사항) 다음의 기능을 playwright 테스트를 활용하여 TDD기반으로 구현하고, 테스트에 통과할 때까지 반복할 것.
+            1) 테스트 제외 라이브러리
+                - jest
+                - @testing-library/react
+
+            2) 테스트 조건
+                - timeout은 설정하지 않거나, 500ms 미만으로 설정할 것.
+                - /boards/new 페이지가 완전히 로드된 후 테스트할 것.
+                    - 페이지 로드 식별 요구사항: 고정식별자 data-testid 대기 방법 (boards-new-container)
+                    - 페이지 로드 식별 금지사항: networkidle 대기 방법
+
+            3) 테스트 시나리오
+                3-1) 성공시나리오
+                    - 실제 Daum Postcode API를 사용할 것.
+                    - Mock데이터 사용하지 말 것.
+                    - 우편번호 검색 버튼 클릭 시 Daum Postcode 모달이 열리는지 확인
+                    - 주소 필드가 올바르게 렌더링되는지 확인
+
+                3-2) 실패시나리오
+                    - 주소 선택 실패 시에도 페이지가 안정적으로 렌더되는지 확인
+
+핵심요구사항) 현재의 모든 구조를 그대로 유지하고, 하드코딩된 Mock데이터를 제거하고, 실제 데이터를 바인딩할 것. 적용 결과를 체크리스트로 반환할 것.
+            1) 라이브러리조건
+                - react-daum-postcode를 사용할 것 (이미 설치되어 있음)
+
+            2) react-daum-postcode API를 적용할 것.
+                2-1) Hook 구현
+                    - usePostcodeBinding hook 생성
+                    - DaumPostcode 컴포넌트를 모달로 래핑
+                    - onComplete 콜백에서 주소 데이터 처리
+                    - postcode, address, detailAddress 상태 관리
+                    - PostcodeComponent를 반환하여 모달 렌더링
+
+                2-2) 컴포넌트 통합
+                    - BoardsNew 컴포넌트에 usePostcodeBinding hook 통합
+                    - 우편번호 검색 버튼 클릭 시 모달 열기
+                    - 주소 입력 필드에 실제 데이터 바인딩
+                    - 우편번호, 주소 필드는 readOnly로 설정
+                    - 상세주소 필드는 사용자 입력 가능
+
+            3) data-testid 추가
+                - boards-new-container: 페이지 컨테이너
+                - postcode-input: 우편번호 입력 필드
+                - postcode-search-button: 우편번호 검색 버튼
+                - address-input: 주소 입력 필드
+                - detail-address-input: 상세주소 입력 필드
+                - postcode-modal-overlay: 모달 오버레이
+                - postcode-modal: 모달 컨테이너
+                - postcode-close-button: 모달 닫기 버튼
+
+            4) Input 컴포넌트 개선
+                - Controlled component로 동작하도록 useEffect 추가
+                - value prop 변경 시 내부 state 동기화
+          

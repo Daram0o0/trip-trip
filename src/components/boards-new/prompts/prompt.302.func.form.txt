@@ -1,0 +1,251 @@
+아래의 조건을 모두 적용하여, 아래의 요구사항을 모두 구현할 것.
+구현 결과를 체크리스트로 반환할 것.
+
+==============================================
+
+조건-커서룰) 아래의 커서룰을 적용하여 작업하고, 이 작업이 끝나면 해당 rules 적용 결과를 체크리스트로 반환할 것.
+            - @01-common.mdc
+            - @04-func.mdc
+
+==============================================
+
+조건-API) GraphQL 엔드포인트: http://main-practice.codebootcamp.co.kr/graphql
+조건-파일경로) 참고할 TSX  파일경로: src/components/boards-new/index.tsx
+조건-파일경로) 참고할 CSS  파일경로: src/components/boards-new/styles.module.css
+조건-파일경로) 구현될 HOOK 파일경로: src/components/boards-new/hooks/index.form.hook.tsx
+조건-파일경로) 구현될 TEST 파일경로: src/components/boards-new/tests/index.form.hook.spec.ts
+
+==============================================
+
+핵심요구사항) 다음의 기능을 playwright 테스트를 활용하여 TDD기반으로 구현하고, 테스트에 통과할 때까지 반복할 것.
+            1) 테스트 제외 라이브러리
+                - jest
+                - @testing-library/react
+
+            2) 테스트 조건
+                - timeout은 network 통신인 경우 2000ms 미만으로 설정할 것.
+                - timeout은 network 통신이 아닌 경우 설정하지 않거나, 500ms 미만으로 설정할 것.
+                - /boards/new 페이지가 완전히 로드된 후 테스트할 것.
+                    - 페이지 로드 식별 요구사항: 고정식별자 data-testid 대기 방법 (boards-new-container)
+                    - 페이지 로드 식별 금지사항: networkidle 대기 방법
+
+            3) 테스트 API 조건
+                3-1) 데이터
+                    - 실제데이터를 사용할 것.
+                    - Mock데이터 사용하지 말 것.
+
+                3-2) 성공시나리오
+                    - API 모킹하지 말 것.
+                    - _id가 정상적으로 반환되는지 확인할 것.
+
+                3-3) 실패시나리오
+                    - API 모킹할 것.
+
+핵심요구사항) 다음의 조건에 맞게 게시물 작성 폼 등록 기능을 step-by-step 으로 구현하고, 적용 결과를 체크리스트로 반환할 것.
+            1) 라이브러리조건
+                - 폼: 이미 설치되어있는 react-hook-form, @hookform/resolvers를 사용할 것.
+                - 검증: 이미 설치되어있는 zod를 사용할 것.
+                - API: 이미 설치되어있는 @tanstack/react-query를 사용할 것.
+
+            2) 유저시나리오(게시물 작성)
+                1. 모든 필수 입력 필드가 입력되면 등록하기 버튼을 활성화 할 것.
+                    - 필수 필드: 작성자, 비밀번호, 제목, 내용
+
+                2. 이미지 업로드 기능을 구현할 것.
+                    2-1) 이미지는 최대 3개까지 업로드 가능
+                    2-2) 각 이미지 업로드 시 uploadFile API를 호출할 것.
+                        - API명: uploadFile
+                        - 요청데이터: File 타입의 파일 객체
+                        - 응답데이터: { url: string }
+                    2-3) 업로드된 이미지의 URL을 배열로 관리할 것.
+                    2-4) 이미지 업로드 후 미리보기 표시할 것.
+
+                3. 등록하기 버튼을 누르면 게시물 작성 API를 요청할 것.
+                    3-1) API명: createBoard
+                    3-2) 요청데이터: createBoardInput(writer, password, title, contents, boardAddress, youtubeUrl, images)
+                        - writer: string
+                        - password: string
+                        - title: string
+                        - contents: string
+                        - boardAddress?: { zipcode: string, address: string, addressDetail: string } (optional)
+                        - youtubeUrl?: string (optional)
+                        - images?: string[] (optional, 업로드된 이미지 URL 배열)
+                    3-3) 응답데이터: { _id: string }
+                    3-4) zod 검증 조건
+                        - writer: 최소 1글자 이상
+                        - password: 최소 1글자 이상
+                        - title: 최소 1글자 이상
+                        - contents: 최소 1글자 이상
+                        - boardAddress?: 주소 입력 시 모든 필드 필수 (zipcode, address, addressDetail 모두 최소 1글자 이상) (optional)
+                        - images?: 배열이 있을 경우 검증 (optional)
+                        - youtubeUrl?: URL 형식 검증 (optional)
+
+                4. 게시물 작성에 성공하면, 작성완료모달을 노출하고, 아래의 상황별 지시를 따를 것.
+
+                5. 게시물 작성에 실패하면, 작성실패모달을 노출하고, 아래의 상황별 지시를 따를 것.
+                
+                6. 각 상황별 모달의 확인을 누르면, 아래의 지시에 따를 것.
+                    6-1) 모달조건
+                        - 모달 프로바이더 경로: src/commons/providers/modal/modal.provider.tsx
+                        - 이미 셋팅되어있는 modal.provider를 사용할 것.
+                        - 이미 셋팅되어있는 modal.provider를 수정하지 말 것.
+                        - 모달은 한 번만 보여야 하며, 닫힌 뒤에는 같은 상황에서 다시 나타나지 않도록 할 것.
+
+                    6-2) 공통컴포넌트조건
+                        - 작성완료모달: <Modal />, variant: 'info', actions: 'single'
+                        - 작성실패모달: <Modal />, variant: 'danger', actions: 'single'
+
+                    6-3) 페이지이동조건
+                        - commons/constants/url.ts의 페이지URL에 정의된 경로로 이동할 것.
+
+                        - 작성완료모달:
+                            1. '확인' 클릭
+                            2. 열려있는 모든 모달을 닫기
+                            3. 작성된 게시물 상세 페이지로 이동 => /boards/[id] (생성된 _id 사용)
+
+                        - 작성실패모달:
+                            1. '확인' 클릭
+                            2. 열려있는 모든 모달을 닫기
+
+                7. 취소 버튼을 클릭하면, 아래의 지시에 따를 것.
+                    7-1) 게시판 목록 페이지로 이동 => /boards
+
+핵심요구사항2) 게시물 작성 시, 에러메시지를 Input에 error관련 상태들을 넘겨줄 것.
+        -  error={errors.writer?.message}
+        -  error={errors.password?.message}
+        -  error={errors.title?.message}
+        -  error={errors.contents?.message}
+        -  error={errors.boardAddress?.zipcode?.message}
+        -  error={errors.boardAddress?.address?.message}
+        -  error={errors.boardAddress?.addressDetail?.message}
+        -  error={errors.youtubeUrl?.message}
+        -  error={errors.images?.message}
+
+핵심요구사항3) 폼 구조 및 UX 개선
+        -  <form> 태그로 감싸서 Enter 키로 submit 가능하게 할 것.
+        -  submit 버튼에 type="submit" 속성 추가할 것.
+        -  에러 메시지에 role="alert" 추가하여 접근성 향상.
+        -  업로드 중 인디케이터에 role="status", aria-busy="true", aria-live="polite" 추가.
+        -  업로드 중일 때 submit 버튼 비활성화할 것 (uploadStatuses.includes('uploading') 체크).
+        -  onSubmit에서 업로드 중일 때 submit 차단할 것.
+
+==============================================
+[2차 핵심요구사항]
+
+핵심요구사항) 다음의 조건에 맞게 이미지 업로드 기능을 완전히 구현하고, 적용 결과를 체크리스트로 반환할 것.
+            1) 라이브러리조건
+                - API: 이미 설치되어있는 @tanstack/react-query를 사용할 것.
+                - react-query 프로바이더 수정 필요 여부 확인:
+                    - 파일 경로: src/commons/providers/react-query/react-query.provider.tsx
+                    - 파일 업로드를 위한 mutation 재시도 설정이 적절한지 확인할 것.
+                    - 파일 업로드 실패 시 적절한 에러 처리를 위한 설정이 필요한지 확인할 것.
+                    - 필요하다면 react-query 프로바이더 수정이 필요하다고 명시할 것.
+
+            2) 이미지 업로드 기능
+                2-1) 이미지 선택
+                    - 최대 3개까지 이미지 업로드 가능
+                    - 이미지 파일만 선택 가능 (accept="image/*")
+                    - 각 이미지 업로드 박스는 독립적으로 동작할 것.
+
+                2-2) 이미지 미리보기
+                    - 이미지 선택 즉시 미리보기 표시할 것.
+                    - 미리보기 URL은 URL.createObjectURL()을 사용하여 생성할 것.
+                    - 업로드 완료 후에도 미리보기가 유지되어야 함.
+                    - 미리보기 이미지는 업로드 박스 전체를 채우도록 표시할 것.
+                    - 이미지 비율을 유지하면서 업로드 박스에 맞게 표시할 것.
+
+                2-3) 이미지 업로드
+                    - 각 이미지 업로드 시 uploadFile API를 호출할 것.
+                        - API명: uploadFile
+                        - 요청데이터: File 타입의 파일 객체
+                        - GraphQL multipart/form-data 형식으로 요청할 것.
+                        - 응답데이터: { uploadFile: { url: string } }
+                    - 업로드 중 상태 표시가 필요할 수 있음 (로딩 인디케이터).
+                    - 업로드 실패 시 에러 메시지 표시할 것.
+                    - 업로드된 이미지의 URL을 배열로 관리할 것.
+                    - 배열 인덱스와 업로드 박스 인덱스를 일치시킬 것.
+                    - FileList 처리:
+                        - e.target.files는 FileList 타입이므로 전체를 처리해야 함.
+                        - 여러 파일 선택 시 각 인덱스 슬롯에 자동 배정할 것.
+                        - handleMultipleFiles 함수로 여러 파일을 순차적으로 처리할 것.
+                        - React state 업데이트 타이밍 보장을 위해 flushSync 사용할 것.
+                    - 중복 업로드 방지:
+                        - 업로드 중인 경우 새 업로드 요청을 차단할 것.
+                        - 파일 input을 disabled 처리하여 업로드 중 파일 선택 불가.
+                        - 마지막 처리된 파일을 추적하여 같은 파일의 중복 처리를 방지할 것.
+                        - 파일 고유 식별자(이름+크기+수정시간)를 사용하여 중복 판단.
+                        - useRef를 사용하여 업로드 상태와 파일 추적을 관리할 것.
+                    - 파일 input 설정:
+                        - multiple 속성을 추가하여 여러 파일 선택 가능하게 할 것.
+                        - onChange에서 FileList 전체를 처리할 것.
+                        - 단일 파일 선택 시 handleImageUpload 사용.
+                        - 여러 파일 선택 시 handleMultipleFiles 사용.
+
+                2-4) 이미지 삭제
+                    - 업로드된 이미지에 삭제 버튼(×) 표시할 것.
+                    - 삭제 버튼 클릭 시 해당 이미지만 제거할 것.
+                    - 이미지 삭제 시:
+                        - 미리보기 URL 해제 (URL.revokeObjectURL)
+                        - 업로드된 이미지 URL 배열에서 제거
+                        - 해당 업로드 박스를 빈 상태로 복원
+                        - 이미지가 삭제된 후에는 다시 이미지를 업로드할 수 있어야 함.
+
+                2-5) 이미지 수정(교체)
+                    - 이미지가 업로드된 상태에서도 해당 박스를 클릭하면 새로운 이미지를 선택할 수 있어야 함.
+                    - 새로운 이미지 선택 시:
+                        - 기존 이미지의 미리보기 URL 해제 (URL.revokeObjectURL)
+                        - 기존 이미지 업로드 URL을 새 이미지 URL로 교체
+                        - 새 이미지의 미리보기를 즉시 표시
+                        - 새 이미지를 uploadFile API로 업로드
+
+            3) 상태 관리
+                3-1) 이미지 URL 배열 관리
+                    - 업로드 완료된 이미지 URL을 순서대로 배열로 관리할 것.
+                    - 배열 길이는 최대 3개까지.
+
+                3-2) 미리보기 URL 배열 관리
+                    - 각 이미지의 미리보기 URL을 별도로 관리할 것.
+                    - 컴포넌트 언마운트 시 모든 미리보기 URL 해제할 것 (메모리 누수 방지).
+
+                3-3) 업로드 상태 관리
+                    - 각 이미지의 업로드 진행 상태를 관리할 수 있어야 함.
+                    - 업로드 중인 이미지와 완료된 이미지를 구분할 수 있어야 함.
+
+            4) UI/UX 요구사항
+                4-1) 빈 업로드 박스
+                    - 업로드 박스에 "+" 아이콘과 "클릭해서 사진 업로드" 텍스트 표시
+                    - 클릭 시 파일 선택 다이얼로그 열림
+
+                4-2) 이미지 업로드된 박스
+                    - 업로드된 이미지의 미리보기 표시
+                    - 우측 상단에 삭제 버튼(×) 표시
+                    - 클릭 시 새로운 이미지 선택 가능 (수정 기능)
+
+                4-3) 에러 처리
+                    - 업로드 실패 시 에러 메시지 표시
+                    - 업로드 실패한 이미지는 빈 상태로 복원
+
+            5) 메모리 관리
+                5-1) 미리보기 URL 해제
+                    - 이미지 삭제 시 URL.revokeObjectURL()로 메모리 해제
+                    - 컴포넌트 언마운트 시 모든 미리보기 URL 해제
+                    - 이미지 교체 시 기존 미리보기 URL 해제
+
+            6) 파일 업로드 API 구현
+                6-1) GraphQL multipart/form-data 형식
+                    - operations: GraphQL 쿼리/뮤테이션 JSON (변수 file: null로 설정)
+                    - map: 파일 매핑 정보 JSON (형식: { "0": ["variables.file"] })
+                    - 실제 파일 데이터 (키: "0", 값: File 객체)
+                    - FormData append 순서: operations -> map -> 파일 (순서 중요)
+                    - Content-Type 헤더는 브라우저가 자동으로 설정하므로 명시적으로 설정하지 않을 것
+                6-2) 에러 처리
+                    - 네트워크 에러 처리 (response.ok 체크)
+                    - 서버 에러 처리 (json.errors 체크)
+                    - 응답 형식 검증 (json.data.uploadFile.url 존재 여부 확인)
+                    - 파일 크기 제한 등 유효성 검증 에러 처리
+                6-3) 파일 업로드 문제 해결
+                    - FormData에 불필요한 데이터를 추가하지 않을 것 (예: 'file' 키로 직접 추가 금지)
+                    - FormData append 순서를 정확히 지킬 것
+                    - 에러 발생 시 상세한 에러 메시지를 제공할 것
+                    - 네트워크 에러와 GraphQL 에러를 구분하여 처리할 것
+

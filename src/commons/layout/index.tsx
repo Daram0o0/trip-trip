@@ -63,13 +63,13 @@ function Header() {
     },
     {
       label: '숙박권 구매',
-      href: '/#',
+      href: '#accommodation',
       isActive: activeNav === 'accommodation',
       onClick: handleAccommodationClickWithState,
     },
     {
       label: '마이 페이지',
-      href: '/#',
+      href: '#mypage',
       isActive: activeNav === 'mypage',
       onClick: handleMypageClickWithState,
     },

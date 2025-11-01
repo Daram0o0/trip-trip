@@ -247,6 +247,11 @@ export function useBoardDetailBinding(
         if (embedMatch) {
           return embedMatch[1];
         }
+        // https://www.youtube.com/shorts/VIDEO_ID 형식 (유튜브 쇼츠)
+        const shortsMatch = url.match(/\/shorts\/([^?]+)/);
+        if (shortsMatch) {
+          return shortsMatch[1];
+        }
       } catch {
         // URL 파싱 실패 시 null 반환
       }

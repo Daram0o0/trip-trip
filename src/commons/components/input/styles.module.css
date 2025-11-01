@@ -326,6 +326,20 @@
   color: var(--color-gray-400);
 }
 
+/* ReadOnly State */
+.input[readonly] {
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-600);
+  cursor: default;
+  border-color: var(--color-gray-200);
+}
+
+.input[readonly]:focus {
+  outline: none;
+  border-color: var(--color-gray-200);
+  box-shadow: none;
+}
+
 /* Right Icon States */
 .input--with-right-icon {
   padding-right: 44px;

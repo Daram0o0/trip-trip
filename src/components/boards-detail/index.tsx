@@ -202,13 +202,16 @@ const BoardsDetail = () => {
       {detail?.images && detail.images.length > 0 && (
         <>
           <div className={styles.imageArea}>
-            <Image
-              src={detail.image}
-              alt="게시물 이미지"
-              width={400}
-              height={531}
-              className={styles.postImage}
-            />
+            {detail.images.slice(0, 3).map((imageUrl, index) => (
+              <Image
+                key={index}
+                src={imageUrl}
+                alt={`게시물 이미지 ${index + 1}`}
+                width={400}
+                height={531}
+                className={styles.postImage}
+              />
+            ))}
           </div>
 
           {/* Gap */}
