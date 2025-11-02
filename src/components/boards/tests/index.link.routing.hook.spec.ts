@@ -100,7 +100,15 @@ test.describe('Boards 링크 라우팅', () => {
   test('트립토크 등록 버튼 클릭 시 작성 페이지로 이동', async ({ page }) => {
     const writeButton = page.getByTestId('write-button');
     await expect(writeButton).toBeVisible({ timeout: 1500 });
+
+    // URL 변경 대기 (네비게이션이 시작되기 전에 promise 설정)
+    const navigationPromise = page.waitForURL('/boards/new', {
+      timeout: 3000,
+    });
     await writeButton.click();
-    await expect(page).toHaveURL('/boards/new', { timeout: 1500 });
+
+    // URL 변경 확인
+    await navigationPromise;
+    await expect(page).toHaveURL('/boards/new', { timeout: 3000 });
   });
 });

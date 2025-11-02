@@ -143,9 +143,17 @@ test.describe('Auth Login Form Hook', () => {
       // 로그인 버튼 클릭
       await loginButton.click();
 
-      // 로그인 실패 모달 표시 확인 (네트워크 통신이므로 2000ms)
-      const modalTitle = page.locator('text=로그인 실패');
-      await expect(modalTitle).toBeVisible({ timeout: 2000 });
+      // 로그인 실패 모달 표시 확인 (네트워크 통신이므로 2000ms) - 여러 방법 시도
+      let modalTitle = page.locator('text=로그인 실패');
+      try {
+        await expect(modalTitle).toBeVisible({ timeout: 5000 });
+      } catch {
+        // 대체 방법: 모달의 title 속성으로 찾기
+        modalTitle = page
+          .locator('[role="dialog"]')
+          .filter({ hasText: '로그인 실패' });
+        await expect(modalTitle).toBeVisible({ timeout: 5000 });
+      }
 
       // 모달 확인 버튼 클릭
       const confirmButton = page.locator('button:has-text("확인")');

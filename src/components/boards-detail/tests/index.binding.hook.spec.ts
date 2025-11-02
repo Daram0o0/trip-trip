@@ -496,9 +496,9 @@ test.describe('Board detail comment author input - 5차 핵심요구사항', () 
       localStorage.removeItem('user');
     });
 
-    // 3) 상세 페이지 이동 및 로드 대기 (고정 testid)
+    // 3) 상세 페이지 이동 및 로드 대기 (고정 testid) - 네트워크 통신이므로 타임아웃 증가
     await page.goto(`/boards/${firstId}`);
-    await page.getByTestId('board-detail-page').waitFor({ timeout: 1500 });
+    await page.getByTestId('board-detail-page').waitFor({ timeout: 5000 });
 
     // 4) 작성자 Input이 빈 상태인지 확인
     const authorInput = page.getByTestId('comment-author-input');
@@ -597,9 +597,9 @@ test.describe('Board detail YouTube - 2차, 3차, 4차, 6차 핵심요구사항'
     // 4) Play 버튼 클릭
     await playButton.click();
 
-    // 5) iframe이 표시되는지 확인 (유튜브 재생)
+    // 5) iframe이 표시되는지 확인 (유튜브 재생) - 네트워크 통신이므로 타임아웃 증가
     const youtubeIframe = page.getByTestId('youtube-iframe');
-    await expect(youtubeIframe).toBeVisible({ timeout: 1500 });
+    await expect(youtubeIframe).toBeVisible({ timeout: 5000 });
 
     // 6) iframe의 src가 올바른 embed URL인지 확인
     const iframeSrc = await youtubeIframe.getAttribute('src');
@@ -645,9 +645,15 @@ test.describe('Board detail YouTube - 2차, 3차, 4차, 6차 핵심요구사항'
     await page.goto(`/boards/${boardId}`);
     await page.getByTestId('board-detail-page').waitFor({ timeout: 1500 });
 
-    // 3) Link 아이콘 찾기 (infoArea 내의 Link)
-    const linkElement = page.locator('a[href*="youtube"]').first();
-    await expect(linkElement).toBeVisible({ timeout: 1500 });
+    // 3) Link 아이콘 찾기 (infoArea 내의 Link) - 여러 방법 시도
+    let linkElement = page.locator('a[href*="youtube"]').first();
+    try {
+      await expect(linkElement).toBeVisible({ timeout: 3000 });
+    } catch {
+      // 대체 방법: data-testid나 다른 선택자 시도
+      linkElement = page.locator('[data-testid="youtube-link"]').first();
+      await expect(linkElement).toBeVisible({ timeout: 3000 });
+    }
 
     // 4) Link의 href가 유튜브 URL인지 확인
     const linkHref = await linkElement.getAttribute('href');

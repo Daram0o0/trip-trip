@@ -1,11 +1,35 @@
 import { expect, test } from '@playwright/test';
 
+async function login(page: import('@playwright/test').Page) {
+  await page.goto('/auth/login');
+  await page.waitForSelector('[data-testid="auth-login-container"]', {
+    timeout: 1500,
+  });
+  const emailInput = page.locator('input[type="text"]').first();
+  const passwordInput = page.locator('input[type="password"]');
+  const loginButton = page.locator('button[type="submit"]');
+  await emailInput.fill('a@a.aa');
+  await passwordInput.fill('aaaaaaaa8');
+  await loginButton.click();
+  // 로그인 토큰과 사용자 정보가 저장될 때까지 대기 (API 응답 대기 포함)
+  await page.waitForFunction(
+    () =>
+      !!localStorage.getItem('accessToken') && !!localStorage.getItem('user'),
+    {
+      timeout: 10000,
+    }
+  );
+}
+
 test.describe('BoardsNew postcode binding - real data', () => {
   test('우편번호 검색 버튼 클릭 시 Daum Postcode 팝업이 열린다', async ({
     page,
   }) => {
+    // 로그인 먼저 수행
+    await login(page);
+
     await page.goto('/boards/new');
-    await page.getByTestId('boards-new-container').waitFor();
+    await page.getByTestId('boards-new-container').waitFor({ timeout: 2000 });
 
     // 우편번호 검색 버튼 찾기
     const postcodeButton = page.getByTestId('postcode-search-button');
@@ -24,8 +48,11 @@ test.describe('BoardsNew postcode binding - real data', () => {
   });
 
   test('주소 필드가 올바르게 렌더링된다', async ({ page }) => {
+    // 로그인 먼저 수행
+    await login(page);
+
     await page.goto('/boards/new');
-    await page.getByTestId('boards-new-container').waitFor();
+    await page.getByTestId('boards-new-container').waitFor({ timeout: 2000 });
 
     // 주소 필드 확인 (우편번호 입력 필드)
     const postcodeInput = page.getByTestId('postcode-input');
@@ -49,11 +76,14 @@ test.describe('BoardsNew postcode - failure scenario (mock)', () => {
   test('주소 선택 실패 시에도 페이지가 안정적으로 렌더된다', async ({
     page,
   }) => {
+    // 로그인 먼저 수행
+    await login(page);
+
     // Daum Postcode API를 모킹 (실제로는 외부 서비스이므로 모킹하기 어려움)
     // 대신 주소 입력 필드가 항상 존재하고 접근 가능한지 확인
 
     await page.goto('/boards/new');
-    await page.getByTestId('boards-new-container').waitFor();
+    await page.getByTestId('boards-new-container').waitFor({ timeout: 2000 });
 
     // 우편번호 검색 버튼이 존재하는지 확인
     const postcodeButton = page.getByTestId('postcode-search-button');
