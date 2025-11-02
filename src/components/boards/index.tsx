@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './styles.module.css';
 import Image from 'next/image';
-import { Heart, SquarePen, RotateCcw, Trash2 } from 'lucide-react';
+import { Edit, Heart, RotateCcw, Trash2 } from 'lucide-react';
 // 실제 데이터 바인딩 타입
 import DatePicker from '@/commons/components/datepicker';
 import Searchbar from '@/commons/components/searchbar';
@@ -170,7 +170,6 @@ const Boards = () => {
           <Modal
             variant="danger"
             actions="dual"
-            theme="light"
             icon="close"
             size="m"
             title="게시물 삭제"
@@ -189,7 +188,6 @@ const Boards = () => {
                   <Modal
                     variant="danger"
                     actions="single"
-                    theme="light"
                     icon="close"
                     size="m"
                     title="삭제 실패"
@@ -264,7 +262,6 @@ const Boards = () => {
             <div className={styles.datePickerBox}>
               <DatePicker
                 size="medium"
-                theme="light"
                 className={styles.datePicker}
                 startDate={startDate || undefined}
                 endDate={endDate || undefined}
@@ -280,7 +277,6 @@ const Boards = () => {
             </div>
             <Searchbar
               size="medium"
-              theme="light"
               placeholder="제목을 검색해 주세요."
               className={styles.searchBar}
               value={searchValue}
@@ -303,9 +299,9 @@ const Boards = () => {
               size="medium"
               className={styles.writeButton}
               onClick={handleClickCreate}
-              leftIcon={<SquarePen size={24} className={styles.writeIcon} />}
               data-testid="write-button"
             >
+              <Edit size={20} style={{ marginRight: '8px' }} />
               트립토크 등록
             </Button>
           </div>
@@ -365,7 +361,6 @@ const Boards = () => {
               onPageChange={page => setPage(page)}
               variant="primary"
               size="medium"
-              theme="light"
               className={styles.pagination}
               alwaysShow={true}
             />
