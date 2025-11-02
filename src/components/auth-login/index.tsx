@@ -50,7 +50,6 @@ const AuthLogin: React.FC = () => {
             <Input
               variant="primary"
               size="medium"
-              theme="light"
               placeholder="이메일을 입력해 주세요."
               className={styles.input}
               {...register('email')}
@@ -63,7 +62,6 @@ const AuthLogin: React.FC = () => {
             <Input
               variant="primary"
               size="medium"
-              theme="light"
               type="password"
               placeholder="비밀번호를 입력해 주세요."
               className={styles.input}
@@ -77,7 +75,6 @@ const AuthLogin: React.FC = () => {
             <Button
               variant="secondary"
               size="large"
-              theme="light"
               className={styles.loginButton}
               type="submit"
               disabled={isSubmitDisabled}

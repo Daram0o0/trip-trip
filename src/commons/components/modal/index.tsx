@@ -89,7 +89,6 @@ export default function Modal({
         {actions === 'dual' && (
           <Button
             variant={getSecondaryButtonVariant()}
-            theme="light"
             size="medium"
             onClick={onCancel}
             className={styles.cancelButton}
@@ -99,7 +98,6 @@ export default function Modal({
         )}
         <Button
           variant={getPrimaryActionVariant()}
-          theme="light"
           size="medium"
           onClick={onConfirm}
           className={styles.confirmButton}

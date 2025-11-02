@@ -38,7 +38,6 @@ const AuthSignup: React.FC<AuthSignupProps> = ({ className }) => {
             <Input
               variant="primary"
               size="medium"
-              theme="light"
               label="이메일"
               required
               placeholder="이메일을 입력해 주세요."
@@ -53,7 +52,6 @@ const AuthSignup: React.FC<AuthSignupProps> = ({ className }) => {
             <Input
               variant="primary"
               size="medium"
-              theme="light"
               label="이름"
               required
               placeholder="이름을 입력해 주세요."
@@ -68,7 +66,6 @@ const AuthSignup: React.FC<AuthSignupProps> = ({ className }) => {
             <Input
               variant="primary"
               size="medium"
-              theme="light"
               label="비밀번호"
               required
               type="password"
@@ -84,7 +81,6 @@ const AuthSignup: React.FC<AuthSignupProps> = ({ className }) => {
             <Input
               variant="primary"
               size="medium"
-              theme="light"
               label="비밀번호 확인"
               required
               type="password"
@@ -100,7 +96,6 @@ const AuthSignup: React.FC<AuthSignupProps> = ({ className }) => {
             <Button
               variant="secondary"
               size="medium"
-              theme="light"
               className={styles.submitButton}
               type="submit"
               disabled={isSubmitDisabled}

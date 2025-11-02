@@ -9,6 +9,7 @@ import { useBoardForm, useImageCleanup } from './hooks/index.form.hook';
 
 interface BoardsNewProps {
   mode?: 'create' | 'edit';
+  boardId?: string;
   initialData?: {
     author?: string;
     password?: string;
@@ -18,6 +19,7 @@ interface BoardsNewProps {
     address?: string;
     detailAddress?: string;
     youtubeLink?: string;
+    images?: string[];
   };
 }
 
@@ -33,7 +35,11 @@ interface BoardsNewProps {
  * <BoardsNew mode="edit" initialData={boardData} />
  * ```
  */
-const BoardsNew = ({ mode = 'create', initialData }: BoardsNewProps) => {
+const BoardsNew = ({
+  mode = 'create',
+  boardId,
+  initialData,
+}: BoardsNewProps) => {
   const { user } = useAuth();
 
   // 현재 로그인된 사용자의 이름 가져오기
@@ -60,6 +66,8 @@ const BoardsNew = ({ mode = 'create', initialData }: BoardsNewProps) => {
     handleCancel,
     watch,
   } = useBoardForm(
+    mode,
+    boardId,
     initialData?.postcode,
     initialData?.address,
     initialData?.detailAddress,
@@ -67,7 +75,8 @@ const BoardsNew = ({ mode = 'create', initialData }: BoardsNewProps) => {
     initialData?.password,
     initialData?.title,
     initialData?.content,
-    initialData?.youtubeLink
+    initialData?.youtubeLink,
+    initialData?.images
   );
 
   // 컴포넌트 언마운트 시 미리보기 URL 해제
@@ -113,7 +122,7 @@ const BoardsNew = ({ mode = 'create', initialData }: BoardsNewProps) => {
               type="password"
               placeholder="비밀번호를 입력하세요"
               disabled={mode === 'edit'}
-              value={watch('password') || ''}
+              value={mode === 'edit' ? '********' : watch('password') || ''}
               {...register('password')}
               error={errors.password?.message}
             />
