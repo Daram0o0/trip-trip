@@ -38,6 +38,33 @@ export function usePostcodeBinding(
   );
   const [isOpen, setIsOpen] = useState(false);
 
+  // 사용자가 주소를 선택했는지 추적
+  const [userHasSelectedAddress, setUserHasSelectedAddress] = useState(false);
+
+  // 초기 데이터가 변경될 때 상태 업데이트 (사용자가 주소를 선택하지 않은 경우에만)
+  React.useEffect(() => {
+    if (initialData && !userHasSelectedAddress) {
+      // postcode 업데이트 (undefined가 아니면 업데이트, 빈 문자열 포함)
+      if (initialData.postcode !== undefined) {
+        setPostcode(initialData.postcode);
+      }
+      // address 업데이트 (undefined가 아니면 업데이트, 빈 문자열 포함)
+      if (initialData.address !== undefined) {
+        setAddress(initialData.address);
+      }
+      // detailAddress 업데이트 (undefined가 아니면 업데이트, 빈 문자열 포함)
+      if (initialData.detailAddress !== undefined) {
+        setDetailAddress(initialData.detailAddress);
+      }
+    }
+  }, [
+    initialData?.postcode,
+    initialData?.address,
+    initialData?.detailAddress,
+    initialData,
+    userHasSelectedAddress,
+  ]);
+
   const handleComplete = (data: Address) => {
     let fullAddress = data.address;
     let extraAddress = '';
@@ -53,9 +80,14 @@ export function usePostcodeBinding(
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
 
+    console.log('🏠 주소 선택됨:', {
+      zonecode: data.zonecode,
+      address: fullAddress,
+    }); // 디버깅
     setPostcode(data.zonecode);
     setAddress(fullAddress);
     setDetailAddress('');
+    setUserHasSelectedAddress(true); // 사용자가 주소를 선택했음을 표시
     closePostcodeModal();
   };
 

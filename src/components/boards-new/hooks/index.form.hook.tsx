@@ -5,12 +5,30 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useRouter } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useModal } from '@/commons/providers/modal/modal.provider';
 import Modal from '@/commons/components/modal';
+import Input from '@/commons/components/input';
 import { URLS } from '@/commons/constants/url';
 import { usePostcodeBinding } from './index.postcode.hook';
 import { flushSync } from 'react-dom';
+
+// 이미지 URL 변환 헬퍼 함수 (상대 경로를 전체 URL로 변환)
+function convertImageUrl(src: string): string {
+  // 이미 절대 URL인 경우 그대로 반환
+  if (src.startsWith('http://') || src.startsWith('https://')) {
+    return src;
+  }
+
+  // 로컬 public/ 경로는 그대로 반환
+  if (src.startsWith('/')) {
+    return src;
+  }
+
+  // codecamp-file-storage 키를 GCS 절대 URL로 변환
+  const normalized = src.replace(/^\/+/, '');
+  return `https://storage.googleapis.com/${normalized}`;
+}
 
 // Validation schema
 const boardFormSchema = z
@@ -174,7 +192,61 @@ async function createBoardMutation(variables: {
   return json.data;
 }
 
+async function updateBoardMutation(variables: {
+  boardId: string;
+  password: string;
+  updateBoardInput: {
+    title?: string;
+    contents?: string;
+    boardAddress?: {
+      zipcode: string;
+      address: string;
+      addressDetail: string;
+    };
+    youtubeUrl?: string;
+    images?: string[];
+  };
+}): Promise<{ updateBoard: { _id: string } }> {
+  const response = await fetch(
+    'http://main-practice.codebootcamp.co.kr/graphql',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `
+          mutation UpdateBoard(
+            $boardId: ID!
+            $password: String!
+            $updateBoardInput: UpdateBoardInput!
+          ) {
+            updateBoard(
+              boardId: $boardId
+              password: $password
+              updateBoardInput: $updateBoardInput
+            ) {
+              _id
+            }
+          }
+        `,
+        variables,
+      }),
+    }
+  );
+
+  const json = await response.json();
+
+  if (json.errors) {
+    throw new Error(json.errors[0]?.message || '게시물 수정에 실패했습니다.');
+  }
+
+  return json.data;
+}
+
 export function useBoardForm(
+  mode: 'create' | 'edit' = 'create',
+  boardId?: string,
   initialPostcode?: string,
   initialAddress?: string,
   initialDetailAddress?: string,
@@ -182,12 +254,25 @@ export function useBoardForm(
   initialPassword?: string,
   initialTitle?: string,
   initialContents?: string,
-  initialYoutubeUrl?: string
+  initialYoutubeUrl?: string,
+  initialImages?: string[]
 ) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { openModal, closeModal } = useModal();
   const successModalShownRef = useRef(false);
   const failureModalShownRef = useRef(false);
+  const passwordErrorModalShownRef = useRef(false);
+  const imagesInitializedRef = useRef(false);
+  const addressInitializedRef = useRef(false); // 주소 초기화 여부 추적
+
+  // boardId나 mode가 변경될 때 ref 초기화
+  useEffect(() => {
+    addressInitializedRef.current = false;
+    imagesInitializedRef.current = false;
+  }, [boardId, mode]);
+
+  // 비밀번호 확인 모달 상태는 PasswordConfirmModal 내부에서 로컬 state로 관리
 
   const { postcode, address, detailAddress, setDetailAddress, openPostcode } =
     usePostcodeBinding({
@@ -205,6 +290,8 @@ export function useBoardForm(
     ('idle' | 'uploading' | 'success' | 'error')[]
   >([]);
 
+  // 기존 이미지 초기화는 useForm 이후에 실행되도록 나중에 처리
+
   const {
     register,
     handleSubmit,
@@ -216,7 +303,7 @@ export function useBoardForm(
     mode: 'onChange',
     defaultValues: {
       writer: initialWriter || '',
-      password: initialPassword || '',
+      password: mode === 'edit' ? '********' : initialPassword || '',
       title: initialTitle || '',
       contents: initialContents || '',
       boardAddress: initialPostcode
@@ -231,24 +318,91 @@ export function useBoardForm(
     },
   });
 
-  // 주소 필드 동기화 (useEffect로 처리)
+  // 주소 필드 동기화 (useEffect로 처리) - 우선순위: 높음 (사용자가 주소 선택 시 실행)
   useEffect(() => {
+    console.log('📍 주소 필드 동기화:', { postcode, address, detailAddress }); // 디버깅
+    // 주소 선택 후 변경사항을 항상 폼에 반영
     if (postcode || address || detailAddress) {
       // 하나라도 있으면 객체로 설정 (빈 문자열도 허용)
-      setValue(
-        'boardAddress',
-        {
-          zipcode: postcode || '',
-          address: address || '',
-          addressDetail: detailAddress || '',
-        },
-        { shouldValidate: true }
-      );
+      const addressData = {
+        zipcode: postcode || '',
+        address: address || '',
+        addressDetail: detailAddress || '',
+      };
+      console.log('📍 폼에 주소 설정:', addressData); // 디버깅
+      setValue('boardAddress', addressData, { shouldValidate: true });
+      addressInitializedRef.current = true; // 주소가 설정되었음을 표시
     } else {
       // 모두 없으면 undefined로 설정
+      console.log('📍 주소 필드 초기화 (undefined)'); // 디버깅
       setValue('boardAddress', undefined, { shouldValidate: true });
     }
   }, [postcode, address, detailAddress, setValue]);
+
+  // edit 모드일 때 초기 주소 데이터 설정 (초기 마운트 시에만 실행)
+  useEffect(() => {
+    if (mode === 'edit' && !addressInitializedRef.current) {
+      // 초기 마운트 시에만 initialPostcode 등을 사용하여 폼 설정
+      // 이미 사용자가 주소를 선택한 경우는 이 useEffect가 실행되지 않음
+      if (initialPostcode || initialAddress || initialDetailAddress) {
+        setValue(
+          'boardAddress',
+          {
+            zipcode: initialPostcode || '',
+            address: initialAddress || '',
+            addressDetail: initialDetailAddress || '',
+          },
+          { shouldValidate: true }
+        );
+        addressInitializedRef.current = true;
+      }
+    }
+  }, [mode, initialPostcode, initialAddress, initialDetailAddress, setValue]);
+
+  // 기존 이미지 초기화 (edit 모드일 때, useForm 이후에 실행)
+  useEffect(() => {
+    if (mode === 'edit' && initialImages && !imagesInitializedRef.current) {
+      // initialImages가 배열이고 길이가 있는지 확인
+      const validImages = Array.isArray(initialImages)
+        ? initialImages.filter(
+            img => img && typeof img === 'string' && img.trim() !== ''
+          )
+        : [];
+
+      if (validImages.length > 0) {
+        // 기존 이미지 URL을 배열로 설정 (최대 3개)
+        const imageArray: (string | null)[] = [];
+        const previewArray: (string | null)[] = [];
+        const statusArray: ('idle' | 'uploading' | 'success' | 'error')[] = [];
+
+        // 3개 슬롯 초기화
+        for (let i = 0; i < 3; i++) {
+          if (i < validImages.length && validImages[i]) {
+            const imageUrl = validImages[i];
+            const convertedUrl = convertImageUrl(imageUrl);
+            imageArray[i] = imageUrl; // 원본 URL 저장 (API에 보낼 때는 원본 사용)
+            previewArray[i] = convertedUrl; // 변환된 URL을 미리보기로 사용
+            statusArray[i] = 'success';
+          } else {
+            imageArray[i] = null;
+            previewArray[i] = null;
+            statusArray[i] = 'idle';
+          }
+        }
+
+        setImages(imageArray);
+        setImagePreviews(previewArray);
+        setUploadStatuses(statusArray);
+
+        // 필터링된 이미지 배열 설정
+        setValue('images', validImages);
+        imagesInitializedRef.current = true;
+      }
+    } else if (mode === 'create') {
+      // create 모드일 때는 초기화 플래그 리셋
+      imagesInitializedRef.current = false;
+    }
+  }, [mode, initialImages, setValue]);
 
   const uploadFileMutationQuery = useMutation({
     mutationFn: uploadFileMutation,
@@ -293,6 +447,88 @@ export function useBoardForm(
             }}
           />
         );
+      }
+    },
+  });
+
+  const updateBoardMutationQuery = useMutation({
+    mutationFn: updateBoardMutation,
+    onSuccess: () => {
+      // 게시물 상세 페이지 캐시 무효화
+      if (boardId) {
+        queryClient.invalidateQueries({
+          queryKey: ['fetchBoard', boardId],
+        });
+        // 게시물 목록 캐시도 무효화 (제목이나 내용이 변경될 수 있으므로)
+        queryClient.invalidateQueries({
+          queryKey: ['fetchBoards'],
+        });
+      }
+
+      // 수정 성공 모달 표시 (한 번만)
+      if (!successModalShownRef.current && boardId) {
+        successModalShownRef.current = true;
+        openModal(
+          <Modal
+            variant="info"
+            actions="single"
+            title="수정완료"
+            description="게시물이 성공적으로 수정되었습니다."
+            confirmText="확인"
+            onConfirm={() => {
+              closeModal();
+              successModalShownRef.current = false;
+              router.push(URLS.build.boardDetail(boardId));
+            }}
+          />
+        );
+      }
+    },
+    onError: (error: Error) => {
+      // 비밀번호 오류인지 확인
+      const errorMessage = error.message || '';
+      if (
+        errorMessage.includes('비밀번호') ||
+        errorMessage.includes('password') ||
+        errorMessage.includes('일치') ||
+        errorMessage.includes('틀')
+      ) {
+        // 비밀번호 오류 모달 표시
+        if (!passwordErrorModalShownRef.current) {
+          passwordErrorModalShownRef.current = true;
+          openModal(
+            <Modal
+              variant="danger"
+              actions="single"
+              title="비밀번호 오류"
+              description="입력하신 비밀번호가 일치하지 않습니다."
+              confirmText="확인"
+              onConfirm={() => {
+                closeModal();
+                passwordErrorModalShownRef.current = false;
+              }}
+            />
+          );
+        }
+      } else {
+        // 기타 수정 실패 모달 표시
+        if (!failureModalShownRef.current) {
+          failureModalShownRef.current = true;
+          console.log('수정 실패 모달 표시'); // 디버깅
+          openModal(
+            <Modal
+              variant="danger"
+              actions="single"
+              title="수정실패"
+              description="게시물 수정에 실패했습니다. 다시 시도해주세요."
+              confirmText="확인"
+              onConfirm={() => {
+                closeModal();
+                failureModalShownRef.current = false;
+              }}
+            />
+          );
+        }
       }
     },
   });
@@ -497,6 +733,151 @@ export function useBoardForm(
     });
   };
 
+  // 비밀번호 확인 후 실제 수정 실행
+  const executeUpdate = (password: string) => {
+    console.log(
+      'executeUpdate 호출됨, password:',
+      password,
+      'boardId:',
+      boardId
+    ); // 디버깅
+    if (!boardId) {
+      console.log('boardId가 없음'); // 디버깅
+      return;
+    }
+
+    // 현재 폼 데이터 가져오기
+    const currentFormData = {
+      writer: watch('writer'),
+      password: watch('password'),
+      title: watch('title'),
+      contents: watch('contents'),
+      boardAddress: watch('boardAddress'),
+      youtubeUrl: watch('youtubeUrl'),
+      images: watch('images'),
+    } as BoardFormData;
+
+    // 현재 images state에서 null이 아닌 값만 필터링
+    const currentImages = images.filter((img): img is string => img !== null);
+    console.log('현재 이미지 상태:', { images, currentImages }); // 디버깅
+
+    const boardAddress =
+      currentFormData.boardAddress?.zipcode &&
+      currentFormData.boardAddress?.address
+        ? {
+            zipcode: currentFormData.boardAddress.zipcode,
+            address: currentFormData.boardAddress.address,
+            addressDetail: currentFormData.boardAddress.addressDetail || '',
+          }
+        : undefined;
+
+    // 비밀번호 확인 모달 닫기 (API 호출 전에 닫아서 다음 모달이 제대로 표시되도록)
+    closeModal();
+
+    const updateData = {
+      boardId,
+      password,
+      updateBoardInput: {
+        title: currentFormData.title,
+        contents: currentFormData.contents,
+        boardAddress,
+        youtubeUrl: currentFormData.youtubeUrl || undefined,
+        // 이미지가 있으면 배열로, 없으면 빈 배열로 명시적으로 전달 (이미지 삭제 반영)
+        images: currentImages.length > 0 ? currentImages : [],
+      },
+    };
+
+    console.log('updateBoardMutation 호출 데이터:', updateData); // 디버깅
+    updateBoardMutationQuery.mutate(updateData);
+  };
+
+  // 비밀번호 확인 모달 컴포넌트
+  const PasswordConfirmModal = () => {
+    const [currentPassword, setCurrentPassword] = useState('');
+
+    const handleConfirm = () => {
+      if (!currentPassword.trim()) {
+        return; // 빈 비밀번호는 제출하지 않음
+      }
+      const password = currentPassword;
+      setCurrentPassword(''); // 먼저 입력값 초기화
+      executeUpdate(password);
+    };
+
+    const handleCancel = () => {
+      closeModal();
+      setCurrentPassword('');
+    };
+
+    const isPasswordValid = currentPassword.trim().length > 0;
+
+    return (
+      <div style={{ padding: '20px', minWidth: '400px' }}>
+        <h3
+          style={{ marginBottom: '16px', fontSize: '18px', fontWeight: 'bold' }}
+        >
+          비밀번호 확인
+        </h3>
+        <p style={{ marginBottom: '16px', color: '#666' }}>
+          게시물을 수정하려면 비밀번호를 입력해주세요.
+        </p>
+        <Input
+          type="password"
+          label="비밀번호"
+          placeholder="비밀번호를 입력하세요"
+          value={currentPassword}
+          onChange={e => {
+            setCurrentPassword(e.target.value);
+          }}
+          required
+          autoFocus
+          style={{ marginBottom: '16px' }}
+          onKeyDown={e => {
+            if (e.key === 'Enter' && isPasswordValid) {
+              e.preventDefault();
+              e.stopPropagation();
+              handleConfirm();
+            }
+          }}
+        />
+        <div
+          style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}
+        >
+          <button
+            type="button"
+            onClick={handleCancel}
+            style={{
+              padding: '8px 16px',
+              border: '1px solid #ddd',
+              borderRadius: '4px',
+              background: 'white',
+              cursor: 'pointer',
+              fontSize: '14px',
+            }}
+          >
+            취소
+          </button>
+          <button
+            type="button"
+            onClick={handleConfirm}
+            disabled={!isPasswordValid}
+            style={{
+              padding: '8px 16px',
+              border: 'none',
+              borderRadius: '4px',
+              background: isPasswordValid ? '#007bff' : '#ccc',
+              color: 'white',
+              cursor: isPasswordValid ? 'pointer' : 'not-allowed',
+              fontSize: '14px',
+            }}
+          >
+            확인
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   const onSubmit = handleSubmit(data => {
     // 업로드 중이면 submit 차단
     if (uploadStatuses.some(status => status === 'uploading')) {
@@ -504,13 +885,29 @@ export function useBoardForm(
     }
 
     // 중복 요청 방지
-    if (createBoardMutationQuery.isPending) {
+    if (mode === 'create' && createBoardMutationQuery.isPending) {
+      return;
+    }
+    if (mode === 'edit' && updateBoardMutationQuery.isPending) {
       return;
     }
 
     successModalShownRef.current = false;
     failureModalShownRef.current = false;
+    passwordErrorModalShownRef.current = false;
 
+    // edit 모드일 때는 비밀번호 확인 모달 표시
+    if (mode === 'edit') {
+      console.log('edit 모드 - 비밀번호 확인 모달 표시'); // 디버깅
+
+      // React 컴포넌트를 직접 렌더링하지 않고 함수로 전달
+      const modalContent = <PasswordConfirmModal />;
+      console.log('모달 컨텐츠 생성됨:', modalContent); // 디버깅
+      openModal(modalContent);
+      return;
+    }
+
+    // create 모드일 때는 바로 생성
     const boardAddress =
       data.boardAddress?.zipcode && data.boardAddress?.address
         ? {
@@ -537,7 +934,11 @@ export function useBoardForm(
   });
 
   const handleCancel = () => {
-    router.push(URLS.boards.list);
+    if (mode === 'edit' && boardId) {
+      router.push(URLS.build.boardDetail(boardId));
+    } else {
+      router.push(URLS.boards.list);
+    }
   };
 
   // watch로 필드 값들 추적
@@ -548,11 +949,12 @@ export function useBoardForm(
 
   const isSubmitDisabled =
     !isValid ||
-    createBoardMutationQuery.isPending ||
+    (mode === 'create' && createBoardMutationQuery.isPending) ||
+    (mode === 'edit' && updateBoardMutationQuery.isPending) ||
     uploadFileMutationQuery.isPending ||
     uploadStatuses.some(status => status === 'uploading') ||
     !watchedWriter ||
-    !watchedPassword ||
+    (mode === 'create' && !watchedPassword) || // edit 모드일 때는 비밀번호 체크 안 함
     !watchedTitle ||
     !watchedContents;
 
@@ -561,7 +963,10 @@ export function useBoardForm(
     errors,
     onSubmit,
     isSubmitDisabled,
-    isPending: createBoardMutationQuery.isPending,
+    isPending:
+      mode === 'create'
+        ? createBoardMutationQuery.isPending
+        : updateBoardMutationQuery.isPending,
     postcode,
     address,
     detailAddress,
