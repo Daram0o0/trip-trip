@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './styles.module.css';
 import Image from 'next/image';
 import {
@@ -55,12 +55,7 @@ const BoardsDetail = () => {
     rating,
     setRating,
     ratingTouched,
-    watch,
   } = useCommentForm({ boardId });
-
-  const watchedWriter = watch('writer');
-  const watchedPassword = watch('password');
-  const watchedContents = watch('contents');
 
   // 유튜브 재생 상태
   const [isPlaying, setIsPlaying] = useState<boolean>(false);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -148,7 +148,7 @@ export function useCommentForm({
   const [ratingTouched, setRatingTouched] = useState<boolean>(false);
 
   // 로그인된 사용자 이름 가져오기
-  const getUserName = (): string => {
+  const getUserName = useCallback((): string => {
     if (isAuthenticated && user) {
       const userName = getUserNameFromUser(user);
       if (userName) return userName;
@@ -157,7 +157,7 @@ export function useCommentForm({
       return getUserFromLocalStorage();
     }
     return '';
-  };
+  }, [isAuthenticated, user]);
 
   const initialWriter = getUserName();
 
@@ -167,10 +167,9 @@ export function useCommentForm({
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, touchedFields, isSubmitted },
+    formState: { errors, touchedFields, isSubmitted },
     setValue,
     watch,
-    reset,
     trigger,
     clearErrors,
   } = useForm<CommentFormData>({
@@ -202,7 +201,7 @@ export function useCommentForm({
     } else {
       setValue('writer', '', { shouldValidate: false, shouldTouch: false });
     }
-  }, [isAuthenticated, user, setValue]);
+  }, [isAuthenticated, user, setValue, getUserName]);
 
   // 컴포넌트 마운트 시에도 작성자 이름 설정
   useEffect(() => {
@@ -255,8 +254,6 @@ export function useCommentForm({
       }
 
       // 폼 초기화 (작성자 제외하고 초기화)
-      const currentWriter = isAuthenticated ? getUserName() : '';
-
       // 에러 메시지 모두 제거
       clearErrors();
 
@@ -361,10 +358,10 @@ export function useCommentForm({
   const isSubmitDisabled =
     !hasRequiredFields ||
     createCommentMutation.isPending ||
-    (errors.writer && !isAuthenticated) ||
-    errors.password ||
-    errors.contents ||
-    errors.rating;
+    (!!errors.writer && !isAuthenticated) ||
+    !!errors.password ||
+    !!errors.contents ||
+    !!errors.rating;
 
   // 디버깅용 로그 (개발 환경에서만)
   if (process.env.NODE_ENV === 'development') {

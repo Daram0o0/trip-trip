@@ -415,7 +415,10 @@ test.describe('Boards Edit Form Hook', () => {
       await login(page);
 
       // 1) zipcode가 있는 게시물 찾기
-      let boardWithZipcode: { _id: string; boardAddress?: any } | null = null;
+      let boardWithZipcode: {
+        _id: string;
+        boardAddress?: { zipcode?: string; address?: string };
+      } | null = null;
       for (let pageNum = 1; pageNum <= 5; pageNum++) {
         const resList = await request.post(GRAPHQL_ENDPOINT, {
           data: {
@@ -518,7 +521,6 @@ test.describe('Boards Edit Form Hook', () => {
 
       // 3) 제목 수정
       const titleInput = page.locator('input[type="text"]').nth(1);
-      const originalTitle = await titleInput.inputValue();
       await titleInput.clear();
       await titleInput.fill('수정된 제목');
 

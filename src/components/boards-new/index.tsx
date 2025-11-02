@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import styles from './styles.module.css';
 import Input from '@/commons/components/input';
 import Button from '@/commons/components/button';
@@ -261,9 +262,11 @@ const BoardsNew = ({
                   >
                     {hasImage ? (
                       <>
-                        <img
+                        <Image
                           src={imagePreviews[index]!}
                           alt={`업로드된 이미지 ${index + 1}`}
+                          width={400}
+                          height={531}
                           className={`${styles.imagePreview} ${
                             isUploading ? styles.imagePreviewUploading : ''
                           }`}
