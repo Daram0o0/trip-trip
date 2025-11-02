@@ -50,7 +50,7 @@ async function createUserMutation(variables: {
   };
 }): Promise<{ createUser: { _id: string } }> {
   const response = await fetch(
-    'http://main-practice.codebootcamp.co.kr/graphql',
+    'https://main-practice.codebootcamp.co.kr/graphql',
     {
       method: 'POST',
       headers: {

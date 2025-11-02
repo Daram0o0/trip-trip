@@ -31,7 +31,7 @@ const BoardsEditPage = () => {
     refetchOnMount: 'always', // 컴포넌트 마운트 시 항상 리패치
     queryFn: async () => {
       const res = await fetch(
-        'http://main-practice.codebootcamp.co.kr/graphql',
+        'https://main-practice.codebootcamp.co.kr/graphql',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

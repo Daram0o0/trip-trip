@@ -65,7 +65,7 @@ export function useLoginForm() {
       // Authorization 헤더가 필요하므로 직접 호출
       try {
         const userResponse = await fetch(
-          'http://main-practice.codebootcamp.co.kr/graphql',
+          'https://main-practice.codebootcamp.co.kr/graphql',
           {
             method: 'POST',
             headers: {

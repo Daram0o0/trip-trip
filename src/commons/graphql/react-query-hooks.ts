@@ -1,19 +1,42 @@
-import { useQuery, useSuspenseQuery, useMutation, UseQueryOptions, UseSuspenseQueryOptions, UseMutationOptions } from '@tanstack/react-query';
+import {
+  useQuery,
+  useSuspenseQuery,
+  useMutation,
+  UseQueryOptions,
+  UseSuspenseQueryOptions,
+  UseMutationOptions,
+} from '@tanstack/react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
+    };
 
 function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
-    const res = await fetch("http://main-practice.codebootcamp.co.kr/graphql", {
-    method: "POST",
-    ...({"headers":{"Content-Type":"application/json"}}),
-      body: JSON.stringify({ query, variables }),
-    });
+    const res = await fetch(
+      'https://main-practice.codebootcamp.co.kr/graphql',
+      {
+        method: 'POST',
+        ...{ headers: { 'Content-Type': 'application/json' } },
+        body: JSON.stringify({ query, variables }),
+      }
+    );
 
     const json = await res.json();
 
@@ -24,17 +47,17 @@ function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
     }
 
     return json.data;
-  }
+  };
 }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  DateTime: { input: any; output: any; }
-  Upload: { input: any; output: any; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  DateTime: { input: any; output: any };
+  Upload: { input: any; output: any };
 };
 
 export type Board = {
@@ -168,112 +191,91 @@ export type Mutation = {
   uploadFile: FileManager;
 };
 
-
 export type MutationCreateBoardArgs = {
   createBoardInput: CreateBoardInput;
 };
-
 
 export type MutationCreateBoardCommentArgs = {
   boardId: Scalars['ID']['input'];
   createBoardCommentInput: CreateBoardCommentInput;
 };
 
-
 export type MutationCreatePointTransactionOfBuyingAndSellingArgs = {
   useritemId: Scalars['ID']['input'];
 };
-
 
 export type MutationCreatePointTransactionOfLoadingArgs = {
   paymentId: Scalars['ID']['input'];
 };
 
-
 export type MutationCreateTravelproductArgs = {
   createTravelproductInput: CreateTravelproductInput;
 };
-
 
 export type MutationCreateTravelproductQuestionArgs = {
   createTravelproductQuestionInput: CreateTravelproductQuestionInput;
   travelproductId: Scalars['ID']['input'];
 };
 
-
 export type MutationCreateTravelproductQuestionAnswerArgs = {
   createTravelproductQuestionAnswerInput: CreateTravelproductQuestionAnswerInput;
   travelproductQuestionId: Scalars['ID']['input'];
 };
 
-
 export type MutationCreateUserArgs = {
   createUserInput: CreateUserInput;
 };
 
-
 export type MutationDeleteBoardArgs = {
   boardId: Scalars['ID']['input'];
 };
-
 
 export type MutationDeleteBoardCommentArgs = {
   boardCommentId: Scalars['ID']['input'];
   password?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 export type MutationDeleteBoardsArgs = {
   boardIds: Array<Scalars['ID']['input']>;
 };
-
 
 export type MutationDeleteTravelproductArgs = {
   travelproductId: Scalars['ID']['input'];
 };
 
-
 export type MutationDeleteTravelproductQuestionArgs = {
   travelproductQuestionId: Scalars['ID']['input'];
 };
-
 
 export type MutationDeleteTravelproductQuestionAnswerArgs = {
   travelproductQuestionAnswerId: Scalars['ID']['input'];
 };
 
-
 export type MutationDislikeBoardArgs = {
   boardId: Scalars['ID']['input'];
 };
 
-
 export type MutationLikeBoardArgs = {
   boardId: Scalars['ID']['input'];
 };
-
 
 export type MutationLoginUserArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };
 
-
 export type MutationLoginUserExampleArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };
 
-
 export type MutationResetUserPasswordArgs = {
   password: Scalars['String']['input'];
 };
 
-
 export type MutationToggleTravelproductPickArgs = {
   travelproductId: Scalars['ID']['input'];
 };
-
 
 export type MutationUpdateBoardArgs = {
   boardId: Scalars['ID']['input'];
@@ -281,36 +283,30 @@ export type MutationUpdateBoardArgs = {
   updateBoardInput: UpdateBoardInput;
 };
 
-
 export type MutationUpdateBoardCommentArgs = {
   boardCommentId: Scalars['ID']['input'];
   password?: InputMaybe<Scalars['String']['input']>;
   updateBoardCommentInput: UpdateBoardCommentInput;
 };
 
-
 export type MutationUpdateTravelproductArgs = {
   travelproductId: Scalars['ID']['input'];
   updateTravelproductInput: UpdateTravelproductInput;
 };
-
 
 export type MutationUpdateTravelproductQuestionArgs = {
   travelproductQuestionId: Scalars['ID']['input'];
   updateTravelproductQuestionInput: UpdateTravelproductQuestionInput;
 };
 
-
 export type MutationUpdateTravelproductQuestionAnswerArgs = {
   travelproductQuestionAnswerId: Scalars['ID']['input'];
   updateTravelproductQuestionAnswerInput: UpdateTravelproductQuestionAnswerInput;
 };
 
-
 export type MutationUpdateUserArgs = {
   updateUserInput: UpdateUserInput;
 };
-
 
 export type MutationUploadFileArgs = {
   file: Scalars['Upload']['input'];
@@ -362,17 +358,14 @@ export type Query = {
   fetchUserLoggedIn: User;
 };
 
-
 export type QueryFetchBoardArgs = {
   boardId: Scalars['ID']['input'];
 };
-
 
 export type QueryFetchBoardCommentsArgs = {
   boardId: Scalars['ID']['input'];
   page?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 export type QueryFetchBoardsArgs = {
   endDate?: InputMaybe<Scalars['DateTime']['input']>;
@@ -381,54 +374,45 @@ export type QueryFetchBoardsArgs = {
   startDate?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
-
 export type QueryFetchBoardsCountArgs = {
   endDate?: InputMaybe<Scalars['DateTime']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   startDate?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
-
 export type QueryFetchPointTransactionsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 export type QueryFetchPointTransactionsOfBuyingArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 export type QueryFetchPointTransactionsOfLoadingArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 export type QueryFetchPointTransactionsOfSellingArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 export type QueryFetchTravelproductArgs = {
   travelproductId: Scalars['ID']['input'];
 };
-
 
 export type QueryFetchTravelproductQuestionAnswersArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   travelproductQuestionId: Scalars['ID']['input'];
 };
 
-
 export type QueryFetchTravelproductQuestionsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   travelproductId: Scalars['ID']['input'];
 };
-
 
 export type QueryFetchTravelproductsArgs = {
   isSoldout?: InputMaybe<Scalars['Boolean']['input']>;
@@ -436,24 +420,20 @@ export type QueryFetchTravelproductsArgs = {
   search?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 export type QueryFetchTravelproductsIBoughtArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 export type QueryFetchTravelproductsIPickedArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 export type QueryFetchTravelproductsISoldArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 export type QueryFetchUserArgs = {
   email: Scalars['String']['input'];
@@ -584,69 +564,132 @@ export type UserPoint = {
   user: User;
 };
 
-export type FetchUserLoggedInQueryVariables = Exact<{ [key: string]: never; }>;
+export type FetchUserLoggedInQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type FetchUserLoggedInQuery = { __typename?: 'Query', fetchUserLoggedIn: { __typename?: 'User', _id: string, name: string } };
+export type FetchUserLoggedInQuery = {
+  __typename?: 'Query';
+  fetchUserLoggedIn: { __typename?: 'User'; _id: string; name: string };
+};
 
 export type LoginUserMutationVariables = Exact<{
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 }>;
 
-
-export type LoginUserMutation = { __typename?: 'Mutation', loginUser: { __typename?: 'Token', accessToken: string } };
+export type LoginUserMutation = {
+  __typename?: 'Mutation';
+  loginUser: { __typename?: 'Token'; accessToken: string };
+};
 
 export type CreateUserMutationVariables = Exact<{
   createUserInput: CreateUserInput;
 }>;
 
-
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', _id: string } };
+export type CreateUserMutation = {
+  __typename?: 'Mutation';
+  createUser: { __typename?: 'User'; _id: string };
+};
 
 export type LikeBoardMutationVariables = Exact<{
   boardId: Scalars['ID']['input'];
 }>;
 
-
-export type LikeBoardMutation = { __typename?: 'Mutation', likeBoard: number };
+export type LikeBoardMutation = { __typename?: 'Mutation'; likeBoard: number };
 
 export type DislikeBoardMutationVariables = Exact<{
   boardId: Scalars['ID']['input'];
 }>;
 
-
-export type DislikeBoardMutation = { __typename?: 'Mutation', dislikeBoard: number };
+export type DislikeBoardMutation = {
+  __typename?: 'Mutation';
+  dislikeBoard: number;
+};
 
 export type CreateBoardCommentMutationVariables = Exact<{
   boardId: Scalars['ID']['input'];
   createBoardCommentInput: CreateBoardCommentInput;
 }>;
 
-
-export type CreateBoardCommentMutation = { __typename?: 'Mutation', createBoardComment: { __typename?: 'BoardComment', _id: string, writer?: string | null, contents: string, rating: number, createdAt: any } };
+export type CreateBoardCommentMutation = {
+  __typename?: 'Mutation';
+  createBoardComment: {
+    __typename?: 'BoardComment';
+    _id: string;
+    writer?: string | null;
+    contents: string;
+    rating: number;
+    createdAt: any;
+  };
+};
 
 export type FetchBoardQueryVariables = Exact<{
   boardId: Scalars['ID']['input'];
 }>;
 
-
-export type FetchBoardQuery = { __typename?: 'Query', fetchBoard: { __typename?: 'Board', _id: string, writer?: string | null, title: string, contents: string, youtubeUrl?: string | null, likeCount: number, dislikeCount: number, images?: Array<string> | null, createdAt: any, updatedAt: any, deletedAt?: any | null, boardAddress?: { __typename?: 'BoardAddress', _id: string, zipcode?: string | null, address?: string | null, addressDetail?: string | null } | null, user?: { __typename?: 'User', _id: string, email: string, name: string } | null } };
+export type FetchBoardQuery = {
+  __typename?: 'Query';
+  fetchBoard: {
+    __typename?: 'Board';
+    _id: string;
+    writer?: string | null;
+    title: string;
+    contents: string;
+    youtubeUrl?: string | null;
+    likeCount: number;
+    dislikeCount: number;
+    images?: Array<string> | null;
+    createdAt: any;
+    updatedAt: any;
+    deletedAt?: any | null;
+    boardAddress?: {
+      __typename?: 'BoardAddress';
+      _id: string;
+      zipcode?: string | null;
+      address?: string | null;
+      addressDetail?: string | null;
+    } | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      email: string;
+      name: string;
+    } | null;
+  };
+};
 
 export type FetchBoardCommentsQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
   boardId: Scalars['ID']['input'];
 }>;
 
-
-export type FetchBoardCommentsQuery = { __typename?: 'Query', fetchBoardComments: Array<{ __typename?: 'BoardComment', _id: string, writer?: string | null, contents: string, rating: number, createdAt: any, updatedAt: any, deletedAt?: any | null, user?: { __typename?: 'User', _id: string, email: string, name: string } | null }> };
+export type FetchBoardCommentsQuery = {
+  __typename?: 'Query';
+  fetchBoardComments: Array<{
+    __typename?: 'BoardComment';
+    _id: string;
+    writer?: string | null;
+    contents: string;
+    rating: number;
+    createdAt: any;
+    updatedAt: any;
+    deletedAt?: any | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      email: string;
+      name: string;
+    } | null;
+  }>;
+};
 
 export type CreateBoardMutationVariables = Exact<{
   createBoardInput: CreateBoardInput;
 }>;
 
-
-export type CreateBoardMutation = { __typename?: 'Mutation', createBoard: { __typename?: 'Board', _id: string } };
+export type CreateBoardMutation = {
+  __typename?: 'Mutation';
+  createBoard: { __typename?: 'Board'; _id: string };
+};
 
 export type UpdateBoardMutationVariables = Exact<{
   boardId: Scalars['ID']['input'];
@@ -654,8 +697,26 @@ export type UpdateBoardMutationVariables = Exact<{
   updateBoardInput: UpdateBoardInput;
 }>;
 
-
-export type UpdateBoardMutation = { __typename?: 'Mutation', updateBoard: { __typename?: 'Board', _id: string, writer?: string | null, title: string, contents: string, youtubeUrl?: string | null, images?: Array<string> | null, createdAt: any, updatedAt: any, boardAddress?: { __typename?: 'BoardAddress', zipcode?: string | null, address?: string | null, addressDetail?: string | null } | null } };
+export type UpdateBoardMutation = {
+  __typename?: 'Mutation';
+  updateBoard: {
+    __typename?: 'Board';
+    _id: string;
+    writer?: string | null;
+    title: string;
+    contents: string;
+    youtubeUrl?: string | null;
+    images?: Array<string> | null;
+    createdAt: any;
+    updatedAt: any;
+    boardAddress?: {
+      __typename?: 'BoardAddress';
+      zipcode?: string | null;
+      address?: string | null;
+      addressDetail?: string | null;
+    } | null;
+  };
+};
 
 export type FetchBoardsQueryVariables = Exact<{
   endDate?: InputMaybe<Scalars['DateTime']['input']>;
@@ -664,8 +725,19 @@ export type FetchBoardsQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-
-export type FetchBoardsQuery = { __typename?: 'Query', fetchBoards: Array<{ __typename?: 'Board', _id: string, writer?: string | null, title: string, contents: string, createdAt: any, likeCount: number, images?: Array<string> | null }> };
+export type FetchBoardsQuery = {
+  __typename?: 'Query';
+  fetchBoards: Array<{
+    __typename?: 'Board';
+    _id: string;
+    writer?: string | null;
+    title: string;
+    contents: string;
+    createdAt: any;
+    likeCount: number;
+    images?: Array<string> | null;
+  }>;
+};
 
 export type FetchBoardsCountQueryVariables = Exact<{
   endDate?: InputMaybe<Scalars['DateTime']['input']>;
@@ -673,22 +745,54 @@ export type FetchBoardsCountQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']['input']>;
 }>;
 
+export type FetchBoardsCountQuery = {
+  __typename?: 'Query';
+  fetchBoardsCount: number;
+};
 
-export type FetchBoardsCountQuery = { __typename?: 'Query', fetchBoardsCount: number };
+export type FetchBoardsOfTheBestQueryVariables = Exact<{
+  [key: string]: never;
+}>;
 
-export type FetchBoardsOfTheBestQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type FetchBoardsOfTheBestQuery = { __typename?: 'Query', fetchBoardsOfTheBest: Array<{ __typename?: 'Board', _id: string, writer?: string | null, title: string, contents: string, youtubeUrl?: string | null, likeCount: number, dislikeCount: number, images?: Array<string> | null, createdAt: any, updatedAt: any, deletedAt?: any | null, boardAddress?: { __typename?: 'BoardAddress', _id: string, zipcode?: string | null, address?: string | null, addressDetail?: string | null } | null, user?: { __typename?: 'User', _id: string, email: string, name: string } | null }> };
+export type FetchBoardsOfTheBestQuery = {
+  __typename?: 'Query';
+  fetchBoardsOfTheBest: Array<{
+    __typename?: 'Board';
+    _id: string;
+    writer?: string | null;
+    title: string;
+    contents: string;
+    youtubeUrl?: string | null;
+    likeCount: number;
+    dislikeCount: number;
+    images?: Array<string> | null;
+    createdAt: any;
+    updatedAt: any;
+    deletedAt?: any | null;
+    boardAddress?: {
+      __typename?: 'BoardAddress';
+      _id: string;
+      zipcode?: string | null;
+      address?: string | null;
+      addressDetail?: string | null;
+    } | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      email: string;
+      name: string;
+    } | null;
+  }>;
+};
 
 export type DeleteBoardMutationVariables = Exact<{
   boardId: Scalars['ID']['input'];
 }>;
 
-
-export type DeleteBoardMutation = { __typename?: 'Mutation', deleteBoard: string };
-
-
+export type DeleteBoardMutation = {
+  __typename?: 'Mutation';
+  deleteBoard: string;
+};
 
 export const FetchUserLoggedInDocument = `
     query FetchUserLoggedIn {
@@ -700,43 +804,84 @@ export const FetchUserLoggedInDocument = `
     `;
 
 export const useFetchUserLoggedInQuery = <
-      TData = FetchUserLoggedInQuery,
-      TError = unknown
-    >(
-      variables?: FetchUserLoggedInQueryVariables,
-      options?: Omit<UseQueryOptions<FetchUserLoggedInQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<FetchUserLoggedInQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useQuery<FetchUserLoggedInQuery, TError, TData>(
-      {
-    queryKey: variables === undefined ? ['FetchUserLoggedIn'] : ['FetchUserLoggedIn', variables],
-    queryFn: fetcher<FetchUserLoggedInQuery, FetchUserLoggedInQueryVariables>(FetchUserLoggedInDocument, variables),
-    ...options
+  TData = FetchUserLoggedInQuery,
+  TError = unknown,
+>(
+  variables?: FetchUserLoggedInQueryVariables,
+  options?: Omit<
+    UseQueryOptions<FetchUserLoggedInQuery, TError, TData>,
+    'queryKey'
+  > & {
+    queryKey?: UseQueryOptions<
+      FetchUserLoggedInQuery,
+      TError,
+      TData
+    >['queryKey'];
   }
-    )};
+) => {
+  return useQuery<FetchUserLoggedInQuery, TError, TData>({
+    queryKey:
+      variables === undefined
+        ? ['FetchUserLoggedIn']
+        : ['FetchUserLoggedIn', variables],
+    queryFn: fetcher<FetchUserLoggedInQuery, FetchUserLoggedInQueryVariables>(
+      FetchUserLoggedInDocument,
+      variables
+    ),
+    ...options,
+  });
+};
 
-useFetchUserLoggedInQuery.getKey = (variables?: FetchUserLoggedInQueryVariables) => variables === undefined ? ['FetchUserLoggedIn'] : ['FetchUserLoggedIn', variables];
+useFetchUserLoggedInQuery.getKey = (
+  variables?: FetchUserLoggedInQueryVariables
+) =>
+  variables === undefined
+    ? ['FetchUserLoggedIn']
+    : ['FetchUserLoggedIn', variables];
 
 export const useSuspenseFetchUserLoggedInQuery = <
-      TData = FetchUserLoggedInQuery,
-      TError = unknown
-    >(
-      variables?: FetchUserLoggedInQueryVariables,
-      options?: Omit<UseSuspenseQueryOptions<FetchUserLoggedInQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<FetchUserLoggedInQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useSuspenseQuery<FetchUserLoggedInQuery, TError, TData>(
-      {
-    queryKey: variables === undefined ? ['FetchUserLoggedInSuspense'] : ['FetchUserLoggedInSuspense', variables],
-    queryFn: fetcher<FetchUserLoggedInQuery, FetchUserLoggedInQueryVariables>(FetchUserLoggedInDocument, variables),
-    ...options
+  TData = FetchUserLoggedInQuery,
+  TError = unknown,
+>(
+  variables?: FetchUserLoggedInQueryVariables,
+  options?: Omit<
+    UseSuspenseQueryOptions<FetchUserLoggedInQuery, TError, TData>,
+    'queryKey'
+  > & {
+    queryKey?: UseSuspenseQueryOptions<
+      FetchUserLoggedInQuery,
+      TError,
+      TData
+    >['queryKey'];
   }
-    )};
+) => {
+  return useSuspenseQuery<FetchUserLoggedInQuery, TError, TData>({
+    queryKey:
+      variables === undefined
+        ? ['FetchUserLoggedInSuspense']
+        : ['FetchUserLoggedInSuspense', variables],
+    queryFn: fetcher<FetchUserLoggedInQuery, FetchUserLoggedInQueryVariables>(
+      FetchUserLoggedInDocument,
+      variables
+    ),
+    ...options,
+  });
+};
 
-useSuspenseFetchUserLoggedInQuery.getKey = (variables?: FetchUserLoggedInQueryVariables) => variables === undefined ? ['FetchUserLoggedInSuspense'] : ['FetchUserLoggedInSuspense', variables];
+useSuspenseFetchUserLoggedInQuery.getKey = (
+  variables?: FetchUserLoggedInQueryVariables
+) =>
+  variables === undefined
+    ? ['FetchUserLoggedInSuspense']
+    : ['FetchUserLoggedInSuspense', variables];
 
-
-useFetchUserLoggedInQuery.fetcher = (variables?: FetchUserLoggedInQueryVariables) => fetcher<FetchUserLoggedInQuery, FetchUserLoggedInQueryVariables>(FetchUserLoggedInDocument, variables);
+useFetchUserLoggedInQuery.fetcher = (
+  variables?: FetchUserLoggedInQueryVariables
+) =>
+  fetcher<FetchUserLoggedInQuery, FetchUserLoggedInQueryVariables>(
+    FetchUserLoggedInDocument,
+    variables
+  );
 
 export const LoginUserDocument = `
     mutation LoginUser($email: String!, $password: String!) {
@@ -746,21 +891,35 @@ export const LoginUserDocument = `
 }
     `;
 
-export const useLoginUserMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<LoginUserMutation, TError, LoginUserMutationVariables, TContext>) => {
-    
-    return useMutation<LoginUserMutation, TError, LoginUserMutationVariables, TContext>(
-      {
+export const useLoginUserMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    LoginUserMutation,
+    TError,
+    LoginUserMutationVariables,
+    TContext
+  >
+) => {
+  return useMutation<
+    LoginUserMutation,
+    TError,
+    LoginUserMutationVariables,
+    TContext
+  >({
     mutationKey: ['LoginUser'],
-    mutationFn: (variables?: LoginUserMutationVariables) => fetcher<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument, variables)(),
-    ...options
-  }
-    )};
+    mutationFn: (variables?: LoginUserMutationVariables) =>
+      fetcher<LoginUserMutation, LoginUserMutationVariables>(
+        LoginUserDocument,
+        variables
+      )(),
+    ...options,
+  });
+};
 
-
-useLoginUserMutation.fetcher = (variables: LoginUserMutationVariables) => fetcher<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument, variables);
+useLoginUserMutation.fetcher = (variables: LoginUserMutationVariables) =>
+  fetcher<LoginUserMutation, LoginUserMutationVariables>(
+    LoginUserDocument,
+    variables
+  );
 
 export const CreateUserDocument = `
     mutation CreateUser($createUserInput: CreateUserInput!) {
@@ -770,21 +929,35 @@ export const CreateUserDocument = `
 }
     `;
 
-export const useCreateUserMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<CreateUserMutation, TError, CreateUserMutationVariables, TContext>) => {
-    
-    return useMutation<CreateUserMutation, TError, CreateUserMutationVariables, TContext>(
-      {
+export const useCreateUserMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    CreateUserMutation,
+    TError,
+    CreateUserMutationVariables,
+    TContext
+  >
+) => {
+  return useMutation<
+    CreateUserMutation,
+    TError,
+    CreateUserMutationVariables,
+    TContext
+  >({
     mutationKey: ['CreateUser'],
-    mutationFn: (variables?: CreateUserMutationVariables) => fetcher<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, variables)(),
-    ...options
-  }
-    )};
+    mutationFn: (variables?: CreateUserMutationVariables) =>
+      fetcher<CreateUserMutation, CreateUserMutationVariables>(
+        CreateUserDocument,
+        variables
+      )(),
+    ...options,
+  });
+};
 
-
-useCreateUserMutation.fetcher = (variables: CreateUserMutationVariables) => fetcher<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, variables);
+useCreateUserMutation.fetcher = (variables: CreateUserMutationVariables) =>
+  fetcher<CreateUserMutation, CreateUserMutationVariables>(
+    CreateUserDocument,
+    variables
+  );
 
 export const LikeBoardDocument = `
     mutation likeBoard($boardId: ID!) {
@@ -792,21 +965,35 @@ export const LikeBoardDocument = `
 }
     `;
 
-export const useLikeBoardMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<LikeBoardMutation, TError, LikeBoardMutationVariables, TContext>) => {
-    
-    return useMutation<LikeBoardMutation, TError, LikeBoardMutationVariables, TContext>(
-      {
+export const useLikeBoardMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    LikeBoardMutation,
+    TError,
+    LikeBoardMutationVariables,
+    TContext
+  >
+) => {
+  return useMutation<
+    LikeBoardMutation,
+    TError,
+    LikeBoardMutationVariables,
+    TContext
+  >({
     mutationKey: ['likeBoard'],
-    mutationFn: (variables?: LikeBoardMutationVariables) => fetcher<LikeBoardMutation, LikeBoardMutationVariables>(LikeBoardDocument, variables)(),
-    ...options
-  }
-    )};
+    mutationFn: (variables?: LikeBoardMutationVariables) =>
+      fetcher<LikeBoardMutation, LikeBoardMutationVariables>(
+        LikeBoardDocument,
+        variables
+      )(),
+    ...options,
+  });
+};
 
-
-useLikeBoardMutation.fetcher = (variables: LikeBoardMutationVariables) => fetcher<LikeBoardMutation, LikeBoardMutationVariables>(LikeBoardDocument, variables);
+useLikeBoardMutation.fetcher = (variables: LikeBoardMutationVariables) =>
+  fetcher<LikeBoardMutation, LikeBoardMutationVariables>(
+    LikeBoardDocument,
+    variables
+  );
 
 export const DislikeBoardDocument = `
     mutation dislikeBoard($boardId: ID!) {
@@ -814,21 +1001,35 @@ export const DislikeBoardDocument = `
 }
     `;
 
-export const useDislikeBoardMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<DislikeBoardMutation, TError, DislikeBoardMutationVariables, TContext>) => {
-    
-    return useMutation<DislikeBoardMutation, TError, DislikeBoardMutationVariables, TContext>(
-      {
+export const useDislikeBoardMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    DislikeBoardMutation,
+    TError,
+    DislikeBoardMutationVariables,
+    TContext
+  >
+) => {
+  return useMutation<
+    DislikeBoardMutation,
+    TError,
+    DislikeBoardMutationVariables,
+    TContext
+  >({
     mutationKey: ['dislikeBoard'],
-    mutationFn: (variables?: DislikeBoardMutationVariables) => fetcher<DislikeBoardMutation, DislikeBoardMutationVariables>(DislikeBoardDocument, variables)(),
-    ...options
-  }
-    )};
+    mutationFn: (variables?: DislikeBoardMutationVariables) =>
+      fetcher<DislikeBoardMutation, DislikeBoardMutationVariables>(
+        DislikeBoardDocument,
+        variables
+      )(),
+    ...options,
+  });
+};
 
-
-useDislikeBoardMutation.fetcher = (variables: DislikeBoardMutationVariables) => fetcher<DislikeBoardMutation, DislikeBoardMutationVariables>(DislikeBoardDocument, variables);
+useDislikeBoardMutation.fetcher = (variables: DislikeBoardMutationVariables) =>
+  fetcher<DislikeBoardMutation, DislikeBoardMutationVariables>(
+    DislikeBoardDocument,
+    variables
+  );
 
 export const CreateBoardCommentDocument = `
     mutation createBoardComment($boardId: ID!, $createBoardCommentInput: CreateBoardCommentInput!) {
@@ -846,20 +1047,39 @@ export const CreateBoardCommentDocument = `
     `;
 
 export const useCreateBoardCommentMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<CreateBoardCommentMutation, TError, CreateBoardCommentMutationVariables, TContext>) => {
-    
-    return useMutation<CreateBoardCommentMutation, TError, CreateBoardCommentMutationVariables, TContext>(
-      {
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: UseMutationOptions<
+    CreateBoardCommentMutation,
+    TError,
+    CreateBoardCommentMutationVariables,
+    TContext
+  >
+) => {
+  return useMutation<
+    CreateBoardCommentMutation,
+    TError,
+    CreateBoardCommentMutationVariables,
+    TContext
+  >({
     mutationKey: ['createBoardComment'],
-    mutationFn: (variables?: CreateBoardCommentMutationVariables) => fetcher<CreateBoardCommentMutation, CreateBoardCommentMutationVariables>(CreateBoardCommentDocument, variables)(),
-    ...options
-  }
-    )};
+    mutationFn: (variables?: CreateBoardCommentMutationVariables) =>
+      fetcher<CreateBoardCommentMutation, CreateBoardCommentMutationVariables>(
+        CreateBoardCommentDocument,
+        variables
+      )(),
+    ...options,
+  });
+};
 
-
-useCreateBoardCommentMutation.fetcher = (variables: CreateBoardCommentMutationVariables) => fetcher<CreateBoardCommentMutation, CreateBoardCommentMutationVariables>(CreateBoardCommentDocument, variables);
+useCreateBoardCommentMutation.fetcher = (
+  variables: CreateBoardCommentMutationVariables
+) =>
+  fetcher<CreateBoardCommentMutation, CreateBoardCommentMutationVariables>(
+    CreateBoardCommentDocument,
+    variables
+  );
 
 export const FetchBoardDocument = `
     query fetchBoard($boardId: ID!) {
@@ -890,44 +1110,64 @@ export const FetchBoardDocument = `
 }
     `;
 
-export const useFetchBoardQuery = <
-      TData = FetchBoardQuery,
-      TError = unknown
-    >(
-      variables: FetchBoardQueryVariables,
-      options?: Omit<UseQueryOptions<FetchBoardQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<FetchBoardQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useQuery<FetchBoardQuery, TError, TData>(
-      {
+export const useFetchBoardQuery = <TData = FetchBoardQuery, TError = unknown>(
+  variables: FetchBoardQueryVariables,
+  options?: Omit<
+    UseQueryOptions<FetchBoardQuery, TError, TData>,
+    'queryKey'
+  > & { queryKey?: UseQueryOptions<FetchBoardQuery, TError, TData>['queryKey'] }
+) => {
+  return useQuery<FetchBoardQuery, TError, TData>({
     queryKey: ['fetchBoard', variables],
-    queryFn: fetcher<FetchBoardQuery, FetchBoardQueryVariables>(FetchBoardDocument, variables),
-    ...options
-  }
-    )};
+    queryFn: fetcher<FetchBoardQuery, FetchBoardQueryVariables>(
+      FetchBoardDocument,
+      variables
+    ),
+    ...options,
+  });
+};
 
-useFetchBoardQuery.getKey = (variables: FetchBoardQueryVariables) => ['fetchBoard', variables];
+useFetchBoardQuery.getKey = (variables: FetchBoardQueryVariables) => [
+  'fetchBoard',
+  variables,
+];
 
 export const useSuspenseFetchBoardQuery = <
-      TData = FetchBoardQuery,
-      TError = unknown
-    >(
-      variables: FetchBoardQueryVariables,
-      options?: Omit<UseSuspenseQueryOptions<FetchBoardQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<FetchBoardQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useSuspenseQuery<FetchBoardQuery, TError, TData>(
-      {
-    queryKey: ['fetchBoardSuspense', variables],
-    queryFn: fetcher<FetchBoardQuery, FetchBoardQueryVariables>(FetchBoardDocument, variables),
-    ...options
+  TData = FetchBoardQuery,
+  TError = unknown,
+>(
+  variables: FetchBoardQueryVariables,
+  options?: Omit<
+    UseSuspenseQueryOptions<FetchBoardQuery, TError, TData>,
+    'queryKey'
+  > & {
+    queryKey?: UseSuspenseQueryOptions<
+      FetchBoardQuery,
+      TError,
+      TData
+    >['queryKey'];
   }
-    )};
+) => {
+  return useSuspenseQuery<FetchBoardQuery, TError, TData>({
+    queryKey: ['fetchBoardSuspense', variables],
+    queryFn: fetcher<FetchBoardQuery, FetchBoardQueryVariables>(
+      FetchBoardDocument,
+      variables
+    ),
+    ...options,
+  });
+};
 
-useSuspenseFetchBoardQuery.getKey = (variables: FetchBoardQueryVariables) => ['fetchBoardSuspense', variables];
+useSuspenseFetchBoardQuery.getKey = (variables: FetchBoardQueryVariables) => [
+  'fetchBoardSuspense',
+  variables,
+];
 
-
-useFetchBoardQuery.fetcher = (variables: FetchBoardQueryVariables) => fetcher<FetchBoardQuery, FetchBoardQueryVariables>(FetchBoardDocument, variables);
+useFetchBoardQuery.fetcher = (variables: FetchBoardQueryVariables) =>
+  fetcher<FetchBoardQuery, FetchBoardQueryVariables>(
+    FetchBoardDocument,
+    variables
+  );
 
 export const FetchBoardCommentsDocument = `
     query fetchBoardComments($page: Int, $boardId: ID!) {
@@ -949,43 +1189,72 @@ export const FetchBoardCommentsDocument = `
     `;
 
 export const useFetchBoardCommentsQuery = <
-      TData = FetchBoardCommentsQuery,
-      TError = unknown
-    >(
-      variables: FetchBoardCommentsQueryVariables,
-      options?: Omit<UseQueryOptions<FetchBoardCommentsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<FetchBoardCommentsQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useQuery<FetchBoardCommentsQuery, TError, TData>(
-      {
-    queryKey: ['fetchBoardComments', variables],
-    queryFn: fetcher<FetchBoardCommentsQuery, FetchBoardCommentsQueryVariables>(FetchBoardCommentsDocument, variables),
-    ...options
+  TData = FetchBoardCommentsQuery,
+  TError = unknown,
+>(
+  variables: FetchBoardCommentsQueryVariables,
+  options?: Omit<
+    UseQueryOptions<FetchBoardCommentsQuery, TError, TData>,
+    'queryKey'
+  > & {
+    queryKey?: UseQueryOptions<
+      FetchBoardCommentsQuery,
+      TError,
+      TData
+    >['queryKey'];
   }
-    )};
+) => {
+  return useQuery<FetchBoardCommentsQuery, TError, TData>({
+    queryKey: ['fetchBoardComments', variables],
+    queryFn: fetcher<FetchBoardCommentsQuery, FetchBoardCommentsQueryVariables>(
+      FetchBoardCommentsDocument,
+      variables
+    ),
+    ...options,
+  });
+};
 
-useFetchBoardCommentsQuery.getKey = (variables: FetchBoardCommentsQueryVariables) => ['fetchBoardComments', variables];
+useFetchBoardCommentsQuery.getKey = (
+  variables: FetchBoardCommentsQueryVariables
+) => ['fetchBoardComments', variables];
 
 export const useSuspenseFetchBoardCommentsQuery = <
-      TData = FetchBoardCommentsQuery,
-      TError = unknown
-    >(
-      variables: FetchBoardCommentsQueryVariables,
-      options?: Omit<UseSuspenseQueryOptions<FetchBoardCommentsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<FetchBoardCommentsQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useSuspenseQuery<FetchBoardCommentsQuery, TError, TData>(
-      {
-    queryKey: ['fetchBoardCommentsSuspense', variables],
-    queryFn: fetcher<FetchBoardCommentsQuery, FetchBoardCommentsQueryVariables>(FetchBoardCommentsDocument, variables),
-    ...options
+  TData = FetchBoardCommentsQuery,
+  TError = unknown,
+>(
+  variables: FetchBoardCommentsQueryVariables,
+  options?: Omit<
+    UseSuspenseQueryOptions<FetchBoardCommentsQuery, TError, TData>,
+    'queryKey'
+  > & {
+    queryKey?: UseSuspenseQueryOptions<
+      FetchBoardCommentsQuery,
+      TError,
+      TData
+    >['queryKey'];
   }
-    )};
+) => {
+  return useSuspenseQuery<FetchBoardCommentsQuery, TError, TData>({
+    queryKey: ['fetchBoardCommentsSuspense', variables],
+    queryFn: fetcher<FetchBoardCommentsQuery, FetchBoardCommentsQueryVariables>(
+      FetchBoardCommentsDocument,
+      variables
+    ),
+    ...options,
+  });
+};
 
-useSuspenseFetchBoardCommentsQuery.getKey = (variables: FetchBoardCommentsQueryVariables) => ['fetchBoardCommentsSuspense', variables];
+useSuspenseFetchBoardCommentsQuery.getKey = (
+  variables: FetchBoardCommentsQueryVariables
+) => ['fetchBoardCommentsSuspense', variables];
 
-
-useFetchBoardCommentsQuery.fetcher = (variables: FetchBoardCommentsQueryVariables) => fetcher<FetchBoardCommentsQuery, FetchBoardCommentsQueryVariables>(FetchBoardCommentsDocument, variables);
+useFetchBoardCommentsQuery.fetcher = (
+  variables: FetchBoardCommentsQueryVariables
+) =>
+  fetcher<FetchBoardCommentsQuery, FetchBoardCommentsQueryVariables>(
+    FetchBoardCommentsDocument,
+    variables
+  );
 
 export const CreateBoardDocument = `
     mutation CreateBoard($createBoardInput: CreateBoardInput!) {
@@ -995,21 +1264,35 @@ export const CreateBoardDocument = `
 }
     `;
 
-export const useCreateBoardMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<CreateBoardMutation, TError, CreateBoardMutationVariables, TContext>) => {
-    
-    return useMutation<CreateBoardMutation, TError, CreateBoardMutationVariables, TContext>(
-      {
+export const useCreateBoardMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    CreateBoardMutation,
+    TError,
+    CreateBoardMutationVariables,
+    TContext
+  >
+) => {
+  return useMutation<
+    CreateBoardMutation,
+    TError,
+    CreateBoardMutationVariables,
+    TContext
+  >({
     mutationKey: ['CreateBoard'],
-    mutationFn: (variables?: CreateBoardMutationVariables) => fetcher<CreateBoardMutation, CreateBoardMutationVariables>(CreateBoardDocument, variables)(),
-    ...options
-  }
-    )};
+    mutationFn: (variables?: CreateBoardMutationVariables) =>
+      fetcher<CreateBoardMutation, CreateBoardMutationVariables>(
+        CreateBoardDocument,
+        variables
+      )(),
+    ...options,
+  });
+};
 
-
-useCreateBoardMutation.fetcher = (variables: CreateBoardMutationVariables) => fetcher<CreateBoardMutation, CreateBoardMutationVariables>(CreateBoardDocument, variables);
+useCreateBoardMutation.fetcher = (variables: CreateBoardMutationVariables) =>
+  fetcher<CreateBoardMutation, CreateBoardMutationVariables>(
+    CreateBoardDocument,
+    variables
+  );
 
 export const UpdateBoardDocument = `
     mutation UpdateBoard($boardId: ID!, $password: String!, $updateBoardInput: UpdateBoardInput!) {
@@ -1035,21 +1318,35 @@ export const UpdateBoardDocument = `
 }
     `;
 
-export const useUpdateBoardMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<UpdateBoardMutation, TError, UpdateBoardMutationVariables, TContext>) => {
-    
-    return useMutation<UpdateBoardMutation, TError, UpdateBoardMutationVariables, TContext>(
-      {
+export const useUpdateBoardMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    UpdateBoardMutation,
+    TError,
+    UpdateBoardMutationVariables,
+    TContext
+  >
+) => {
+  return useMutation<
+    UpdateBoardMutation,
+    TError,
+    UpdateBoardMutationVariables,
+    TContext
+  >({
     mutationKey: ['UpdateBoard'],
-    mutationFn: (variables?: UpdateBoardMutationVariables) => fetcher<UpdateBoardMutation, UpdateBoardMutationVariables>(UpdateBoardDocument, variables)(),
-    ...options
-  }
-    )};
+    mutationFn: (variables?: UpdateBoardMutationVariables) =>
+      fetcher<UpdateBoardMutation, UpdateBoardMutationVariables>(
+        UpdateBoardDocument,
+        variables
+      )(),
+    ...options,
+  });
+};
 
-
-useUpdateBoardMutation.fetcher = (variables: UpdateBoardMutationVariables) => fetcher<UpdateBoardMutation, UpdateBoardMutationVariables>(UpdateBoardDocument, variables);
+useUpdateBoardMutation.fetcher = (variables: UpdateBoardMutationVariables) =>
+  fetcher<UpdateBoardMutation, UpdateBoardMutationVariables>(
+    UpdateBoardDocument,
+    variables
+  );
 
 export const FetchBoardsDocument = `
     query fetchBoards($endDate: DateTime, $startDate: DateTime, $search: String, $page: Int) {
@@ -1070,44 +1367,68 @@ export const FetchBoardsDocument = `
 }
     `;
 
-export const useFetchBoardsQuery = <
-      TData = FetchBoardsQuery,
-      TError = unknown
-    >(
-      variables?: FetchBoardsQueryVariables,
-      options?: Omit<UseQueryOptions<FetchBoardsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<FetchBoardsQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useQuery<FetchBoardsQuery, TError, TData>(
-      {
-    queryKey: variables === undefined ? ['fetchBoards'] : ['fetchBoards', variables],
-    queryFn: fetcher<FetchBoardsQuery, FetchBoardsQueryVariables>(FetchBoardsDocument, variables),
-    ...options
+export const useFetchBoardsQuery = <TData = FetchBoardsQuery, TError = unknown>(
+  variables?: FetchBoardsQueryVariables,
+  options?: Omit<
+    UseQueryOptions<FetchBoardsQuery, TError, TData>,
+    'queryKey'
+  > & {
+    queryKey?: UseQueryOptions<FetchBoardsQuery, TError, TData>['queryKey'];
   }
-    )};
+) => {
+  return useQuery<FetchBoardsQuery, TError, TData>({
+    queryKey:
+      variables === undefined ? ['fetchBoards'] : ['fetchBoards', variables],
+    queryFn: fetcher<FetchBoardsQuery, FetchBoardsQueryVariables>(
+      FetchBoardsDocument,
+      variables
+    ),
+    ...options,
+  });
+};
 
-useFetchBoardsQuery.getKey = (variables?: FetchBoardsQueryVariables) => variables === undefined ? ['fetchBoards'] : ['fetchBoards', variables];
+useFetchBoardsQuery.getKey = (variables?: FetchBoardsQueryVariables) =>
+  variables === undefined ? ['fetchBoards'] : ['fetchBoards', variables];
 
 export const useSuspenseFetchBoardsQuery = <
-      TData = FetchBoardsQuery,
-      TError = unknown
-    >(
-      variables?: FetchBoardsQueryVariables,
-      options?: Omit<UseSuspenseQueryOptions<FetchBoardsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<FetchBoardsQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useSuspenseQuery<FetchBoardsQuery, TError, TData>(
-      {
-    queryKey: variables === undefined ? ['fetchBoardsSuspense'] : ['fetchBoardsSuspense', variables],
-    queryFn: fetcher<FetchBoardsQuery, FetchBoardsQueryVariables>(FetchBoardsDocument, variables),
-    ...options
+  TData = FetchBoardsQuery,
+  TError = unknown,
+>(
+  variables?: FetchBoardsQueryVariables,
+  options?: Omit<
+    UseSuspenseQueryOptions<FetchBoardsQuery, TError, TData>,
+    'queryKey'
+  > & {
+    queryKey?: UseSuspenseQueryOptions<
+      FetchBoardsQuery,
+      TError,
+      TData
+    >['queryKey'];
   }
-    )};
+) => {
+  return useSuspenseQuery<FetchBoardsQuery, TError, TData>({
+    queryKey:
+      variables === undefined
+        ? ['fetchBoardsSuspense']
+        : ['fetchBoardsSuspense', variables],
+    queryFn: fetcher<FetchBoardsQuery, FetchBoardsQueryVariables>(
+      FetchBoardsDocument,
+      variables
+    ),
+    ...options,
+  });
+};
 
-useSuspenseFetchBoardsQuery.getKey = (variables?: FetchBoardsQueryVariables) => variables === undefined ? ['fetchBoardsSuspense'] : ['fetchBoardsSuspense', variables];
+useSuspenseFetchBoardsQuery.getKey = (variables?: FetchBoardsQueryVariables) =>
+  variables === undefined
+    ? ['fetchBoardsSuspense']
+    : ['fetchBoardsSuspense', variables];
 
-
-useFetchBoardsQuery.fetcher = (variables?: FetchBoardsQueryVariables) => fetcher<FetchBoardsQuery, FetchBoardsQueryVariables>(FetchBoardsDocument, variables);
+useFetchBoardsQuery.fetcher = (variables?: FetchBoardsQueryVariables) =>
+  fetcher<FetchBoardsQuery, FetchBoardsQueryVariables>(
+    FetchBoardsDocument,
+    variables
+  );
 
 export const FetchBoardsCountDocument = `
     query fetchBoardsCount($endDate: DateTime, $startDate: DateTime, $search: String) {
@@ -1116,43 +1437,84 @@ export const FetchBoardsCountDocument = `
     `;
 
 export const useFetchBoardsCountQuery = <
-      TData = FetchBoardsCountQuery,
-      TError = unknown
-    >(
-      variables?: FetchBoardsCountQueryVariables,
-      options?: Omit<UseQueryOptions<FetchBoardsCountQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<FetchBoardsCountQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useQuery<FetchBoardsCountQuery, TError, TData>(
-      {
-    queryKey: variables === undefined ? ['fetchBoardsCount'] : ['fetchBoardsCount', variables],
-    queryFn: fetcher<FetchBoardsCountQuery, FetchBoardsCountQueryVariables>(FetchBoardsCountDocument, variables),
-    ...options
+  TData = FetchBoardsCountQuery,
+  TError = unknown,
+>(
+  variables?: FetchBoardsCountQueryVariables,
+  options?: Omit<
+    UseQueryOptions<FetchBoardsCountQuery, TError, TData>,
+    'queryKey'
+  > & {
+    queryKey?: UseQueryOptions<
+      FetchBoardsCountQuery,
+      TError,
+      TData
+    >['queryKey'];
   }
-    )};
+) => {
+  return useQuery<FetchBoardsCountQuery, TError, TData>({
+    queryKey:
+      variables === undefined
+        ? ['fetchBoardsCount']
+        : ['fetchBoardsCount', variables],
+    queryFn: fetcher<FetchBoardsCountQuery, FetchBoardsCountQueryVariables>(
+      FetchBoardsCountDocument,
+      variables
+    ),
+    ...options,
+  });
+};
 
-useFetchBoardsCountQuery.getKey = (variables?: FetchBoardsCountQueryVariables) => variables === undefined ? ['fetchBoardsCount'] : ['fetchBoardsCount', variables];
+useFetchBoardsCountQuery.getKey = (
+  variables?: FetchBoardsCountQueryVariables
+) =>
+  variables === undefined
+    ? ['fetchBoardsCount']
+    : ['fetchBoardsCount', variables];
 
 export const useSuspenseFetchBoardsCountQuery = <
-      TData = FetchBoardsCountQuery,
-      TError = unknown
-    >(
-      variables?: FetchBoardsCountQueryVariables,
-      options?: Omit<UseSuspenseQueryOptions<FetchBoardsCountQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<FetchBoardsCountQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useSuspenseQuery<FetchBoardsCountQuery, TError, TData>(
-      {
-    queryKey: variables === undefined ? ['fetchBoardsCountSuspense'] : ['fetchBoardsCountSuspense', variables],
-    queryFn: fetcher<FetchBoardsCountQuery, FetchBoardsCountQueryVariables>(FetchBoardsCountDocument, variables),
-    ...options
+  TData = FetchBoardsCountQuery,
+  TError = unknown,
+>(
+  variables?: FetchBoardsCountQueryVariables,
+  options?: Omit<
+    UseSuspenseQueryOptions<FetchBoardsCountQuery, TError, TData>,
+    'queryKey'
+  > & {
+    queryKey?: UseSuspenseQueryOptions<
+      FetchBoardsCountQuery,
+      TError,
+      TData
+    >['queryKey'];
   }
-    )};
+) => {
+  return useSuspenseQuery<FetchBoardsCountQuery, TError, TData>({
+    queryKey:
+      variables === undefined
+        ? ['fetchBoardsCountSuspense']
+        : ['fetchBoardsCountSuspense', variables],
+    queryFn: fetcher<FetchBoardsCountQuery, FetchBoardsCountQueryVariables>(
+      FetchBoardsCountDocument,
+      variables
+    ),
+    ...options,
+  });
+};
 
-useSuspenseFetchBoardsCountQuery.getKey = (variables?: FetchBoardsCountQueryVariables) => variables === undefined ? ['fetchBoardsCountSuspense'] : ['fetchBoardsCountSuspense', variables];
+useSuspenseFetchBoardsCountQuery.getKey = (
+  variables?: FetchBoardsCountQueryVariables
+) =>
+  variables === undefined
+    ? ['fetchBoardsCountSuspense']
+    : ['fetchBoardsCountSuspense', variables];
 
-
-useFetchBoardsCountQuery.fetcher = (variables?: FetchBoardsCountQueryVariables) => fetcher<FetchBoardsCountQuery, FetchBoardsCountQueryVariables>(FetchBoardsCountDocument, variables);
+useFetchBoardsCountQuery.fetcher = (
+  variables?: FetchBoardsCountQueryVariables
+) =>
+  fetcher<FetchBoardsCountQuery, FetchBoardsCountQueryVariables>(
+    FetchBoardsCountDocument,
+    variables
+  );
 
 export const FetchBoardsOfTheBestDocument = `
     query fetchBoardsOfTheBest {
@@ -1184,43 +1546,84 @@ export const FetchBoardsOfTheBestDocument = `
     `;
 
 export const useFetchBoardsOfTheBestQuery = <
-      TData = FetchBoardsOfTheBestQuery,
-      TError = unknown
-    >(
-      variables?: FetchBoardsOfTheBestQueryVariables,
-      options?: Omit<UseQueryOptions<FetchBoardsOfTheBestQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<FetchBoardsOfTheBestQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useQuery<FetchBoardsOfTheBestQuery, TError, TData>(
-      {
-    queryKey: variables === undefined ? ['fetchBoardsOfTheBest'] : ['fetchBoardsOfTheBest', variables],
-    queryFn: fetcher<FetchBoardsOfTheBestQuery, FetchBoardsOfTheBestQueryVariables>(FetchBoardsOfTheBestDocument, variables),
-    ...options
+  TData = FetchBoardsOfTheBestQuery,
+  TError = unknown,
+>(
+  variables?: FetchBoardsOfTheBestQueryVariables,
+  options?: Omit<
+    UseQueryOptions<FetchBoardsOfTheBestQuery, TError, TData>,
+    'queryKey'
+  > & {
+    queryKey?: UseQueryOptions<
+      FetchBoardsOfTheBestQuery,
+      TError,
+      TData
+    >['queryKey'];
   }
-    )};
+) => {
+  return useQuery<FetchBoardsOfTheBestQuery, TError, TData>({
+    queryKey:
+      variables === undefined
+        ? ['fetchBoardsOfTheBest']
+        : ['fetchBoardsOfTheBest', variables],
+    queryFn: fetcher<
+      FetchBoardsOfTheBestQuery,
+      FetchBoardsOfTheBestQueryVariables
+    >(FetchBoardsOfTheBestDocument, variables),
+    ...options,
+  });
+};
 
-useFetchBoardsOfTheBestQuery.getKey = (variables?: FetchBoardsOfTheBestQueryVariables) => variables === undefined ? ['fetchBoardsOfTheBest'] : ['fetchBoardsOfTheBest', variables];
+useFetchBoardsOfTheBestQuery.getKey = (
+  variables?: FetchBoardsOfTheBestQueryVariables
+) =>
+  variables === undefined
+    ? ['fetchBoardsOfTheBest']
+    : ['fetchBoardsOfTheBest', variables];
 
 export const useSuspenseFetchBoardsOfTheBestQuery = <
-      TData = FetchBoardsOfTheBestQuery,
-      TError = unknown
-    >(
-      variables?: FetchBoardsOfTheBestQueryVariables,
-      options?: Omit<UseSuspenseQueryOptions<FetchBoardsOfTheBestQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<FetchBoardsOfTheBestQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useSuspenseQuery<FetchBoardsOfTheBestQuery, TError, TData>(
-      {
-    queryKey: variables === undefined ? ['fetchBoardsOfTheBestSuspense'] : ['fetchBoardsOfTheBestSuspense', variables],
-    queryFn: fetcher<FetchBoardsOfTheBestQuery, FetchBoardsOfTheBestQueryVariables>(FetchBoardsOfTheBestDocument, variables),
-    ...options
+  TData = FetchBoardsOfTheBestQuery,
+  TError = unknown,
+>(
+  variables?: FetchBoardsOfTheBestQueryVariables,
+  options?: Omit<
+    UseSuspenseQueryOptions<FetchBoardsOfTheBestQuery, TError, TData>,
+    'queryKey'
+  > & {
+    queryKey?: UseSuspenseQueryOptions<
+      FetchBoardsOfTheBestQuery,
+      TError,
+      TData
+    >['queryKey'];
   }
-    )};
+) => {
+  return useSuspenseQuery<FetchBoardsOfTheBestQuery, TError, TData>({
+    queryKey:
+      variables === undefined
+        ? ['fetchBoardsOfTheBestSuspense']
+        : ['fetchBoardsOfTheBestSuspense', variables],
+    queryFn: fetcher<
+      FetchBoardsOfTheBestQuery,
+      FetchBoardsOfTheBestQueryVariables
+    >(FetchBoardsOfTheBestDocument, variables),
+    ...options,
+  });
+};
 
-useSuspenseFetchBoardsOfTheBestQuery.getKey = (variables?: FetchBoardsOfTheBestQueryVariables) => variables === undefined ? ['fetchBoardsOfTheBestSuspense'] : ['fetchBoardsOfTheBestSuspense', variables];
+useSuspenseFetchBoardsOfTheBestQuery.getKey = (
+  variables?: FetchBoardsOfTheBestQueryVariables
+) =>
+  variables === undefined
+    ? ['fetchBoardsOfTheBestSuspense']
+    : ['fetchBoardsOfTheBestSuspense', variables];
 
-
-useFetchBoardsOfTheBestQuery.fetcher = (variables?: FetchBoardsOfTheBestQueryVariables) => fetcher<FetchBoardsOfTheBestQuery, FetchBoardsOfTheBestQueryVariables>(FetchBoardsOfTheBestDocument, variables);
+useFetchBoardsOfTheBestQuery.fetcher = (
+  variables?: FetchBoardsOfTheBestQueryVariables
+) =>
+  fetcher<FetchBoardsOfTheBestQuery, FetchBoardsOfTheBestQueryVariables>(
+    FetchBoardsOfTheBestDocument,
+    variables
+  );
 
 export const DeleteBoardDocument = `
     mutation deleteBoard($boardId: ID!) {
@@ -1228,18 +1631,32 @@ export const DeleteBoardDocument = `
 }
     `;
 
-export const useDeleteBoardMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<DeleteBoardMutation, TError, DeleteBoardMutationVariables, TContext>) => {
-    
-    return useMutation<DeleteBoardMutation, TError, DeleteBoardMutationVariables, TContext>(
-      {
+export const useDeleteBoardMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    DeleteBoardMutation,
+    TError,
+    DeleteBoardMutationVariables,
+    TContext
+  >
+) => {
+  return useMutation<
+    DeleteBoardMutation,
+    TError,
+    DeleteBoardMutationVariables,
+    TContext
+  >({
     mutationKey: ['deleteBoard'],
-    mutationFn: (variables?: DeleteBoardMutationVariables) => fetcher<DeleteBoardMutation, DeleteBoardMutationVariables>(DeleteBoardDocument, variables)(),
-    ...options
-  }
-    )};
+    mutationFn: (variables?: DeleteBoardMutationVariables) =>
+      fetcher<DeleteBoardMutation, DeleteBoardMutationVariables>(
+        DeleteBoardDocument,
+        variables
+      )(),
+    ...options,
+  });
+};
 
-
-useDeleteBoardMutation.fetcher = (variables: DeleteBoardMutationVariables) => fetcher<DeleteBoardMutation, DeleteBoardMutationVariables>(DeleteBoardDocument, variables);
+useDeleteBoardMutation.fetcher = (variables: DeleteBoardMutationVariables) =>
+  fetcher<DeleteBoardMutation, DeleteBoardMutationVariables>(
+    DeleteBoardDocument,
+    variables
+  );

@@ -109,7 +109,7 @@ async function uploadFileMutation(
 
   try {
     const response = await fetch(
-      'http://main-practice.codebootcamp.co.kr/graphql',
+      'https://main-practice.codebootcamp.co.kr/graphql',
       {
         method: 'POST',
         // Content-Type은 브라우저가 자동으로 설정 (multipart/form-data + boundary)
@@ -164,7 +164,7 @@ async function createBoardMutation(variables: {
   };
 }): Promise<{ createBoard: { _id: string } }> {
   const response = await fetch(
-    'http://main-practice.codebootcamp.co.kr/graphql',
+    'https://main-practice.codebootcamp.co.kr/graphql',
     {
       method: 'POST',
       headers: {
@@ -208,7 +208,7 @@ async function updateBoardMutation(variables: {
   };
 }): Promise<{ updateBoard: { _id: string } }> {
   const response = await fetch(
-    'http://main-practice.codebootcamp.co.kr/graphql',
+    'https://main-practice.codebootcamp.co.kr/graphql',
     {
       method: 'POST',
       headers: {

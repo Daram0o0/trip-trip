@@ -1,6 +1,6 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
-const GRAPHQL_ENDPOINT = 'http://main-practice.codebootcamp.co.kr/graphql';
+const GRAPHQL_ENDPOINT = 'https://main-practice.codebootcamp.co.kr/graphql';
 
 const config: CodegenConfig = {
   overwrite: true,

@@ -84,7 +84,7 @@ async function createBoardCommentMutation(variables: {
   };
 }> {
   const response = await fetch(
-    'http://main-practice.codebootcamp.co.kr/graphql',
+    'https://main-practice.codebootcamp.co.kr/graphql',
     {
       method: 'POST',
       headers: {

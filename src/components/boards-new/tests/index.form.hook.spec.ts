@@ -273,7 +273,7 @@ test.describe('Boards New Form Hook', () => {
 });
 
 test.describe('Boards Edit Form Hook', () => {
-  const GRAPHQL_ENDPOINT = 'http://main-practice.codebootcamp.co.kr/graphql';
+  const GRAPHQL_ENDPOINT = 'https://main-practice.codebootcamp.co.kr/graphql';
 
   test.describe('성공 시나리오', () => {
     test('게시물 수정 성공 - 실제 API 사용 및 zipcode 로딩 확인', async ({

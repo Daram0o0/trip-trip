@@ -58,7 +58,7 @@ export function useBoardDetailBinding(
     gcTime: 5 * 60_000,
     queryFn: async () => {
       const res = await fetch(
-        'http://main-practice.codebootcamp.co.kr/graphql',
+        'https://main-practice.codebootcamp.co.kr/graphql',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -200,7 +200,7 @@ export function useBoardDetailBinding(
     gcTime: 5 * 60_000,
     queryFn: async () => {
       const res = await fetch(
-        'http://main-practice.codebootcamp.co.kr/graphql',
+        'https://main-practice.codebootcamp.co.kr/graphql',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
