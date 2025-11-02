@@ -10,11 +10,11 @@ import {
   ThumbsDown,
   ThumbsUp,
   Play,
-  Pencil,
-  TextAlignJustify,
+  List,
+  Edit,
 } from 'lucide-react';
 // 실제 데이터 바인딩 타입
-import { Button } from '@/commons/components/button';
+import Button from '@/commons/components/button';
 import Input from '@/commons/components/input';
 import {
   Tooltip,
@@ -26,6 +26,7 @@ import { useParams } from 'next/navigation';
 import { useBoardDetailBinding } from './hooks/index.binding.hook';
 import { useBoardDetailLinkRouting } from './hooks/index.link.routing.hook';
 import { useAuth } from '@/commons/providers/auth/auth.provider';
+import { useCommentForm } from './hooks/index.form.hook';
 
 const BoardsDetail = () => {
   const params = useParams<{ id?: string }>();
@@ -40,68 +41,29 @@ const BoardsDetail = () => {
   } = useBoardDetailBinding({ boardId });
   const { handleListClick, handleEditClick } =
     useBoardDetailLinkRouting(boardId);
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
 
-  // 별점 상태
-  const [rating, setRating] = useState<number>(0);
+  // 댓글 작성 form hook
+  const {
+    register,
+    errors,
+    touchedFields,
+    isSubmitted,
+    onSubmit,
+    isSubmitDisabled,
+    isPending,
+    rating,
+    setRating,
+    ratingTouched,
+    watch,
+  } = useCommentForm({ boardId });
+
+  const watchedWriter = watch('writer');
+  const watchedPassword = watch('password');
+  const watchedContents = watch('contents');
+
   // 유튜브 재생 상태
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-
-  // 사용자 이름 추출 헬퍼 함수
-  const getUserNameFromUser = (userObj: unknown): string | null => {
-    if (!userObj || typeof userObj !== 'object') return null;
-    const obj = userObj as { name?: string; _id?: string };
-    return obj.name || null;
-  };
-
-  // localStorage에서 user 정보를 안전하게 가져오는 함수
-  const getUserFromLocalStorage = (): string => {
-    if (typeof window === 'undefined') return '';
-    try {
-      const userStr = window.localStorage.getItem('user');
-      if (userStr) {
-        const userFromStorage = JSON.parse(userStr) as {
-          name?: string;
-          _id?: string;
-        };
-        return userFromStorage?.name || '';
-      }
-    } catch {
-      // localStorage 파싱 오류는 무시 (빈 문자열 반환)
-    }
-    return '';
-  };
-
-  // 댓글 입력 상태
-  const [author, setAuthor] = useState<string>(() => getUserFromLocalStorage());
-  const [password, setPassword] = useState<string>('');
-  const [commentText, setCommentText] = useState<string>('');
-
-  // 로그인된 사용자 정보를 작성자 Input에 자동 입력
-  useEffect(() => {
-    // auth provider의 user가 있으면 우선 사용
-    if (isAuthenticated && user) {
-      const userName = getUserNameFromUser(user);
-      if (userName) {
-        setAuthor(userName);
-        return;
-      }
-    }
-
-    // auth provider의 user가 없거나 name이 없으면 localStorage에서 직접 확인
-    if (isAuthenticated) {
-      const userNameFromStorage = getUserFromLocalStorage();
-      if (userNameFromStorage) {
-        setAuthor(userNameFromStorage);
-        return;
-      }
-    }
-
-    // 로그인하지 않았으면 빈 문자열
-    if (!isAuthenticated) {
-      setAuthor('');
-    }
-  }, [isAuthenticated, user]);
 
   // 별점 렌더링 함수
   const renderStars = (
@@ -119,6 +81,7 @@ const BoardsDetail = () => {
           fill={isFilled ? 'currentColor' : 'none'}
           className={`${styles.starIcon} ${clickable ? styles.clickableStar : ''}`}
           onClick={clickable ? () => setRating(starIndex) : undefined}
+          data-testid={`star-${starIndex}`}
         />
       );
     });
@@ -322,25 +285,25 @@ const BoardsDetail = () => {
       <div className={styles.buttonArea}>
         <Button
           variant="outline"
-          size="medium"
+          size="small"
           className={styles.button}
-          leftIcon={<TextAlignJustify className={styles.outlineIcon} />}
           onClick={handleListClick}
           type="button"
           data-testid="board-detail-list-button"
+          leftIcon={<List size={16} />}
         >
-          <p className={styles.buttonText}>목록으로</p>
+          목록으로
         </Button>
         <Button
           variant="outline"
-          size="medium"
+          size="small"
           className={styles.button}
-          leftIcon={<Pencil className={styles.outlineIcon} />}
           onClick={handleEditClick}
           type="button"
           data-testid="board-detail-edit-button"
+          leftIcon={<Edit size={16} />}
         >
-          <p className={styles.buttonText}>수정하기</p>
+          수정하기
         </Button>
       </div>
 
@@ -358,53 +321,89 @@ const BoardsDetail = () => {
             </div>
           </div>
 
-          <div className={styles.starRating}>{renderStars()}</div>
+          <form onSubmit={onSubmit}>
+            <div className={styles.starRating}>{renderStars()}</div>
+            {errors.rating && (ratingTouched || isSubmitted) && (
+              <div role="alert" className={styles.errorMessage}>
+                {errors.rating.message}
+              </div>
+            )}
 
-          <div className={styles.inputContainer}>
-            <div className={styles.authorPasswordRow}>
-              <div className={styles.authorField}>
+            <div className={styles.inputContainer}>
+              <div className={styles.authorPasswordRow}>
+                <div className={styles.authorField}>
+                  <Input
+                    label="작성자"
+                    required={!isAuthenticated}
+                    placeholder="작성자 명을 입력해 주세요."
+                    value={watchedWriter}
+                    onChange={e => {
+                      const { onChange } = register('writer');
+                      onChange(e);
+                    }}
+                    error={
+                      errors.writer && (touchedFields.writer || isSubmitted)
+                        ? errors.writer.message
+                        : undefined
+                    }
+                    className={styles.authorInput}
+                    readOnly={isAuthenticated}
+                    data-testid="comment-author-input"
+                  />
+                </div>
+                <div className={styles.passwordField}>
+                  <Input
+                    label="비밀번호"
+                    required={!isAuthenticated}
+                    type="password"
+                    placeholder="비밀번호를 입력해 주세요."
+                    value={watchedPassword}
+                    onChange={e => {
+                      const { onChange } = register('password');
+                      onChange(e);
+                    }}
+                    error={
+                      errors.password && (touchedFields.password || isSubmitted)
+                        ? errors.password.message
+                        : undefined
+                    }
+                    className={styles.passwordInput}
+                    data-testid="comment-password-input"
+                  />
+                </div>
+              </div>
+              <div className={styles.commentTextWrapper}>
                 <Input
-                  label="작성자"
-                  required
-                  placeholder="작성자 명을 입력해 주세요."
-                  value={author}
-                  onChange={e => setAuthor(e.target.value)}
-                  className={styles.authorInput}
-                  readOnly={isAuthenticated}
-                  data-testid="comment-author-input"
+                  isTextarea
+                  placeholder="댓글을 입력해 주세요."
+                  maxLength={100}
+                  showCount
+                  value={watchedContents}
+                  onChange={e => {
+                    const { onChange } = register('contents');
+                    onChange(e);
+                  }}
+                  error={
+                    errors.contents && (touchedFields.contents || isSubmitted)
+                      ? errors.contents.message
+                      : undefined
+                  }
+                  className={styles.commentInput}
+                  data-testid="comment-contents-input"
                 />
               </div>
-              <div className={styles.passwordField}>
-                <Input
-                  label="비밀번호"
-                  required
-                  type="password"
-                  placeholder="비밀번호를 입력해 주세요."
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  className={styles.passwordInput}
-                />
-              </div>
+              <Button
+                variant="primary"
+                size="medium"
+                type="submit"
+                className={styles.commentSubmitButton}
+                disabled={isSubmitDisabled}
+                data-testid="comment-submit-button"
+              >
+                {isPending ? '등록 중...' : '댓글 등록'}
+              </Button>
             </div>
-            <div className={styles.commentTextWrapper}>
-              <Input
-                isTextarea
-                placeholder="댓글을 입력해 주세요."
-                maxLength={100}
-                showCount
-                value={commentText}
-                onChange={e => setCommentText(e.target.value)}
-                className={styles.commentInput}
-              />
-            </div>
-            <Button
-              variant="primary"
-              size="medium"
-              className={styles.commentSubmitButton}
-            >
-              댓글 등록
-            </Button>
-          </div>
+          </form>
         </div>
 
         {/* Gap */}

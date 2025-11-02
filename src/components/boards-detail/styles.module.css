@@ -341,10 +341,10 @@
 
 .buttonText {
   font-family: var(--font-family-korean-variable);
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-regular);
+  font-size: 14px;
+  font-weight: 600;
   line-height: 20px;
-  color: var(--color-gray-B);
+  color: #000000;
 }
 
 /* 댓글 영역 */
