@@ -618,6 +618,14 @@ export type DislikeBoardMutationVariables = Exact<{
 
 export type DislikeBoardMutation = { __typename?: 'Mutation', dislikeBoard: number };
 
+export type CreateBoardCommentMutationVariables = Exact<{
+  boardId: Scalars['ID']['input'];
+  createBoardCommentInput: CreateBoardCommentInput;
+}>;
+
+
+export type CreateBoardCommentMutation = { __typename?: 'Mutation', createBoardComment: { __typename?: 'BoardComment', _id: string, writer?: string | null, contents: string, rating: number, createdAt: any } };
+
 export type FetchBoardQueryVariables = Exact<{
   boardId: Scalars['ID']['input'];
 }>;
@@ -639,6 +647,15 @@ export type CreateBoardMutationVariables = Exact<{
 
 
 export type CreateBoardMutation = { __typename?: 'Mutation', createBoard: { __typename?: 'Board', _id: string } };
+
+export type UpdateBoardMutationVariables = Exact<{
+  boardId: Scalars['ID']['input'];
+  password: Scalars['String']['input'];
+  updateBoardInput: UpdateBoardInput;
+}>;
+
+
+export type UpdateBoardMutation = { __typename?: 'Mutation', updateBoard: { __typename?: 'Board', _id: string, writer?: string | null, title: string, contents: string, youtubeUrl?: string | null, images?: Array<string> | null, createdAt: any, updatedAt: any, boardAddress?: { __typename?: 'BoardAddress', zipcode?: string | null, address?: string | null, addressDetail?: string | null } | null } };
 
 export type FetchBoardsQueryVariables = Exact<{
   endDate?: InputMaybe<Scalars['DateTime']['input']>;
@@ -813,6 +830,37 @@ export const useDislikeBoardMutation = <
 
 useDislikeBoardMutation.fetcher = (variables: DislikeBoardMutationVariables) => fetcher<DislikeBoardMutation, DislikeBoardMutationVariables>(DislikeBoardDocument, variables);
 
+export const CreateBoardCommentDocument = `
+    mutation createBoardComment($boardId: ID!, $createBoardCommentInput: CreateBoardCommentInput!) {
+  createBoardComment(
+    boardId: $boardId
+    createBoardCommentInput: $createBoardCommentInput
+  ) {
+    _id
+    writer
+    contents
+    rating
+    createdAt
+  }
+}
+    `;
+
+export const useCreateBoardCommentMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<CreateBoardCommentMutation, TError, CreateBoardCommentMutationVariables, TContext>) => {
+    
+    return useMutation<CreateBoardCommentMutation, TError, CreateBoardCommentMutationVariables, TContext>(
+      {
+    mutationKey: ['createBoardComment'],
+    mutationFn: (variables?: CreateBoardCommentMutationVariables) => fetcher<CreateBoardCommentMutation, CreateBoardCommentMutationVariables>(CreateBoardCommentDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useCreateBoardCommentMutation.fetcher = (variables: CreateBoardCommentMutationVariables) => fetcher<CreateBoardCommentMutation, CreateBoardCommentMutationVariables>(CreateBoardCommentDocument, variables);
+
 export const FetchBoardDocument = `
     query fetchBoard($boardId: ID!) {
   fetchBoard(boardId: $boardId) {
@@ -962,6 +1010,46 @@ export const useCreateBoardMutation = <
 
 
 useCreateBoardMutation.fetcher = (variables: CreateBoardMutationVariables) => fetcher<CreateBoardMutation, CreateBoardMutationVariables>(CreateBoardDocument, variables);
+
+export const UpdateBoardDocument = `
+    mutation UpdateBoard($boardId: ID!, $password: String!, $updateBoardInput: UpdateBoardInput!) {
+  updateBoard(
+    boardId: $boardId
+    password: $password
+    updateBoardInput: $updateBoardInput
+  ) {
+    _id
+    writer
+    title
+    contents
+    youtubeUrl
+    images
+    boardAddress {
+      zipcode
+      address
+      addressDetail
+    }
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+export const useUpdateBoardMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpdateBoardMutation, TError, UpdateBoardMutationVariables, TContext>) => {
+    
+    return useMutation<UpdateBoardMutation, TError, UpdateBoardMutationVariables, TContext>(
+      {
+    mutationKey: ['UpdateBoard'],
+    mutationFn: (variables?: UpdateBoardMutationVariables) => fetcher<UpdateBoardMutation, UpdateBoardMutationVariables>(UpdateBoardDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useUpdateBoardMutation.fetcher = (variables: UpdateBoardMutationVariables) => fetcher<UpdateBoardMutation, UpdateBoardMutationVariables>(UpdateBoardDocument, variables);
 
 export const FetchBoardsDocument = `
     query fetchBoards($endDate: DateTime, $startDate: DateTime, $search: String, $page: Int) {
