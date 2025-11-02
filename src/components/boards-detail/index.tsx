@@ -336,11 +336,7 @@ const BoardsDetail = () => {
                     label="작성자"
                     required={!isAuthenticated}
                     placeholder="작성자 명을 입력해 주세요."
-                    value={watchedWriter}
-                    onChange={e => {
-                      const { onChange } = register('writer');
-                      onChange(e);
-                    }}
+                    {...register('writer')}
                     error={
                       errors.writer && (touchedFields.writer || isSubmitted)
                         ? errors.writer.message
@@ -357,11 +353,7 @@ const BoardsDetail = () => {
                     required={!isAuthenticated}
                     type="password"
                     placeholder="비밀번호를 입력해 주세요."
-                    value={watchedPassword}
-                    onChange={e => {
-                      const { onChange } = register('password');
-                      onChange(e);
-                    }}
+                    {...register('password')}
                     error={
                       errors.password && (touchedFields.password || isSubmitted)
                         ? errors.password.message
@@ -378,11 +370,7 @@ const BoardsDetail = () => {
                   placeholder="댓글을 입력해 주세요."
                   maxLength={100}
                   showCount
-                  value={watchedContents}
-                  onChange={e => {
-                    const { onChange } = register('contents');
-                    onChange(e);
-                  }}
+                  {...register('contents')}
                   error={
                     errors.contents && (touchedFields.contents || isSubmitted)
                       ? errors.contents.message

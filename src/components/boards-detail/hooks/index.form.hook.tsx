@@ -189,23 +189,42 @@ export function useCommentForm({
     trigger();
   }, [isAuthenticated, trigger]);
 
-  // 로그인 상태에 따라 writer 초기값 동기화
+  // 로그인 상태에 따라 writer 초기값 동기화 (항상 최신 사용자 이름 유지)
   useEffect(() => {
     if (isAuthenticated) {
       const userName = getUserName();
       if (userName) {
-        setValue('writer', userName, { shouldValidate: false });
+        setValue('writer', userName, {
+          shouldValidate: false,
+          shouldTouch: false,
+        });
       }
     } else {
-      setValue('writer', '', { shouldValidate: false });
+      setValue('writer', '', { shouldValidate: false, shouldTouch: false });
     }
   }, [isAuthenticated, user, setValue]);
+
+  // 컴포넌트 마운트 시에도 작성자 이름 설정
+  useEffect(() => {
+    if (isAuthenticated) {
+      const userName = getUserName();
+      if (userName) {
+        setValue('writer', userName, {
+          shouldValidate: false,
+          shouldTouch: false,
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // 마운트 시에만 실행
 
   // rating state와 form value 동기화 (rating이 변경될 때만)
   useEffect(() => {
     if (rating > 0) {
       setRatingTouched(true);
-      setValue('rating', rating, { shouldValidate: true });
+      setValue('rating', rating, { shouldValidate: true, shouldTouch: true });
+    } else {
+      setValue('rating', 0, { shouldValidate: false, shouldTouch: false });
     }
   }, [rating, setValue]);
 
@@ -241,13 +260,21 @@ export function useCommentForm({
       // 에러 메시지 모두 제거
       clearErrors();
 
-      // 비밀번호, 댓글 내용만 초기화
-      setValue('password', '', { shouldValidate: false });
-      setValue('contents', '', { shouldValidate: false });
-      setValue('rating', 0, { shouldValidate: false });
+      // 비밀번호, 댓글 내용만 초기화 (작성자는 유지)
+      setValue('password', '', { shouldValidate: false, shouldTouch: false });
+      setValue('contents', '', { shouldValidate: false, shouldTouch: false });
+      setValue('rating', 0, { shouldValidate: false, shouldTouch: false });
 
-      // 작성자는 로그인 상태에 따라 설정
-      setValue('writer', currentWriter, { shouldValidate: false });
+      // 로그인된 경우 작성자 이름 항상 유지
+      if (isAuthenticated) {
+        const userName = getUserName();
+        if (userName) {
+          setValue('writer', userName, {
+            shouldValidate: false,
+            shouldTouch: false,
+          });
+        }
+      }
 
       setRating(0);
       setRatingTouched(false);
@@ -316,9 +343,13 @@ export function useCommentForm({
 
   // 필수 필드 체크 (로그인 상태에 따라 다름)
   const hasRequiredFields = isAuthenticated
-    ? // 로그인된 경우: 별점, 댓글 내용만 필요
-      rating >= 1 && watchedContents && watchedContents.trim().length > 0
-    : // 비로그인 경우: 작성자, 비밀번호, 별점, 댓글 내용 모두 필요
+    ? // 로그인된 사용자: 별점 + 비밀번호 + 댓글 내용 (작성자는 자동 입력)
+      rating >= 1 &&
+      watchedPassword &&
+      watchedPassword.trim().length > 0 &&
+      watchedContents &&
+      watchedContents.trim().length > 0
+    : // 비로그인 사용자: 작성자 + 비밀번호 + 별점 + 댓글 내용
       watchedWriter &&
       watchedWriter.trim().length > 0 &&
       watchedPassword &&
@@ -331,7 +362,7 @@ export function useCommentForm({
     !hasRequiredFields ||
     createCommentMutation.isPending ||
     (errors.writer && !isAuthenticated) ||
-    (errors.password && !isAuthenticated) ||
+    errors.password ||
     errors.contents ||
     errors.rating;
 
