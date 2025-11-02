@@ -1,0 +1,205 @@
+아래의 조건을 모두 적용하여, 아래의 요구사항을 모두 구현할 것.
+구현 결과를 체크리스트로 반환할 것.
+
+==============================================
+
+조건-커서룰) 아래의 커서룰을 적용하여 작업하고, 이 작업이 끝나면 해당 rules 적용 결과를 체크리스트로 반환할 것.
+            - @01-common.mdc
+            - @04-func.mdc
+
+==============================================
+
+조건-채널명) Figma 채널명: (필요시 추가)
+조건-노드ID) Figma 노드 ID: (필요시 추가)
+조건-파일경로) 참고할 API  문서경로: https://main-practice.codebootcamp.co.kr/graphql
+조건-파일경로) 참고할 TSX  파일경로: src/components/boards-new/index.tsx
+조건-파일경로) 참고할 CSS  파일경로: src/components/boards-new/styles.module.css
+조건-파일경로) 구현될 HOOK 파일경로: src/components/boards-new/hooks/index.form.hook.tsx
+조건-파일경로) 구현될 TEST 파일경로: src/components/boards-new/tests/index.form.hook.spec.ts
+조건-파일경로) 구현될 GraphQL 파일경로: src/components/boards-new/graphql/update-board.mutation.ts
+
+==============================================
+[1차 핵심요구사항]
+핵심요구사항) 다음의 기능을 playwright 테스트를 활용하여 TDD기반으로 구현하고, 테스트에 통과할 때까지 반복할 것.
+            1) 테스트 제외 라이브러리
+                - jest
+                - @testing-library/react
+
+            2) 테스트 조건
+                - timeout은 network 통신인 경우 2000ms 미만으로 설정할 것.
+                - timeout은 network 통신이 아닌 경우 설정하지 않거나, 500ms 미만으로 설정할 것.
+                - /boards/[id]/edit 페이지가 완전히 로드된 후 테스트할 것.
+                    - 페이지 로드 식별 요구사항: 고정식별자 data-testid 대기 방법 (boards-new-container)
+                    - 페이지 로드 식별 금지사항: networkidle 대기 방법
+            
+            3) 테스트 API 조건
+                3-1) 데이터
+                    - 실제데이터를 사용할 것.
+                    - Mock데이터 사용하지 말 것.
+
+                3-2) 성공시나리오
+                    - API 모킹하지 말 것.
+                    - 사용할 email: "a@a.aa"
+                    - 사용할 password: "aaaaaaaa8"
+                    - 수정하기 버튼 클릭 시 비밀번호 확인 모달이 표시되는지 확인할 것.
+                    - 비밀번호 확인 모달에서 올바른 비밀번호 입력 후 확인 클릭 시 updateBoard API가 호출되는지 확인할 것.
+                    - updateBoard API가 제대로 반환되는지 확인할 것.
+                    - 비밀번호가 맞으면 수정완료 모달이 표시되는지 확인할 것.
+                    - 수정완료 모달의 확인 클릭 시 수정 후 게시물 상세 페이지로 이동하는지 확인할 것.
+                    - 수정된 내용이 게시물 상세 페이지에 반영되는지 확인할 것.
+
+                3-2-1) 비밀번호 오류 시나리오
+                    - 수정하기 버튼 클릭 시 비밀번호 확인 모달이 표시되는지 확인할 것.
+                    - 비밀번호 확인 모달에서 틀린 비밀번호 입력 후 확인 클릭 시 비밀번호 오류 모달이 표시되는지 확인할 것.
+                    - 비밀번호 오류 모달의 확인 클릭 시 페이지 이동 없이 모달만 닫히는지 확인할 것.
+                    - 폼 상태가 유지되는지 확인할 것.
+
+                3-3) 실패시나리오
+                    - API 모킹할 것.
+
+핵심요구사항) 현재의 모든 구조를 그대로 유지하고, 게시물 수정 기능을 구현할 것. 적용 결과를 체크리스트로 반환할 것.
+            1) 라이브러리조건
+                - API: 이미 설치되어있는 @tanstack/react-query를 사용할 것.
+                - 이미 설치되어 있는 codegen을 사용할 것.
+                - boards-new/하위에 graphql폴더에 updateBoard mutation 파일을 만든 후 npm run codegen을 사용해 해당 API를 사용할 것.
+
+            2) 수정 기능을 적용할 것.
+                1. 게시물 데이터 로드
+                    1-1) edit 페이지에서 boardId를 파라미터로 받아 게시물 데이터를 조회할 것.
+                    1-2) 게시물 상세 조회 API를 사용하여 기존 데이터를 가져올 것.
+                        - API명: fetchBoard (또는 기존 상세 조회 API)
+                        - 요청데이터: boardId
+                    1-3) 조회된 데이터를 BoardsNew 컴포넌트의 initialData prop으로 전달할 것.
+                    1-4) 로딩 중 상태를 표시할 것.
+
+                2. 폼 초기값 설정
+                    2-1) mode="edit"일 때 기존 게시물 데이터로 폼을 초기화할 것.
+                    2-2) 작성자 필드는 readonly 또는 disabled 상태로 처리할 것.
+                    2-3) 비밀번호 필드는 disabled 상태로 처리할 것.
+                    2-4) 모든 input 필드에 기존 데이터를 채워넣을 것.
+                        - 작성자, 제목, 내용
+                        - 주소 정보 (우편번호, 기본주소, 상세주소)
+                        - 유튜브 링크
+                        - 이미지 URL 배열
+
+                3. 이미지 처리
+                    3-1) 기존 게시물에 이미지가 있으면 미리보기로 표시할 것.
+                        - API에서 받은 이미지 URL이 상대 경로일 경우 전체 URL로 변환하여 표시할 것.
+                        - codecamp-file-storage/... 형식은 https://storage.googleapis.com/... 로 변환할 것.
+                    3-2) 기존 이미지를 삭제할 수 있어야 함.
+                    3-3) 기존 이미지를 새로운 이미지로 교체할 수 있어야 함.
+                    3-4) 새 이미지를 추가할 수 있어야 함.
+                    3-5) 최대 3개까지 이미지 관리 (기존 + 신규 합쳐서)
+                    3-6) 이미지 삭제 처리
+                        - 이미지를 삭제한 후 수정하기 버튼을 누르면 updateBoard API에 images를 빈 배열([])로 명시적으로 전달할 것.
+                        - 이미지가 없는 경우 undefined가 아닌 빈 배열([])을 전달하여 이미지 삭제가 서버에 반영되도록 할 것.
+                        - 모든 이미지를 삭제한 경우에도 빈 배열로 전달하여 상세 페이지에서 이미지가 제거되도록 할 것.
+
+                4. updateBoard API
+                    4-1) API명: updateBoard
+                    4-2) 요청데이터:
+                        - boardId: ID! (필수)
+                        - password?: String (필수, 수정 시에는 기존 비밀번호 사용)
+                        - updateBoardInput: {
+                            - title?: String (optional)
+                            - contents?: String (optional)
+                            - boardAddress?: {
+                                - zipcode: String
+                                - address: String
+                                - addressDetail: String
+                            } (optional)
+                            - youtubeUrl?: String (optional)
+                            - images?: String[] (optional, 업로드된 이미지 URL 배열)
+                          }
+                    4-3) 응답데이터: Board 객체
+                    4-4) zod 검증 조건 (기존과 동일)
+                        - writer: 최소 1글자 이상 (readonly이므로 변경 불가)
+                        - password: 최소 1글자 이상 (disabled이므로 변경 불가)
+                        - title: 최소 1글자 이상
+                        - contents: 최소 1글자 이상
+                        - boardAddress?: 주소 입력 시 모든 필드 필수 (optional)
+                        - youtubeUrl?: URL 형식 검증 (optional)
+
+                5. 수정 제출 기능 및 비밀번호 확인
+                    5-1) 수정하기 버튼 클릭 시 폼 검증을 먼저 수행할 것.
+                    5-2) 폼 검증을 통과한 경우에만 다음 단계로 진행할 것.
+                    5-3) 업로드 중인 이미지가 있으면 submit을 차단할 것.
+                    5-4) 폼 검증 통과 후 비밀번호 확인 모달을 먼저 표시할 것.
+                        - 모달 조건:
+                            - <Modal /> 컴포넌트 사용
+                            - 비밀번호 입력 필드가 있는 모달
+                            - 모달 프로바이더 경로: src/commons/providers/modal/modal.provider.tsx
+                            - 모달 내부에 비밀번호 입력 Input 컴포넌트 포함
+                            - "확인" 버튼과 "취소" 버튼 포함
+                        - 비밀번호 확인 모달 동작:
+                            1. "취소" 버튼 클릭 시: 모달만 닫고 아무 동작도 하지 않음
+                            2. "확인" 버튼 클릭 시: 입력한 비밀번호로 검증 진행
+                    5-5) 비밀번호 확인 모달에서 "확인" 클릭 시:
+                        - 입력한 비밀번호를 updateBoard API의 password 파라미터로 전달하여 검증할 것.
+                        - 비밀번호 확인 모달을 먼저 닫은 후 API를 호출할 것 (다음 모달이 제대로 표시되도록).
+                        - API 호출 시 password가 틀리면 에러를 반환하도록 할 것.
+                        - 비밀번호 입력 후 "확인" 버튼 클릭 시 즉시 실행되어야 하며, 모달을 닫고 다시 열 필요 없이 작동해야 함.
+
+                6. 수정 성공/실패 처리
+                    6-1) 비밀번호 확인 후 수정 성공 시
+                        - 수정완료 모달을 표시할 것.
+                        - 모달 조건:
+                            - <Modal />, variant: 'info', actions: 'single'
+                            - 제목: "수정완료" (또는 "게시물이 수정되었습니다")
+                            - 설명: 수정되었다는 문구 포함
+                            - 모달 프로바이더 경로: src/commons/providers/modal/modal.provider.tsx
+                            - 모달은 한 번만 보여야 하며, 닫힌 뒤에는 같은 상황에서 다시 나타나지 않도록 할 것.
+                        - '확인' 클릭 시:
+                            1. 열려있는 모든 모달을 닫기
+                            2. 수정된 게시물 상세 페이지로 이동 => /boards/[id] (수정한 boardId 사용)
+
+                    6-2) 비밀번호가 틀린 경우
+                        - 비밀번호 오류 모달을 표시할 것.
+                        - 모달 조건:
+                            - <Modal />, variant: 'danger', actions: 'single'
+                            - 제목: "비밀번호 오류" (또는 "오류")
+                            - 설명: "비밀번호가 틀렸습니다" 또는 "입력하신 비밀번호가 일치하지 않습니다" 등의 문구
+                            - 모달 프로바이더 경로: src/commons/providers/modal/modal.provider.tsx
+                            - 모달은 한 번만 보여야 하며, 닫힌 뒤에는 같은 상황에서 다시 나타나지 않도록 할 것.
+                        - '확인' 클릭 시:
+                            1. 열려있는 모든 모달을 닫기
+                            2. 아무 동작도 하지 않음 (페이지 이동 없음, 폼 상태 유지)
+
+                    6-3) 기타 수정 실패 시 (네트워크 에러, 서버 에러 등)
+                        - 수정실패 모달을 표시할 것.
+                        - 모달 조건:
+                            - <Modal />, variant: 'danger', actions: 'single'
+                            - 모달 프로바이더 경로: src/commons/providers/modal/modal.provider.tsx
+                            - 모달은 한 번만 보여야 하며, 닫힌 뒤에는 같은 상황에서 다시 나타나지 않도록 할 것.
+                        - '확인' 클릭 시:
+                            1. 열려있는 모든 모달을 닫기
+
+                7. 취소 버튼
+                    7-1) 취소 버튼 클릭 시 현재 수정 중인 게시물 상세 페이지로 이동할 것 => /boards/[id]
+
+                8. 페이지 경로
+                    8-1) commons/constants/url.ts의 페이지URL에 정의된 경로를 사용할 것.
+                    8-2) buildBoardEditPath(boardId) 함수를 사용하여 수정 페이지 경로를 생성할 것.
+                    8-3) buildBoardDetailPath(boardId) 함수를 사용하여 상세 페이지 경로를 생성할 것.
+
+                9. 기존 createBoard 기능 유지
+                    9-1) mode="create"일 때는 기존 createBoard 기능을 그대로 사용할 것.
+                    9-2) mode="edit"일 때만 updateBoard 기능을 사용할 것.
+
+                10. Hook 함수 확장
+                    10-1) useBoardForm hook에 mode 파라미터를 추가할 것.
+                    10-2) mode에 따라 createBoard 또는 updateBoard mutation을 사용할 것.
+                    10-3) mode="edit"일 때는 boardId를 추가 파라미터로 받을 것.
+
+                11. GraphQL Mutation 파일 생성
+                    11-1) src/components/boards-new/graphql/update-board.mutation.ts 파일을 생성할 것.
+                    11-2) updateBoard mutation을 정의할 것.
+                    11-3) npm run codegen을 실행하여 타입을 생성할 것.
+
+                12. 에러 처리
+                    12-1) 게시물 조회 실패 시 에러 메시지를 표시할 것.
+                    12-2) 수정 실패 시 에러 메시지를 모달로 표시할 것.
+                    12-3) 네트워크 에러 및 서버 에러를 구분하여 처리할 것.
+
+==============================================
+
