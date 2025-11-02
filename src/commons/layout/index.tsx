@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
-import { Button } from '../components/button';
 import { useLayoutRouting } from './hooks/index.link.routing.hook';
 import { useLayoutAuth } from './hooks/index.auth.hook';
 import { useArea } from './hooks/index.area.hook';
@@ -154,22 +153,19 @@ function Header() {
               </NavigationMenu>
             </div>
           ) : (
-            <Button
-              variant="primary"
-              size="small"
+            <button
               onClick={handleLogin}
-              rightIcon={
-                <Image
-                  src="/icons/outline/right_icon.svg"
-                  alt="Right Icon"
-                  width={24}
-                  height={24}
-                />
-              }
               data-testid="login-button"
+              className={styles.loginButton}
             >
-              로그인
-            </Button>
+              <span>로그인</span>
+              <Image
+                src="/icons/outline/right_icon.svg"
+                alt="Right Icon"
+                width={24}
+                height={24}
+              />
+            </button>
           )}
         </div>
       </div>

@@ -45,14 +45,15 @@
   align-items: center;
   height: 40px;
   padding: 0 16px;
-  border-radius: 8px;
+
   text-decoration: none;
   font-family: var(--font-family-korean-primary);
-  font-size: var(--font-size-lg);
+  font-size: 16px;
   font-weight: var(--font-weight-medium);
-  color: var(--color-gray-800);
+  color: #333333;
   transition: all 0.2s ease;
   cursor: pointer;
+  border: 1px solid transparent;
 }
 
 .navItem:hover {
@@ -61,13 +62,45 @@
 
 .navItemActive {
   border-bottom: 2px solid var(--color-gray-B);
-  color: var(--color-gray-B);
+
+  color: #000000;
   font-weight: var(--font-weight-bold);
+}
+
+.navItemActive:hover {
+  background-color: transparent;
 }
 
 .headerRight {
   display: flex;
   align-items: center;
+}
+
+/* Login Button Styles */
+.loginButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 12px;
+  height: 40px;
+  background-color: #000000;
+  color: #ffffff;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  font-family: var(--font-family-korean-primary);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.loginButton:hover {
+  opacity: 0.8;
+}
+
+.loginButton:active {
+  opacity: 0.6;
 }
 
 /* Profile Menu Styles */
